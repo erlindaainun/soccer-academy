@@ -8,6 +8,7 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
@@ -30,6 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
+
 .back-to-top {
   position: fixed;
   visibility: hidden;
@@ -63,6 +65,7 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Disable AOS delay on mobile
 --------------------------------------------------------------*/
+
 @media screen and (max-width: 768px) {
   [data-aos-delay] {
     transition-delay: 0 !important;
@@ -72,6 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+
 #header {
   z-index: 997;
   transition: all 0.5s;
@@ -107,9 +111,11 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
+
 /**
 * Desktop Navigation 
 */
+
 .navbar {
   padding: 0;
 }
@@ -144,7 +150,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 5px;
 }
 
-.navbar a:hover, .navbar .active, .navbar li:hover > a {
+.navbar a:hover, .navbar .active, .navbar li:hover>a {
   color: #3498db;
 }
 
@@ -190,11 +196,11 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
 }
 
-.navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a {
+.navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover>a {
   color: #3498db;
 }
 
-.navbar .dropdown:hover > ul {
+.navbar .dropdown:hover>ul {
   opacity: 1;
   top: 100%;
   visibility: visible;
@@ -206,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
 }
 
-.navbar .dropdown .dropdown:hover > ul {
+.navbar .dropdown .dropdown:hover>ul {
   opacity: 1;
   top: 0;
   left: 100%;
@@ -217,7 +223,7 @@ h1, h2, h3, h4, h5, h6 {
   .navbar .dropdown .dropdown ul {
     left: -90%;
   }
-  .navbar .dropdown .dropdown:hover > ul {
+  .navbar .dropdown .dropdown:hover>ul {
     left: -100%;
   }
 }
@@ -225,6 +231,7 @@ h1, h2, h3, h4, h5, h6 {
 /**
 * Mobile Navigation 
 */
+
 .mobile-nav-toggle {
   color: #222222;
   font-size: 28px;
@@ -285,7 +292,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #222222;
 }
 
-.navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover > a {
+.navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover>a {
   color: #3498db;
 }
 
@@ -317,17 +324,18 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
 }
 
-.navbar-mobile .dropdown ul a:hover, .navbar-mobile .dropdown ul .active:hover, .navbar-mobile .dropdown ul li:hover > a {
+.navbar-mobile .dropdown ul a:hover, .navbar-mobile .dropdown ul .active:hover, .navbar-mobile .dropdown ul li:hover>a {
   color: #3498db;
 }
 
-.navbar-mobile .dropdown > .dropdown-active {
+.navbar-mobile .dropdown>.dropdown-active {
   display: block;
 }
 
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
+
 #hero {
   width: 100%;
   height: 70vh;
@@ -437,6 +445,7 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
+
 section {
   padding: 60px 0;
   overflow: hidden;
@@ -482,6 +491,7 @@ section {
 /*--------------------------------------------------------------
 # Clients
 --------------------------------------------------------------*/
+
 .clients {
   background: #f3f9fd;
   padding: 10px 0;
@@ -522,6 +532,7 @@ section {
 /*--------------------------------------------------------------
 # About Us
 --------------------------------------------------------------*/
+
 .about .content h3 {
   font-weight: 600;
   font-size: 26px;
@@ -537,7 +548,7 @@ section {
   position: relative;
 }
 
-.about .content ul li + li {
+.about .content ul li+li {
   margin-top: 10px;
 }
 
@@ -580,6 +591,7 @@ section {
 /*--------------------------------------------------------------
 # Counts
 --------------------------------------------------------------*/
+
 .counts {
   padding-top: 0;
 }
@@ -660,6 +672,7 @@ section {
 /*--------------------------------------------------------------
 # Services
 --------------------------------------------------------------*/
+
 .services .icon-box {
   padding: 30px;
   position: relative;
@@ -742,18 +755,58 @@ section {
 /*--------------------------------------------------------------
 # More Services
 --------------------------------------------------------------*/
+
 .more-services {
   padding-top: 20px;
 }
 
 .more-services .card {
   border: 0;
-  padding: 160px 20px 20px 20px;
+  padding: 0px 20px 20px 20px;
   position: relative;
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+.more-services .card img {
+  object-fit: cover;
+  width: 100%;
+  height: 250px;
+}
+
+.more-services .meta {
+  font-size: 16px;
+  margin-right: 8px;
+  line-height: 0;
+  margin-bottom: 15px;
+}
+
+.more-services .meta ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.more-services .meta ul li+li {
+  padding-left: 20px;
+}
+
+.more-services .meta i {
+  font-size: 16px;
+  margin-right: 8px;
+  line-height: 0;
+}
+
+.more-services .meta a {
+  color: #777777;
+  font-size: 14px;
+  display: inline-block;
+  line-height: 1;
 }
 
 .more-services .card-body {
@@ -768,7 +821,7 @@ section {
 
 .more-services .card-title {
   font-weight: 700;
-  text-align: center;
+  text-align: left;
   margin-bottom: 15px;
 }
 
@@ -776,33 +829,34 @@ section {
   color: #222222;
 }
 
+.more-services .card-title a:hover {
+  color: #3498db;
+}
+
 .more-services .card-text {
   color: #5e5e5e;
 }
 
 .more-services .read-more a {
-  color: #777777;
+  color: #fff;
+  background: #3498db;
   text-transform: uppercase;
   font-weight: 600;
   font-size: 12px;
   transition: 0.4s;
+  padding: 6px 20px;
+  border-radius: 4px;
+  float: right;
 }
 
 .more-services .read-more a:hover {
-  text-decoration: underline;
-}
-
-.more-services .card:hover .card-body {
-  background: #3498db;
-}
-
-.more-services .card:hover .read-more a, .more-services .card:hover .card-title, .more-services .card:hover .card-title a, .more-services .card:hover .card-text {
-  color: #fff;
+  background: #4aa3df;
 }
 
 /*--------------------------------------------------------------
 # Features
 --------------------------------------------------------------*/
+
 .features .icon-box {
   display: flex;
   align-items: center;
@@ -841,6 +895,7 @@ section {
 /*--------------------------------------------------------------
 # Testimonials
 --------------------------------------------------------------*/
+
 .testimonials .testimonial-wrap {
   padding-left: 50px;
 }
@@ -933,6 +988,7 @@ section {
 /*--------------------------------------------------------------
 # Portfolio
 --------------------------------------------------------------*/
+
 .portfolio .portfolio-item {
   margin-bottom: 30px;
 }
@@ -1055,6 +1111,7 @@ section {
 /*--------------------------------------------------------------
 # Portfolio Details
 --------------------------------------------------------------*/
+
 .portfolio-details {
   padding-top: 40px;
 }
@@ -1099,7 +1156,7 @@ section {
   font-size: 15px;
 }
 
-.portfolio-details .portfolio-info ul li + li {
+.portfolio-details .portfolio-info ul li+li {
   margin-top: 10px;
 }
 
@@ -1120,6 +1177,7 @@ section {
 /*--------------------------------------------------------------
 # Team
 --------------------------------------------------------------*/
+
 .team .member {
   margin-bottom: 20px;
   overflow: hidden;
@@ -1202,6 +1260,7 @@ section {
 /*--------------------------------------------------------------
 # Pricing
 --------------------------------------------------------------*/
+
 .pricing .box {
   padding: 20px;
   background: #f9f9f9;
@@ -1305,6 +1364,7 @@ section {
 /*--------------------------------------------------------------
 # F.A.Q
 --------------------------------------------------------------*/
+
 .faq .faq-item {
   margin: 20px 0;
   padding: 20px 0;
@@ -1335,6 +1395,7 @@ section {
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
+
 .contact .contact-about h3 {
   font-size: 28px;
   margin: 0 0 10px 0;
@@ -1403,7 +1464,7 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .error-message br + br {
+.contact .php-email-form .error-message br+br {
   margin-top: 25px;
 }
 
@@ -1485,6 +1546,7 @@ section {
 /*--------------------------------------------------------------
 # Breadcrumbs
 --------------------------------------------------------------*/
+
 .breadcrumbs {
   padding: 15px 0;
   background: #f8f8f8;
@@ -1519,11 +1581,11 @@ section {
   }
 }
 
-.breadcrumbs ol li + li {
+.breadcrumbs ol li+li {
   padding-left: 10px;
 }
 
-.breadcrumbs ol li + li::before {
+.breadcrumbs ol li+li::before {
   display: inline-block;
   padding-right: 10px;
   color: #3c3c3c;
@@ -1545,6 +1607,7 @@ section {
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
+
 #footer {
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
