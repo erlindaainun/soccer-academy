@@ -19,15 +19,15 @@
                         <li><a href="#">Prestasi</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#"><span>Program</span> <i class="bi bi-chevron-down"></i></a>
+                <li class="dropdown"><a class="<?php if($_SERVER['SCRIPT_NAME']=="/class.php" || $_SERVER['SCRIPT_NAME']=="/registration-member.php") echo "active"?>" href="#"><span>Program</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
-                        <li><a href="#">Registrasi Anggota</a></li>
-                        <li><a href="#">Kelas</a></li>
+                        <li><a class="<?php if($_SERVER['SCRIPT_NAME']=="/registration-member.php") echo "active"?>" href="registration-member.php">Registrasi Anggota</a></li>
+                        <li><a class="<?php if($_SERVER['SCRIPT_NAME']=="/class.php") echo "active"?>" href="class.php">Kelas</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="#contact">Galeri</a></li>
+                <li><a class="nav-link scrollto <?php if($_SERVER['SCRIPT_NAME']=="/gallery.php") echo "active"?>" href="gallery.php">Galeri</a></li>
                 <li><a class="nav-link scrollto <?php if($_SERVER['SCRIPT_NAME']=="/contact.php") echo "active"?>" href="contact.php">Kontak</a></li>
-                <li><a class="getstarted scrollto" href="#about">Registrasi</a></li>
+                <li><a class="getstarted scrollto" href="registration.php">Registrasi</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
