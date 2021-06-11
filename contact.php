@@ -65,7 +65,7 @@
           <h2>Kontak</h2>
         </div>
 
-        <div class="row">
+        <div class="row" data-aos="fade-up">
 
           <div class="col-lg-6 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
             <div class="contact-about">

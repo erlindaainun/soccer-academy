@@ -11,7 +11,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  color: #444444; 
+  color: #444444;
 }
 
 a {
@@ -335,6 +335,7 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
+
 main {
   margin-bottom: 60px;
 }
@@ -1644,4 +1645,18 @@ section {
 
 #footer .footer-links a:hover {
   color: #3498db;
+}
+
+#footer .social-media {
+  text-align: right;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 40vh;
+  object-fit: cover;
+}
+
+.manager {
+  text-align: center;
 }
