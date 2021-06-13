@@ -65,6 +65,91 @@
           <h2>Registrasi Anggota</h2>
         </div>
 
+        <form class="row g-3 needs-validation" novalidate data-aos="fade-up">
+          <div class="col-md-6">
+            <label class="form-label">NISN / NIK</label>
+            <input type="number" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Kelas</label>
+            <select class="form-select" required>
+              <option selected disabled value="">Choose...</option>
+              <option>U6-U8</option>
+              <option>U9-U11</option>
+              <option>U12-U15</option>
+              <option>U16-U18</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Tempat Lahir</label>
+            <input type="text" class="form-control" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Tanggal Lahir</label>
+            <input type="date" class="form-control" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Jenis Kelamin</label>
+            <select class="form-select" required>
+              <option selected disabled value="">Choose...</option>
+              <option>Laki-Laki</option>
+              <option>Perempuan</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Agama</label>
+            <select class="form-select" required>
+              <option selected disabled value="">Choose...</option>
+              <option>Islam</option>
+              <option>Protestan</option>
+              <option>Katolik</option>
+              <option>Hindu</option>
+              <option>Buddha</option>
+              <option>Khonghucu</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Alamat</label>
+            <textarea rows="1" class="form-control" required></textarea>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">No Telfon</label>
+            <input type="number" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Berat Badan</label>
+            <input type="number" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Tinggi Badan</label>
+            <input type="number" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Alasan Ingin Bergabung</label>
+            <textarea rows="1" class="form-control" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Upload Foto</label>
+            <input type="file" class="form-control" required>
+            <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+              <label class="form-check-label" for="invalidCheck">
+                Agree to terms and conditions
+              </label>
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </div>
+        </form>
+
       </div>
     </section><!-- End Contact Section -->
 
