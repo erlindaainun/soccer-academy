@@ -25,12 +25,31 @@
                         <li><a href="/achievement.php">Prestasi</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="<?php if ($_SERVER['SCRIPT_NAME'] == "/class.php" || $_SERVER['SCRIPT_NAME'] == "/registration-member.php") echo "active" ?>" href="#"><span>Program</span> <i class="bi bi-chevron-down"></i></a>
+                <li class="dropdown">
+                    <a class="<?php if (
+                                    $_SERVER['SCRIPT_NAME'] == "/class.php"
+                                    || $_SERVER['SCRIPT_NAME'] == "/registration-member.php"
+                                ) echo "active" ?>" href="#"><span>Program</span> <i class="bi bi-chevron-down"></i>
+                    </a>
                     <ul>
                         <li><a class="<?php if ($_SERVER['SCRIPT_NAME'] == "/registration-member.php") echo "active" ?>" href="registration-member.php">Registrasi Anggota</a></li>
                         <li><a class="<?php if ($_SERVER['SCRIPT_NAME'] == "/class.php") echo "active" ?>" href="class.php">Kelas</a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a class="<?php if (
+                                    $_SERVER['SCRIPT_NAME'] == "/match-schedule.php"
+                                    || $_SERVER['SCRIPT_NAME'] == "/standing.php"
+                                    || $_SERVER['SCRIPT_NAME'] == "/match-scheme.php"
+                                ) echo "active" ?>" href="#"><span>Liga</span> <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <ul>
+                        <li><a class="<?php if ($_SERVER['SCRIPT_NAME'] == "/match-schedule.php") echo "active" ?>" href="match-schedule.php">Jadwal Pertandingan</a></li>
+                        <li><a class="<?php if ($_SERVER['SCRIPT_NAME'] == "/standing.php") echo "active" ?>" href="standing.php">Klasemen</a></li>
+                        <li><a class="<?php if ($_SERVER['SCRIPT_NAME'] == "/match-scheme.php") echo "active" ?>" href="match-scheme.php">Skema Pertandingan</a></li>
+                    </ul>
+                </li>
+                <!-- <li><a class="nav-link scrollto <?php if ($_SERVER['SCRIPT_NAME'] == "/league.php") echo "active" ?>" href="league.php">Liga</a></li> -->
                 <li><a class="nav-link scrollto <?php if ($_SERVER['SCRIPT_NAME'] == "/gallery.php") echo "active" ?>" href="gallery.php">Galeri</a></li>
                 <li><a class="nav-link scrollto <?php if ($_SERVER['SCRIPT_NAME'] == "/contact.php") echo "active" ?>" href="contact.php">Kontak</a></li>
                 <li><a class="getstarted scrollto" href="registration.php">Registrasi</a></li>

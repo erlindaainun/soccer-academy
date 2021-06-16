@@ -192,10 +192,15 @@
    */
   window.addEventListener('load', () => {
     let portfolioContainer = select('.portfolio-container');
+
     if (portfolioContainer) {
       let portfolioIsotope = new Isotope(portfolioContainer, {
         itemSelector: '.portfolio-item',
-        layoutMode: 'fitRows'
+        layoutMode: 'fitRows',
+      });
+
+      portfolioIsotope.arrange({
+        filter: '.filter-u6-u8'
       });
 
       let portfolioFilters = select('#portfolio-flters li', true);
