@@ -206,7 +206,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
             <li class="nav-header">MANAJEMEN DATA</li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="server/members.php" class="nav-link">
                 <i class="nav-icon fas fa-user"></i>
                 <p>Anggota</p>
               </a>
@@ -221,7 +221,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="server/teams.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Daftar Tim</p>
                   </a>
@@ -302,12 +302,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="inner">
                   <h3>150</h3>
 
-                  <p>New Orders</p>
+                  <p>Anggota Baru</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-bag"></i>
+                  <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -317,12 +317,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="inner">
                   <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                  <p>Bounce Rate</p>
+                  <p>Registrasi Tim</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
