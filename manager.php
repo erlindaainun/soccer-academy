@@ -68,7 +68,7 @@
                 <div class="row" data-aos="fade-up">
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
-                            <img src="/assets/img/visi-misi.png" class="card-img-top" alt="...">
+                            <img src="assets/img/visi-misi.png" class="card-img-top" alt="...">
                             <div class="card-body manager">
                                 <h5 class="card-title"><strong>Nama</strong></h5>
                                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -78,7 +78,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
                             <!-- <div class="embed-responsive"> -->
-                                <img src="/assets/img/more-services-1.jpg" class="card-img-top" alt="...">
+                                <img src="assets/img/more-services-1.jpg" class="card-img-top" alt="...">
                             <!-- </div> -->
                             <div class="card-body manager">
                                 <h5 class="card-title"><strong>Nama</strong></h5>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
-                            <img src="/assets/img/visi-misi.png" class="card-img-top" alt="...">
+                            <img src="assets/img/visi-misi.png" class="card-img-top" alt="...">
                             <div class="card-body manager">
                                 <h5 class="card-title"><strong>Nama</strong></h5>
                                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -97,7 +97,7 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
-                            <img src="/assets/img/visi-misi.png" class="card-img-top" alt="...">
+                            <img src="assets/img/visi-misi.png" class="card-img-top" alt="...">
                             <div class="card-body manager">
                                 <h5 class="card-title"><strong>Nama</strong></h5>
                                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>

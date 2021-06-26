@@ -68,7 +68,7 @@
                 <div class="row" data-aos="fade-up">
                     <div class="col-md-5">
                         <div class="visi-misi-image">
-                            <img width="450" src="/assets/img/visi-misi.png" alt="visi-misi">
+                            <img width="450" src="assets/img/visi-misi.png" alt="visi-misi">
                         </div>
                     </div>
                     <div class="col-md-7">
