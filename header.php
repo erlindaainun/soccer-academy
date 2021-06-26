@@ -19,10 +19,10 @@
                                     || $_SERVER['SCRIPT_NAME'] == "/achievement.php"
                                 ) echo "active" ?>" href="#"><span>Profil</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
-                        <li><a href="/vission-mission.php">Visi Misi</a></li>
-                        <li><a href="/history.php">Sejarah</a></li>
-                        <li><a href="/manager.php">Pengurus</a></li>
-                        <li><a href="/achievement.php">Prestasi</a></li>
+                        <li><a href="vission-mission.php">Visi Misi</a></li>
+                        <li><a href="history.php">Sejarah</a></li>
+                        <li><a href="manager.php">Pengurus</a></li>
+                        <li><a href="achievement.php">Prestasi</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
