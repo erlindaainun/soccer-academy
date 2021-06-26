@@ -192,337 +192,391 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">List berita</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <div style="margin-bottom: 10px;" class="row">
-                                        <div class="col-lg-12">
-                                            <a class="btn btn-success" href="http://demo-freelancer-crm.quickadminpanel.com/admin/clients/create">
-                                                <i class="fa fa-plus"></i>&nbsp; Tambah berita
-                                            </a>
-                                        </div>
+                        <!-- FORM CREATE NEWS -->
+                        <?php if (!empty($_GET['page']) == 'create') { ?>
+                            <div class="col-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Tambah Berita</h3>
                                     </div>
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Rendering engine</th>
-                                                <th>Browser</th>
-                                                <th>Platform(s)</th>
-                                                <th>Engine version</th>
-                                                <th>CSS grade</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 4.0
-                                                </td>
-                                                <td>Win 95+</td>
-                                                <td> 4</td>
-                                                <td>X</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 5.0
-                                                </td>
-                                                <td>Win 95+</td>
-                                                <td>5</td>
-                                                <td>C</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 5.5
-                                                </td>
-                                                <td>Win 95+</td>
-                                                <td>5.5</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 6
-                                                </td>
-                                                <td>Win 98+</td>
-                                                <td>6</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 7</td>
-                                                <td>Win XP SP2+</td>
-                                                <td>7</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>AOL browser (AOL desktop)</td>
-                                                <td>Win XP</td>
-                                                <td>6</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Firefox 1.0</td>
-                                                <td>Win 98+ / OSX.2+</td>
-                                                <td>1.7</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Firefox 1.5</td>
-                                                <td>Win 98+ / OSX.2+</td>
-                                                <td>1.8</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Firefox 2.0</td>
-                                                <td>Win 98+ / OSX.2+</td>
-                                                <td>1.8</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Firefox 3.0</td>
-                                                <td>Win 2k+ / OSX.3+</td>
-                                                <td>1.9</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Camino 1.0</td>
-                                                <td>OSX.2+</td>
-                                                <td>1.8</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Camino 1.5</td>
-                                                <td>OSX.3+</td>
-                                                <td>1.8</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Netscape 7.2</td>
-                                                <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                                <td>1.7</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Netscape Browser 8</td>
-                                                <td>Win 98SE+</td>
-                                                <td>1.7</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gecko</td>
-                                                <td>Netscape Navigator 9</td>
-                                                <td>Win 98+ / OSX.2+</td>
-                                                <td>1.8</td>
-                                                <td>A</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Rendering engine</th>
-                                                <th>Browser</th>
-                                                <th>Platform(s)</th>
-                                                <th>Engine version</th>
-                                                <th>CSS grade</th>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm" href="#">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                    <!-- /.card-header -->
+                                    <form>
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <!-- text input -->
+                                                    <div class="form-group">
+                                                        <label>Judul</label>
+                                                        <input type="text" class="form-control" placeholder="Enter ...">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <!-- text input -->
+                                                    <div class="form-group">
+                                                        <label>Deskripsi</label>
+                                                        <textarea rows="10" class="form-control" placeholder="Enter ..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <!-- text input -->
+                                                    <div class="form-group">
+                                                        <label>Tanggal</label>
+                                                        <input type="date" class="form-control" placeholder="Enter ...">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="customFile">Upload Gambar</label>
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input" id="customFile">
+                                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                                            <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </form>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
-                        </div>
+                        <?php } else { ?>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">List berita</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div style="margin-bottom: 10px;" class="row">
+                                            <div class="col-lg-12">
+                                                <a class="btn btn-success" href="news.php?page=create">
+                                                    <i class="fa fa-plus"></i>&nbsp; Tambah berita
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rendering engine</th>
+                                                    <th>Browser</th>
+                                                    <th>Platform(s)</th>
+                                                    <th>Engine version</th>
+                                                    <th>CSS grade</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Trident</td>
+                                                    <td>Internet
+                                                        Explorer 4.0
+                                                    </td>
+                                                    <td>Win 95+</td>
+                                                    <td> 4</td>
+                                                    <td>X</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Trident</td>
+                                                    <td>Internet
+                                                        Explorer 5.0
+                                                    </td>
+                                                    <td>Win 95+</td>
+                                                    <td>5</td>
+                                                    <td>C</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Trident</td>
+                                                    <td>Internet
+                                                        Explorer 5.5
+                                                    </td>
+                                                    <td>Win 95+</td>
+                                                    <td>5.5</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Trident</td>
+                                                    <td>Internet
+                                                        Explorer 6
+                                                    </td>
+                                                    <td>Win 98+</td>
+                                                    <td>6</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Trident</td>
+                                                    <td>Internet Explorer 7</td>
+                                                    <td>Win XP SP2+</td>
+                                                    <td>7</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Trident</td>
+                                                    <td>AOL browser (AOL desktop)</td>
+                                                    <td>Win XP</td>
+                                                    <td>6</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Firefox 1.0</td>
+                                                    <td>Win 98+ / OSX.2+</td>
+                                                    <td>1.7</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Firefox 1.5</td>
+                                                    <td>Win 98+ / OSX.2+</td>
+                                                    <td>1.8</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Firefox 2.0</td>
+                                                    <td>Win 98+ / OSX.2+</td>
+                                                    <td>1.8</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Firefox 3.0</td>
+                                                    <td>Win 2k+ / OSX.3+</td>
+                                                    <td>1.9</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Camino 1.0</td>
+                                                    <td>OSX.2+</td>
+                                                    <td>1.8</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Camino 1.5</td>
+                                                    <td>OSX.3+</td>
+                                                    <td>1.8</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Netscape 7.2</td>
+                                                    <td>Win 95+ / Mac OS 8.6-9.2</td>
+                                                    <td>1.7</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Netscape Browser 8</td>
+                                                    <td>Win 98SE+</td>
+                                                    <td>1.7</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gecko</td>
+                                                    <td>Netscape Navigator 9</td>
+                                                    <td>Win 98+ / OSX.2+</td>
+                                                    <td>1.8</td>
+                                                    <td>A</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Rendering engine</th>
+                                                    <th>Browser</th>
+                                                    <th>Platform(s)</th>
+                                                    <th>Engine version</th>
+                                                    <th>CSS grade</th>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="#">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm" href="#">
+                                                            <i class="fas fa-pencil-alt"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm" href="#">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        <?php } ?>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
