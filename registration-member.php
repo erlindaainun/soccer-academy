@@ -67,73 +67,73 @@
 
         <form class="row g-3 needs-validation" novalidate data-aos="fade-up">
           <div class="col-md-6">
-            <label class="form-label">NISN / NIK</label>
-            <input type="number" class="form-control" required>
+            <label class="form-label"><strong>NISN / NIK</strong></label>
+            <input name="nisn" type="number" class="form-control" required>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label"><strong>Nama Lengkap</strong></label>
+            <input name="fullname" type="text" class="form-control" required>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Kelas</label>
-            <select class="form-select" required>
+            <label class="form-label"><strong>Kelas</strong></label>
+            <select name="class" class="form-select" required>
               <option selected disabled value="">Choose...</option>
-              <option>U6-U8</option>
-              <option>U9-U11</option>
-              <option>U12-U15</option>
-              <option>U16-U18</option>
+              <option value="U6-U8">U6-U8</option>
+              <option value="U9-U11">U9-U11</option>
+              <option value="U12-U15">U12-U15</option>
+              <option value="U16-U18">U16-U18</option>
             </select>
           </div>
           <div class="col-md-3">
-            <label class="form-label">Tempat Lahir</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label"><strong>Tempat Lahir</strong></label>
+            <input name="birth-place" type="text" class="form-control" required>
           </div>
           <div class="col-md-3">
-            <label class="form-label">Tanggal Lahir</label>
-            <input type="date" class="form-control" required>
+            <label class="form-label"><strong>Tanggal Lahir</strong></label>
+            <input name="birth-date" type="date" class="form-control" required>
           </div>
           <div class="col-md-3">
-            <label class="form-label">Jenis Kelamin</label>
-            <select class="form-select" required>
+            <label class="form-label"><strong>Jenis Kelamin</strong></label>
+            <select name="gender" class="form-select" required>
               <option selected disabled value="">Choose...</option>
-              <option>Laki-Laki</option>
-              <option>Perempuan</option>
+              <option value="Laki-Laki">Laki-Laki</option>
+              <option value="Perempuan">Perempuan</option>
             </select>
           </div>
           <div class="col-md-3">
-            <label class="form-label">Agama</label>
+            <label class="form-label"><strong>Agama</strong></label>
             <select class="form-select" required>
               <option selected disabled value="">Choose...</option>
-              <option>Islam</option>
-              <option>Protestan</option>
-              <option>Katolik</option>
-              <option>Hindu</option>
-              <option>Buddha</option>
-              <option>Khonghucu</option>
+              <option value="Islam">Islam</option>
+              <option value="Protestan">Protestan</option>
+              <option value="Katolik">Katolik</option>
+              <option value="Hindu">Hindu</option>
+              <option value="Buddha">Buddha</option>
+              <option value="Khonghucu">Khonghucu</option>
             </select>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Alamat</label>
-            <textarea rows="1" class="form-control" required></textarea>
+            <label class="form-label"><strong>Alamat</strong></label>
+            <textarea name="address" rows="1" class="form-control" required></textarea>
           </div>
           <div class="col-md-2">
-            <label class="form-label">No Telfon</label>
-            <input type="number" class="form-control" required>
+            <label class="form-label"><strong>No Telfon</strong></label>
+            <input name="phone-number" type="number" class="form-control" required>
           </div>
           <div class="col-md-2">
-            <label class="form-label">Berat Badan</label>
-            <input type="number" class="form-control" required>
+            <label class="form-label"><strong>Berat Badan</strong></label>
+            <input name="weight" type="number" class="form-control" required>
           </div>
           <div class="col-md-2">
-            <label class="form-label">Tinggi Badan</label>
-            <input type="number" class="form-control" required>
+            <label class="form-label"><strong>Tinggi Badan</strong></label>
+            <input name="height" type="number" class="form-control" required>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Alasan Ingin Bergabung</label>
-            <textarea rows="1" class="form-control" required></textarea>
+            <label class="form-label"><strong>Alasan Ingin Bergabung</strong></label>
+            <textarea name="reason" rows="1" class="form-control" required></textarea>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Upload Foto</label>
+            <label class="form-label"><strong>Upload Foto</strong></label>
             <input type="file" class="form-control" required>
             <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
           </div>

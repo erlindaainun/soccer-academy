@@ -8,9 +8,6 @@ function deletePlayer($id)
     $sql = 'SELECT * FROM `players` WHERE `id` = ' . $id;
     $result = mysqli_query($conn, $sql);
 
-    // var_dump($result->fetch_assoc());
-    // echo ($result->fetch_assoc());
-
     // Jika tidak ada id player
     if (mysqli_num_rows($result) == 0) {
         return json_encode(['status' => false, 'msg' => 'Tidak dapat menghapus.']);
@@ -28,6 +25,11 @@ function deletePlayer($id)
 
 function storePlayer()
 {
+    include '../connection.php';
+
+    $sql = 'SELECT * FROM `teams` WHERE `registration_number` = "' . $_POST['registration_number'] . '"';
+    $team_id = $conn->query($sql)->fetch_assoc()['id'];
+
     $sql = 'INSERT INTO `players` 
     (`full_name`, `birth_date`, `birth_place`, `address`, `identity_number`, `height`, `weight`, `position`, `back_number`, `back_name`, `image_path`, `files`, `religion`, `team_id`, `gender_id`) 
     VALUES 
@@ -45,11 +47,13 @@ function storePlayer()
         $_POST['image_path'] . ',' .
         $_POST['files'] . ',' .
         $_POST['religion'] . ',' .
-        $_POST['team_id'] . ',' .
-        $_POST['gender_id'] . ',' .
+        $team_id . ',' .
+        $_POST['gender'] . ',' .
         ')';
 
-    return 'test';
+    var_dump($_POST);
+
+    return json_encode(['test' => 'test']);
 }
 
 if (isset($_POST['tipe'])) {

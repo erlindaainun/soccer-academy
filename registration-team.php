@@ -108,47 +108,71 @@
                   </div>
                   <div class="form-group">
                     <label for="agamapemain">Liga</label>
-                    <select class="custom-select">
+                    <select name="league" class="custom-select">
                       <option selected disabled value="">Choose...</option>
-                      <option value="Islam">Islam</option>
-                      <option value="Protestan">Protestan</option>
-                      <option value="Katolik">Katolik</option>
-                      <option value="Hindu">Hindu</option>
-                      <option value="Buddha">Buddha</option>
-                      <option value="Khonghucu">Khonghucu</option>
+                      <option value="Liga Internal">Liga Internal</option>
+                      <option value="AFF2022">AFF2022</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="namaklub">Nama Klub</label>
-                    <input type="text" class="form-control" id="namaklub" placeholder="" required>
+                    <input name="club-name" type="text" class="form-control" id="namaklub" placeholder="" required>
                   </div>
                   <div class="form-group">
                     <label for="lisensi">Lisensi</label>
-                    <input type="text" class="form-control" id="lisensi" placeholder="" required>
+                    <input name="license" type="text" class="form-control" id="lisensi" placeholder="" required>
                   </div>
                   <div class="form-group">
                     <label for="emailklub">Email</label>
-                    <input type="email" class="form-control" id="emailklub" placeholder="" required>
+                    <input name="email" type="email" class="form-control" id="emailklub" placeholder="" required>
                   </div>
                   <div class="form-group">
                     <label for="notelfonklub">No Telfon</label>
-                    <input type="number" class="form-control" id="notelfonklub" placeholder="" required>
+                    <input name="phone-number" type="number" class="form-control" id="notelfonklub" placeholder="" required>
                   </div>
                   <div class="form-group">
                     <label for="alamatklub">Alamat</label>
-                    <textarea rows="2" class="form-control" id="alamatklub" placeholder=""></textarea>
+                    <textarea name="address" rows="2" class="form-control" id="alamatklub" placeholder=""></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="manajer">Manajer</label>
-                    <input type="text" class="form-control" id="manajer" placeholder="" required>
+                    <label for="customFile">Upload Logo Klub</label>
+                    <div class="custom-file">
+                      <input name="photo" type="file" class="custom-file-input" id="customFile">
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                      <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="pelatihkepala">Pelatih Kepala</label>
-                    <input type="text" class="form-control" id="pelatihkepala" placeholder="" required>
+                  <div class="form-group row">
+                    <div class="col-sm-4">
+                      <label for="manager-name">Nama Manajer</label>
+                      <input name="manager" type="text" class="form-control" id="manager-name" placeholder="" required>
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="manager-telp">No Telfon Manajer</label>
+                      <input name="phone-manager" type="text" class="form-control" id="manager-telp" placeholder="" required>
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="customFile">Upload Foto Manajer</label>
+                      <div class="custom-file">
+                        <input name="photo" type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="asistenpelatih">Asisten Pelatih</label>
-                    <input type="text" class="form-control" id="asistenpelatih" placeholder="" required>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <label for="pelatihkepala">Nama Pelatih</label>
+                      <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="customFile">Upload Foto Pelatih</label>
+                      <div class="custom-file">
+                        <input name="photo" type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                      </div>
+                    </div>
                   </div>
                   <button id="teamOfficialNextButton" class="btn btn-primary">Selanjutnya</button>
                 </div>
@@ -181,6 +205,7 @@
                         Nama Tim: <strong><?php echo $row['name'] ?></strong><br>
                       </p>
                     </div>
+                    <input name="registration-number" type="hidden" value="<?php echo $row['registration_number'] ?>">
                     <div class="form-group">
                       <div class="input-group">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
@@ -326,18 +351,18 @@
                 <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="" required>
               </div>
               <div class="form-group">
-                <label for="customFile">Upload Foto</label>
+                <label for="photo-file">Upload Foto</label>
                 <div class="custom-file">
-                  <input name="photo" type="file" class="custom-file-input" id="customFile">
-                  <label class="custom-file-label" for="customFile">Choose file</label>
+                  <input name="photo" type="file" class="custom-file-input" id="photo-file">
+                  <label class="custom-file-label" for="photo-file">Choose file</label>
                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
                 </div>
               </div>
               <div class="form-group">
-                <label for="customFile">Upload Kartu Identitas</label>
+                <label for="identity-file">Upload Kartu Identitas</label>
                 <div class="custom-file">
-                  <input name="card-identity" type="file" class="custom-file-input" id="customFile">
-                  <label class="custom-file-label" for="customFile">Choose file</label>
+                  <input name="card-identity" type="file" class="custom-file-input" id="identity-file">
+                  <label class="custom-file-label" for="identity-file">Choose file</label>
                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                 </div>
               </div>
@@ -537,29 +562,47 @@
     }
 
     function submitPemain() {
+      var registration_number = $('input[name=registration-number]').val();
+      var identity_number = $('input[name=identity-number]').val();
       var full_name = $('input[name=full-name]').val();
+      var birth_place = $('input[name=birth-place]').val();
+      var birth_date = $('input[name=birth-date]').val();
+      var address = $('textarea#alamatpemain').val();
+      var religion = $('select[name=religion]').val();
+      var gender = $('select[name=gender]').val();
+      var height = $('input[name=height]').val();
+      var weight = $('input[name=weight]').val();
+      var position = $('input[name=position]').val();
+      var back_number = $('input[name=back-number]').val();
+      var back_name = $('input[name=back-name]').val();
+      var photo = $('#photo-file').prop('files')[0];
+      var card_identity = $('input[name=card-identity]').val();
 
       // Submit all variable to database using ajax
       $.ajax({
         type: "POST",
         url: "api/player.php",
+        contentType: 'multipart/form-data',
         data: {
-          'identity-number': identity_number,
-          'full-name': full_name,
-          'birth-place': birth-place,
-          'birth-date': birth-date,
+          'tipe': 'callFuncStore',
+          'registration_number': registration_number,
+          'identity_number': identity_number,
+          'full_name': full_name,
+          'birth_place': birth_place,
+          'birth_date': birth_date,
           'address': address,
           'religion': religion,
           'gender': gender,
           'height': height,
           'weight': weight,
           'position': position,
-          'back-number': back-number,
-          'back-name': back-name,
+          'back_number': back_number,
+          'back_name': back_name,
           'photo': photo,
-          'card-identity': card-identity,
+          'card_identity': card_identity,
         },
         success: function(response) {
+          console.log(response);
           // Swal.fire()
         }
       });

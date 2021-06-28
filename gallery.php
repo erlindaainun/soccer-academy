@@ -65,7 +65,7 @@
           <h2>Galeri</h2>
         </div>
 
-        <div class="row portfolio-container aos-init aos-animate" data-aos="fade-up" style="position: relative; height: 891px;">
+        <div class="row portfolio-container aos-init aos-animate" data-aos="fade-up" style="position: relative; height: 891px;" >
 
           <div class="col-lg-4 col-md-6 portfolio-item filter-u6-u8" style="position: absolute; left: 0px; top: 0px;">
             <div class="portfolio-wrap">
