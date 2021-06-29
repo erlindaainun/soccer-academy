@@ -101,6 +101,32 @@
                         <p>Galeri</p>
                     </a>
                 </li>
+                <li class="nav-item <?php if (
+                                        $_SERVER['SCRIPT_NAME'] == "/server/structure.php"
+                                        || $_SERVER['SCRIPT_NAME'] == "/server/achievement.php"
+                                    ) echo "menu-open" ?>">
+                    <a href="#" class="nav-link <?php if (
+                                                    $_SERVER['SCRIPT_NAME'] == "/server/structure.php"
+                                                    || $_SERVER['SCRIPT_NAME'] == "/server/achievement.php"
+                                                ) echo "active" ?>">
+                        <i class="nav-icon fas fa-futbol"></i>
+                        <p>Profil<i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/server/structure.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/structure.php") echo "active" ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pengurus</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/server/achievement.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/achievement.php") echo "active" ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Prestasi</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-header">MANAJEMEN PENGGUNA</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
