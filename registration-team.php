@@ -47,6 +47,7 @@
 
   <!-- ======= Header ======= -->
   <?php include 'header.php'; ?>
+  <?php include 'connection.php'; ?>
 
   <main id="main">
 
@@ -109,9 +110,16 @@
                   <div class="form-group">
                     <label for="agamapemain">Liga</label>
                     <select name="league" class="custom-select">
-                      <option selected disabled value="">Choose...</option>
-                      <option value="Liga Internal">Liga Internal</option>
-                      <option value="AFF2022">AFF2022</option>
+                      <option selected disabled value="">Pilih liga...</option>
+                      <?php
+
+                      $sql = "SELECT * FROM `leagues`";
+                      $result = $conn->query($sql);
+
+                      while ($row = $result->fetch_assoc()) {
+                      ?>
+                        <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
+                      <?php } ?>
                     </select>
                   </div>
                   <div class="form-group">
@@ -182,16 +190,15 @@
 
                   $nomorRegistrasi = $_GET['nomorRegistrasi'] ?? null;
 
-                  if (!empty($nomorRegistrasi)) {
+                  include 'connection.php';
 
-                    include 'connection.php';
+                  // Check team id in database
+                  $sql = 'SELECT * FROM `teams` WHERE registration_number = "' . $nomorRegistrasi . '"';
+                  // echo $sql;
+                  $result = $conn->query($sql);
+                  $row = $result->fetch_assoc();
 
-                    // Check team id in database
-                    $sql = 'SELECT * FROM `teams` WHERE registration_number = "' . $nomorRegistrasi . '"';
-                    // echo $sql;
-                    $result = $conn->query($sql);
-                    $row = $result->fetch_assoc();
-
+                  if ($result->num_rows != 0) {
                   ?>
                     <div class="alert alert-warning alert-dismissible">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -265,11 +272,17 @@
                         <!-- /.card -->
                       </div>
                     </div>
+                    <button class="btn btn-primary" onclick="stepper.next()">Selanjutnya</button>
                   <?php } else { ?>
-                    <h1>Team tidak ada</h1>
+                    <div class="callout callout-warning">
+                      <h5>Eits..!</h5>
+
+                      <p>Sepertinya nomor registrasi <span class="text-primary text-uppercase text-bold"><?php echo $_GET['nomorRegistrasi'] ?? '' ?></span> tidak ada.</p>
+
+                    </div>
+                    <button class="btn btn-primary" onclick="backToStepOne()">Kembali</button>
                   <?php } ?>
                   <!-- <button class="btn btn-primary" onclick="stepper.previous()">Previous</button> -->
-                  <button class="btn btn-primary" onclick="stepper.next()">Selanjutnya</button>
                 </div>
                 <div id="confirmation" class="content" role="tabpanel" aria-labelledby="confirmation-trigger">
                   <button class="btn btn-primary" onclick="stepper.previous()">Previous</button>
@@ -438,7 +451,6 @@
     document.addEventListener('DOMContentLoaded', function() {
       window.stepper = new Stepper(document.querySelector('.bs-stepper'))
 
-      // alert(findGetParameter('nomorRegistrasi'));
       if (findGetParameter('nomorRegistrasi')) {
         var no_reg = findGetParameter('nomorRegistrasi')
 
@@ -446,9 +458,9 @@
           type: "POST",
           url: "api/team.php",
           data: {
-            noreg: no_reg,
+            'tipe': 'checkRegistrationNumber',
+            'noreg': no_reg,
           },
-          // dataType: "dataType",
           success: function(response) {
             if (response == true) {
               let timerInterval
@@ -485,13 +497,16 @@
               //   'Silahkan melanjutkan pengisian!',
               //   'success'
               // )
-            } else
-              stepper.previous()
+            }
           }
         });
         stepper.next();
       }
     })
+
+    function backToStepOne() {
+      window.location.href = 'registration-team.php'
+    }
 
     function playerPartStep() {
       stepper.next();
@@ -510,7 +525,7 @@
 
     function cariNomorRegistrasi() {
       var no_registrasi = $('#no-reg').val();
-      window.location.href = "http://localhost:3000/registration-team.php?nomorRegistrasi=" + no_registrasi;
+      window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi;
     }
 
     function deletePlayer(player_id) {
@@ -620,13 +635,32 @@
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya, lanjut!'
       }).then((result) => {
+        var club_name = $('input[name=club-name]').val()
+        var address = $('textarea[name=address]').val()
+        var licenses = $('input[name=license]').val()
+
         if (result.isConfirmed) {
-          stepper.next()
-          Swal.fire(
-            'Selamat!',
-            'Nama klub: xxx berhasil dibuat.',
-            'success'
-          )
+          $.ajax({
+            type: "POST",
+            url: "api/team.php",
+            data: {
+              'tipe': 'store',
+              'name': club_name,
+              'address': address,
+              'licenses': licenses,
+            },
+            success: function(response) {
+              var res = JSON.parse(response)
+              window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg;
+              stepper.next()
+              Swal.fire(
+                'Selamat!',
+                res.msg,
+                'success'
+              )
+            }
+          });
+
         }
       })
     });
