@@ -246,21 +246,24 @@
                                 $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $row['id'];
                                 $result = $conn->query($sql);
 
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                  $ttl = $row['birth_place'] . ', ' . $row['birth_date'];
-                                  echo '<tr>',
-                                  '<td>' . $row['id'] . '</td>',
-                                  '<td>' . $row['full_name'] . '</td>',
-                                  '<td>' . $ttl . '</td>',
-                                  '<td>' . $row['position'] . '</td>',
-                                  '<td>' . $row['back_number'] . '</td>',
-                                  '<td>
+                                if ($result->num_rows != 0)
+                                  while ($row = mysqli_fetch_assoc($result)) {
+                                    $ttl = $row['birth_place'] . ', ' . $row['birth_date'];
+                                    echo '<tr>',
+                                    '<td>' . $row['id'] . '</td>',
+                                    '<td>' . $row['full_name'] . '</td>',
+                                    '<td>' . $ttl . '</td>',
+                                    '<td>' . $row['position'] . '</td>',
+                                    '<td>' . $row['back_number'] . '</td>',
+                                    '<td>
                                       <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="deletePlayer(' . $row['id'] . ');">
                                           <i class="fas fa-trash"></i> Hapus
                                       </a>
-                                  </td>',
-                                  '</tr>';
-                                }
+                                    </td>',
+                                    '</tr>';
+                                  }
+                                else
+                                  echo '<tr><td colspan="6" class="text-secondary text-center">Belum ada pemain</td></tr>';
 
                                 ?>
                               </tbody>
