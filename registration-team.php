@@ -241,7 +241,6 @@
                               </thead>
                               <tbody>
                                 <?php
-                                // include 'connection.php';
 
                                 $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $row['id'];
                                 $result = $conn->query($sql);
@@ -284,11 +283,10 @@
                     </div>
                     <button class="btn btn-primary" onclick="backToStepOne()">Kembali</button>
                   <?php } ?>
-                  <!-- <button class="btn btn-primary" onclick="stepper.previous()">Previous</button> -->
                 </div>
                 <div id="confirmation" class="content" role="tabpanel" aria-labelledby="confirmation-trigger">
                   <button class="btn btn-primary" onclick="stepper.previous()">Previous</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Selesai</button>
                 </div>
               </div>
             </div>
@@ -503,11 +501,6 @@
                   // console.log('I was closed by the timer')
                 }
               })
-              // Swal.fire(
-              //   'Nomor Registrasi Terdaftar!',
-              //   'Silahkan melanjutkan pengisian!',
-              //   'success'
-              // )
             }
           }
         });
@@ -652,7 +645,6 @@
 
     function reset_form_modal_pemain() {
       // reset semua form modal jika sudah disubmit
-      // $('#modal-default').on('hidden.bs.modal', function(e) {
       $('#modal-default')
         .find("input,textarea,select")
         .val('')
@@ -685,15 +677,6 @@
         var manager_phone_number = $('input[name=manager-phone]').val();
         var manager_photo = $('input[name=manager-photo]').val();
 
-        // if (manager_photo) {
-        //   var startIndex = (manager_photo.indexOf('\\') >= 0 ? manager_photo.lastIndexOf('\\') : manager_photo.lastIndexOf('/'));
-        //   var filename = manager_photo.substring(startIndex);
-        //   if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-        //     filename = filename.substring(1);
-        //   }
-        //   alert(filename);
-        // }
-
         if (result.isConfirmed) {
           $.ajax({
             type: "POST",
@@ -710,12 +693,6 @@
             success: function(response) {
               var res = JSON.parse(response)
               window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg;
-              // stepper.next()
-              // Swal.fire(
-              //   'Selamat!',
-              //   res.msg,
-              //   'success'
-              // )
             }
           });
 
