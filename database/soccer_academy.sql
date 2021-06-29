@@ -78,9 +78,11 @@ CREATE TABLE IF NOT EXISTS `soccer_academy`.`teams` (
   `address` VARCHAR(255) NULL,
   `manager_id` VARCHAR(45) NULL,
   `licenses` VARCHAR(45) NULL,
+  `registration_number` VARCHAR(255) NULL,
   `created_at` VARCHAR(45) NULL,
   `updated_at` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`)),
+  ADD UNIQUE (`registration_number`)
 ENGINE = InnoDB;
 
 
