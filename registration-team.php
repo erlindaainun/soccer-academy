@@ -153,17 +153,17 @@
                   <div class="form-group row">
                     <div class="col-sm-4">
                       <label for="manager-name">Nama Manajer</label>
-                      <input name="manager" type="text" class="form-control" id="manager-name" placeholder="" required>
+                      <input name="manager-name" type="text" class="form-control" id="manager-name" placeholder="" required>
                     </div>
                     <div class="col-sm-4">
                       <label for="manager-telp">No Telfon Manajer</label>
-                      <input name="phone-manager" type="text" class="form-control" id="manager-telp" placeholder="" required>
+                      <input name="manager-phone" type="text" class="form-control" id="manager-telp" placeholder="" required>
                     </div>
                     <div class="col-sm-4">
-                      <label for="customFile">Upload Foto Manajer</label>
+                      <label for="manager-files">Upload Foto Manajer</label>
                       <div class="custom-file">
-                        <input name="photo" type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <input name="manager-photo" type="file" class="custom-file-input" id="manager-files">
+                        <label class="custom-file-label" for="manager-files">Choose file</label>
                         <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
                       </div>
                     </div>
@@ -243,9 +243,8 @@
                                 <?php
                                 // include 'connection.php';
 
-                                $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . 1;
+                                $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $row['id'];
                                 $result = $conn->query($sql);
-
 
                                 while ($row = mysqli_fetch_assoc($result)) {
                                   $ttl = $row['birth_place'] . ', ' . $row['birth_date'];
@@ -298,7 +297,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Data Individu Pemain</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" id="player-modal" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
@@ -339,8 +338,8 @@
                 <label for="agamapemain">Jenis Kelamin</label>
                 <select name="gender" class="custom-select">
                   <option selected disabled value="">Choose...</option>
-                  <option value="Laki-Laki">Laki-Laki</option>
-                  <option value="Perempuan">Perempuan</option>
+                  <option value="1">Laki-Laki</option>
+                  <option value="2">Perempuan</option>
                 </select>
               </div>
               <div class="form-group">
@@ -446,6 +445,15 @@
   <!-- Swal2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
   <script>
     // BS-Stepper Init
     document.addEventListener('DOMContentLoaded', function() {
@@ -548,13 +556,12 @@
               'id': player_id
             },
             success: function(response) {
-              // $('#players-table').fadeOut();
               $('#players-table').load(window.location.href + ' #players-table');
               var res = JSON.parse(response);
               if (res.status)
                 Swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
+                  'Dihapus!',
+                  'Pemain berhasil dihapus.',
                   'success'
                 )
               else
@@ -597,30 +604,60 @@
       $.ajax({
         type: "POST",
         url: "api/player.php",
-        contentType: 'multipart/form-data',
+        // contentType: 'multipart/form-data',
         data: {
           'tipe': 'callFuncStore',
           'registration_number': registration_number,
-          'identity_number': identity_number,
+
           'full_name': full_name,
-          'birth_place': birth_place,
           'birth_date': birth_date,
+          'birth_place': birth_place,
           'address': address,
-          'religion': religion,
-          'gender': gender,
+          'identity_number': identity_number,
           'height': height,
           'weight': weight,
           'position': position,
           'back_number': back_number,
           'back_name': back_name,
-          'photo': photo,
-          'card_identity': card_identity,
+          // 'image_path': photo,
+          // 'files': files,
+          'religion': religion,
+          'gender_id': gender,
+          // 'card_identity': card_identity,
         },
         success: function(response) {
-          console.log(response);
-          // Swal.fire()
+          $('#players-table').load(window.location.href + ' #players-table');
+          var res = JSON.parse(response);
+
+          if (res.status) {
+            $("#player-modal").click()
+            reset_form_modal_pemain()
+            Swal.fire('Berhasil!', res.msg, 'success')
+          } else {
+            Swal.fire('Gagal!', res.msg, 'error')
+          }
+        },
+        fail: function(response) {
+          Swal.fire(
+            'Terjadi Kesalahan!',
+            'Terjadi kesalahan, silahkan coba kembali.',
+            'fail'
+          )
         }
       });
+    }
+
+    function reset_form_modal_pemain() {
+      // reset semua form modal jika sudah disubmit
+      // $('#modal-default').on('hidden.bs.modal', function(e) {
+      $('#modal-default')
+        .find("input,textarea,select")
+        .val('')
+        .end()
+        .find("input[type=checkbox], input[type=radio]")
+        .prop("checked", "")
+        .end();
+      // })
     }
 
     // Submit tim official data to database
@@ -635,9 +672,24 @@
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya, lanjut!'
       }).then((result) => {
+        // team
         var club_name = $('input[name=club-name]').val()
         var address = $('textarea[name=address]').val()
         var licenses = $('input[name=license]').val()
+
+        // manager
+        var manager_name = $('input[name=manager-name]').val();
+        var manager_phone_number = $('input[name=manager-phone]').val();
+        var manager_photo = $('input[name=manager-photo]').val();
+
+        // if (manager_photo) {
+        //   var startIndex = (manager_photo.indexOf('\\') >= 0 ? manager_photo.lastIndexOf('\\') : manager_photo.lastIndexOf('/'));
+        //   var filename = manager_photo.substring(startIndex);
+        //   if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+        //     filename = filename.substring(1);
+        //   }
+        //   alert(filename);
+        // }
 
         if (result.isConfirmed) {
           $.ajax({
@@ -648,16 +700,19 @@
               'name': club_name,
               'address': address,
               'licenses': licenses,
+              'manager_name': manager_name,
+              'manager_phone_number': manager_phone_number,
+              'manager_photo': manager_photo,
             },
             success: function(response) {
               var res = JSON.parse(response)
               window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg;
-              stepper.next()
-              Swal.fire(
-                'Selamat!',
-                res.msg,
-                'success'
-              )
+              // stepper.next()
+              // Swal.fire(
+              //   'Selamat!',
+              //   res.msg,
+              //   'success'
+              // )
             }
           });
 
