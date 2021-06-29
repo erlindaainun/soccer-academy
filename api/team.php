@@ -42,10 +42,19 @@ function store()
 {
     include '../connection.php';
 
+    $test = "test/file.img";
+
+    $sql = 'INSERT INTO `managers` (`name`, `image_path`, `phone_number`, `created_at`, `updated_at`) VALUES (' .
+        '"' . $_POST['manager_name'] . '",' .
+        '"' . $test . '",' .
+        '"' . $_POST['manager_phone_number'] . '",' .
+        'NOW(), NOW());';
+
+    $result = $conn->query($sql);
+
+    $manager_id = $conn->insert_id;
+
     $reg_number = generate_registration_number();
-
-    $manager_id = 1;
-
     $sql = 'INSERT INTO `teams` (`name`, `address`, `manager_id`, `licenses`, `registration_number`, `created_at`, `updated_at`) VALUES (' .
         '"' . $_POST['name'] . '",' .
         '"' . $_POST['address'] . '",' .
