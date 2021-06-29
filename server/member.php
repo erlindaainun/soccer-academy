@@ -208,14 +208,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Nama</label>
-                                                        <input type="text" class="form-control" placeholder="Enter ...">
+                                                        <input name="name" type="text" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>NISN / NIK</label>
-                                                        <input type="number" class="form-control" placeholder="Enter ...">
+                                                        <input name="identity_number" type="number" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
@@ -224,14 +224,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <!-- text input -->
                                                             <div class="form-group">
                                                                 <label>Tempat Lahir</label>
-                                                                <input type="text" class="form-control" placeholder="Enter ...">
+                                                                <input name="birth_place" type="text" class="form-control" placeholder="Enter ...">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <!-- text input -->
                                                             <div class="form-group">
                                                                 <label>Tanggal Lahir</label>
-                                                                <input type="date" class="form-control" placeholder="Enter ...">
+                                                                <input name="birth_date" type="date" class="form-control" placeholder="Enter ...">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -240,7 +240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Kelas</label>
-                                                        <select class="custom-select">
+                                                        <select name="class" class="custom-select">
                                                             <option selected disabled value="">Choose...</option>
                                                             <option value="U6-U8">U6-U8</option>
                                                             <option value="U9-U11">U9-U11</option>
@@ -253,7 +253,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Jenis Kelamin</label>
-                                                        <select class="custom-select">
+                                                        <select name="gender" class="custom-select">
                                                             <option selected disabled value="">Choose...</option>
                                                             <option value="Laki-Laki">Laki-Laki</option>
                                                             <option value="Perempuan">Perempuan</option>
@@ -264,7 +264,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Agama</label>
-                                                        <select class="custom-select">
+                                                        <select name="religion" class="custom-select">
                                                             <option selected disabled value="">Choose...</option>
                                                             <option value="Islam">Islam</option>
                                                             <option value="Protestan">Protestan</option>
@@ -279,7 +279,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Alamat</label>
-                                                        <textarea rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                                                        <textarea name="address" rows="2" class="form-control" placeholder="Enter ..."></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
@@ -288,14 +288,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <!-- text input -->
                                                             <div class="form-group">
                                                                 <label>Berat Badan</label>
-                                                                <input type="number" class="form-control" placeholder="Enter ...">
+                                                                <input name="weight" type="number" class="form-control" placeholder="Enter ...">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <!-- text input -->
                                                             <div class="form-group">
                                                                 <label>Tinggi Badan</label>
-                                                                <input type="number" class="form-control" placeholder="Enter ...">
+                                                                <input name="height" type="number" class="form-control" placeholder="Enter ...">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -304,21 +304,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>No Telfon</label>
-                                                        <input type="number" class="form-control" placeholder="Enter ...">
+                                                        <input name="phone_number" type="number" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Alasan Ingin Bergabung</label>
-                                                        <textarea rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                                                        <textarea name="reason" rows="2" class="form-control" placeholder="Enter ..."></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Posisi</label>
-                                                        <input type="text" class="form-control" placeholder="Enter ...">
+                                                        <input name="position" type="text" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -335,7 +335,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Catatan</label>
-                                                        <textarea rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                                                        <textarea name="note" rows="2" class="form-control" placeholder="Enter ..."></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -351,7 +351,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">List anggota</h3>
+                                        <h3 class="card-title">List Anggota</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
