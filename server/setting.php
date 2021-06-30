@@ -175,12 +175,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Anggota</h1>
+                            <h1 class="m-0">Pengaturan</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Anggota</li>
+                                <li class="breadcrumb-item active">Pengaturan</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -192,12 +192,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- FORM CREATE MEMBER -->
                         <?php if (!empty($_GET['page']) == 'create') { ?>
                             <div class="col-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Tambah Anggota</h3>
+                                        <h3 class="card-title">Tambah Pengaturan</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <form>
@@ -214,128 +213,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
-                                                        <label>NISN / NIK</label>
-                                                        <input name="identity_number" type="number" class="form-control" placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <!-- text input -->
-                                                            <div class="form-group">
-                                                                <label>Tempat Lahir</label>
-                                                                <input name="birth_place" type="text" class="form-control" placeholder="Enter ...">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <!-- text input -->
-                                                            <div class="form-group">
-                                                                <label>Tanggal Lahir</label>
-                                                                <input name="birth_date" type="date" class="form-control" placeholder="Enter ...">
-                                                            </div>
-                                                        </div>
+                                                        <label>Username</label>
+                                                        <input name="username" type="text" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
-                                                        <label>Kelas</label>
-                                                        <select name="class" class="custom-select">
-                                                            <option selected disabled value="">Choose...</option>
-                                                            <option value="U6-U8">U6-U8</option>
-                                                            <option value="U9-U11">U9-U11</option>
-                                                            <option value="U12-U15">U12-U15</option>
-                                                            <option value="U16-U18">U16-U18</option>
-                                                        </select>
+                                                        <label>Password</label>
+                                                        <input name="password" type="password" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
-                                                        <label>Jenis Kelamin</label>
-                                                        <select name="gender" class="custom-select">
-                                                            <option selected disabled value="">Choose...</option>
-                                                            <option value="Laki-Laki">Laki-Laki</option>
-                                                            <option value="Perempuan">Perempuan</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>Agama</label>
-                                                        <select name="religion" class="custom-select">
-                                                            <option selected disabled value="">Choose...</option>
-                                                            <option value="Islam">Islam</option>
-                                                            <option value="Protestan">Protestan</option>
-                                                            <option value="Katolik">Katolik</option>
-                                                            <option value="Hindu">Hindu</option>
-                                                            <option value="Buddha">Buddha</option>
-                                                            <option value="Khonghucu">Khonghucu</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>Alamat</label>
-                                                        <textarea name="address" rows="2" class="form-control" placeholder="Enter ..."></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <!-- text input -->
-                                                            <div class="form-group">
-                                                                <label>Berat Badan</label>
-                                                                <input name="weight" type="number" class="form-control" placeholder="Enter ...">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <!-- text input -->
-                                                            <div class="form-group">
-                                                                <label>Tinggi Badan</label>
-                                                                <input name="height" type="number" class="form-control" placeholder="Enter ...">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>No Telfon</label>
-                                                        <input name="phone_number" type="number" class="form-control" placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>Alasan Ingin Bergabung</label>
-                                                        <textarea name="reason" rows="2" class="form-control" placeholder="Enter ..."></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>Posisi</label>
-                                                        <input name="position" type="text" class="form-control" placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="customFile">Upload Foto</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input" id="customFile">
-                                                            <label class="custom-file-label" for="customFile">Choose file</label>
-                                                            <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>Catatan</label>
-                                                        <textarea name="note" rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                                                        <label>Konfirmasi Password</label>
+                                                        <input name="confirm_password" type="password" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -351,25 +244,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">List Anggota</h3>
+                                        <h3 class="card-title">List Pengaturan</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <div style="margin-bottom: 10px;" class="row">
                                             <div class="col-lg-12">
-                                                <a class="btn btn-success" href="member.php?page=create">
-                                                    <i class="fa fa-plus"></i>&nbsp; Tambah Anggota
+                                                <a class="btn btn-success" href="setting.php?page=create">
+                                                    <i class="fa fa-plus"></i>&nbsp; Tambah Pengaturan
                                                 </a>
                                             </div>
                                         </div>
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>NISN / NIK</th>
                                                     <th>Nama</th>
-                                                    <th>Kelas</th>
-                                                    <th>Alamat</th>
-                                                    <th>Status</th>
+                                                    <th>Username</th>
+                                                    <th>Password</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -380,266 +271,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         Explorer 4.0
                                                     </td>
                                                     <td>Win 95+</td>
-                                                    <td> 4</td>
-                                                    <td>X</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Trident</td>
-                                                    <td>Internet
-                                                        Explorer 5.0
-                                                    </td>
-                                                    <td>Win 95+</td>
-                                                    <td>5</td>
-                                                    <td>C</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Trident</td>
-                                                    <td>Internet
-                                                        Explorer 5.5
-                                                    </td>
-                                                    <td>Win 95+</td>
-                                                    <td>5.5</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Trident</td>
-                                                    <td>Internet
-                                                        Explorer 6
-                                                    </td>
-                                                    <td>Win 98+</td>
-                                                    <td>6</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Trident</td>
-                                                    <td>Internet Explorer 7</td>
-                                                    <td>Win XP SP2+</td>
-                                                    <td>7</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Trident</td>
-                                                    <td>AOL browser (AOL desktop)</td>
-                                                    <td>Win XP</td>
-                                                    <td>6</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Firefox 1.0</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Firefox 1.5</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Firefox 2.0</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Firefox 3.0</td>
-                                                    <td>Win 2k+ / OSX.3+</td>
-                                                    <td>1.9</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Camino 1.0</td>
-                                                    <td>OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Camino 1.5</td>
-                                                    <td>OSX.3+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Netscape 7.2</td>
-                                                    <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Netscape Browser 8</td>
-                                                    <td>Win 98SE+</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
-                                                    <td>
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gecko</td>
-                                                    <td>Netscape Navigator 9</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
                                                     <td>
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -655,11 +286,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>NISN / NIK</th>
                                                     <th>Nama</th>
-                                                    <th>Kelas</th>
-                                                    <th>Alamat</th>
-                                                    <th>Status</th>
+                                                    <th>Username</th>
+                                                    <th>Password</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </tfoot>
