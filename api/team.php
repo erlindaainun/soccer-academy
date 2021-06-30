@@ -97,6 +97,33 @@ function submitTeam()
         return json_encode(['status' => true, 'msg' => 'Terjadi kesalahan, silahkan coba beberapa saat lagi.']);
 }
 
+function deleteTeam()
+{
+
+    include '../connection.php';
+
+    $sql = 'DELETE FROM `teams` WHERE id = ' . $_POST['id'];
+    $result = $conn->query($sql);
+
+    if ($result)
+        return json_encode(['status' => true, 'msg' => 'Tim berhasil dihapus!']);
+    else
+        return json_encode(['status' => false, 'msg' => 'Tim tidak dapat dihapus!']);
+}
+
+function index()
+{
+    include '../connection.php';
+
+    $sql = 'SELECT `name`, `licenses`, `email`, `telp`, `address`, `id` FROM `teams`';
+    $result = $conn->query($sql);
+
+    $data = $result->fetch_all();
+
+
+    return json_encode(['data' => $data]);
+}
+
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'checkRegistrationNumber')
         echo checkRegistrationNumber();
@@ -104,4 +131,7 @@ if (isset($_POST['tipe'])) {
         echo store();
     else if ($_POST['tipe'] == 'submitTeam')
         echo submitTeam();
-}
+    else if ($_POST['tipe'] == 'deleteTeam')
+        echo deleteTeam();
+} else
+    echo index();

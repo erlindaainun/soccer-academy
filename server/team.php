@@ -383,31 +383,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </tr>
                       </thead>
                       <tbody>
-                        <?php
-                        $sql = 'SELECT * FROM `teams`';
-                        $result = $conn->query($sql);
-
-                        while ($row = $result->fetch_assoc()) {
-                        ?>
-                          <tr>
-                            <td><?php echo $row['name'] ?></td>
-                            <td><?php echo $row['licenses'] ?></td>
-                            <td><?php echo $row['email'] ?></td>
-                            <td><?php echo $row['telp'] ?></td>
-                            <td><?php echo $row['address'] ?></td>
-                            <td>
-                              <a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-eye"></i> Lihat
-                              </a>
-                              <a class="btn btn-info btn-sm" href="#">
-                                <i class="fas fa-pencil-alt"></i> Ubah
-                              </a>
-                              <a class="btn btn-danger btn-sm" href="#">
-                                <i class="fas fa-trash"></i> Hapus
-                              </a>
-                            </td>
-                          </tr>
-                        <?php } ?>
                       </tbody>
                       <tfoot>
                         <tr>
@@ -578,25 +553,81 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="/server/dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="/server/dist/js/demo.js"></script>
+
+  <!-- Swal2 -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <!-- Page specific script -->
   <script>
     $(function() {
       $("#example1").DataTable({
+        "ajax": '/api/team.php',
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        "columnDefs": [{
+          "targets": 5,
+          "data": 5,
+          "render": function(data, type, full, meta) {
+            return '<a class="btn btn-primary btn-sm" href="#"><i class="fas fa-eye"></i> Lihat</a>' +
+              '<a class="btn btn-info btn-sm" href="#"><i class="fas fa-pencil-alt"></i> Ubah</a>' +
+              '<a class="btn btn-danger btn-sm" onclick="deleteTeam(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
+
+          }
+        }]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
     });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {});
+
+    function deleteTeam(id) {
+      Swal.fire({
+        title: 'Apakah anda yakin hapus tim ini?',
+        text: "Anda tidak akan dapat mengembalikan ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "/api/team.php",
+            data: {
+              'tipe': 'deleteTeam',
+              'id': id
+            },
+            success: function(response) {
+              $('#example1').DataTable().ajax.reload();
+              var res = JSON.parse(response);
+              if (res.status)
+                Swal.fire(
+                  'Dihapus!',
+                  'Tim berhasil dihapus.',
+                  'success'
+                )
+              else
+                Swal.fire(
+                  'Gagal!',
+                  'Gagal menghapus tim.',
+                  'error'
+                )
+            },
+            fail: function(response) {
+              Swal.fire(
+                'Error!',
+                'Terjadi kesalahan, silahkan coba kembali.',
+                'fail'
+              )
+            }
+          });
+        }
+      })
+    }
   </script>
 </body>
 
