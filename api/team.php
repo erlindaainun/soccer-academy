@@ -32,10 +32,12 @@ function checkRegistrationNumber()
     // echo $sql;
     $result = $conn->query($sql);
 
-    $isExist = $result->fetch_assoc() ? true : false;
+    $row = $result->fetch_assoc();
 
-    if ($result)
-        return $isExist;
+    if ($row['status'] == 'draft')
+        return json_encode(['status' => true]);
+    else
+        return json_encode(['status' => false, 'msg' => "Team sudah didaftarkan dan sedang/sudah diverifikasi"]);
 }
 
 function store()
@@ -79,9 +81,24 @@ function store()
     }
 }
 
+function submitTeam()
+{
+    include '../connection.php';
+
+    $sql = 'UPDATE `teams` SET `status` = "pending" WHERE `id` = ' . $_POST['team_id'];
+    $result = $conn->query($sql);
+
+    if ($result)
+        return json_encode(['status' => true, 'msg' => 'Berhasil mengirimkan data team!']);
+    else
+        return json_encode(['status' => true, 'msg' => 'Terjadi kesalahan, silahkan coba beberapa saat lagi.']);
+}
+
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'checkRegistrationNumber')
         echo checkRegistrationNumber();
     else if ($_POST['tipe'] == 'store')
         echo store();
+    else if ($_POST['tipe'] == 'submitTeam')
+        echo submitTeam();
 }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2021 at 03:37 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Jun 30, 2021 at 05:32 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -91,9 +91,6 @@ INSERT INTO `genders` (`id`, `name`) VALUES
 CREATE TABLE `leagues` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `date` date NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `registration_status` varchar(255) NOT NULL,
   `image_path` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -101,9 +98,9 @@ CREATE TABLE `leagues` (
 -- Dumping data for table `leagues`
 --
 
-INSERT INTO `leagues` (`id`, `name`, `date`, `location`, `registration_status`, `image_path`) VALUES
-(1, 'Liga Internal', '0000-00-00', '', '', NULL),
-(2, 'AFF2022', '0000-00-00', '', '', NULL);
+INSERT INTO `leagues` (`id`, `name`, `image_path`) VALUES
+(1, 'Liga Internal', NULL),
+(2, 'AFF2022', NULL);
 
 -- --------------------------------------------------------
 
@@ -254,6 +251,7 @@ CREATE TABLE `teams` (
   `manager_id` varchar(45) DEFAULT NULL,
   `licenses` varchar(45) DEFAULT NULL,
   `registration_number` varchar(255) DEFAULT NULL,
+  `status` varchar(32) NOT NULL DEFAULT 'draft',
   `created_at` varchar(45) DEFAULT NULL,
   `updated_at` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -419,7 +417,7 @@ ALTER TABLE `leagues`
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `matches`
@@ -437,7 +435,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `schedules`
@@ -461,7 +459,7 @@ ALTER TABLE `structures`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `users`
