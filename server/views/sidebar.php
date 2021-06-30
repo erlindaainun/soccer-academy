@@ -129,8 +129,8 @@
                 </li>
                 <li class="nav-header">MANAJEMEN PENGGUNA</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                    <a href="/server/setting.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/setting.php") echo "active" ?>">
+                        <i class="nav-icon fas fa-image"></i>
                         <p>Pengaturan</p>
                     </a>
                 </li>
