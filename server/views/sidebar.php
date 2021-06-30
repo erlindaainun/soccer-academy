@@ -130,7 +130,7 @@
                 <li class="nav-header">MANAJEMEN PENGGUNA</li>
                 <li class="nav-item">
                     <a href="/server/setting.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/setting.php") echo "active" ?>">
-                        <i class="nav-icon fas fa-image"></i>
+                        <i class="nav-icon fas fa-users-cog"></i>
                         <p>Pengaturan</p>
                     </a>
                 </li>
