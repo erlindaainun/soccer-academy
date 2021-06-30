@@ -922,6 +922,9 @@
         var club_name = $('input[name=club-name]').val()
         var address = $('textarea[name=address]').val()
         var licenses = $('input[name=license]').val()
+        var email = $('input[name=email]').val()
+        var phone_number = $('input[name=phone-number]').val()
+        var photo = $('input[name=photo]').val()
 
         // manager
         var manager_name = $('input[name=manager-name]').val();
@@ -937,6 +940,9 @@
               'name': club_name,
               'address': address,
               'licenses': licenses,
+              'email': email,
+              'phone_number': phone_number,
+              'photo': photo,
               'manager_name': manager_name,
               'manager_phone_number': manager_phone_number,
               'manager_photo': manager_photo,
