@@ -207,7 +207,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Nama</label>
-                                                        <input type="text" class="form-control" placeholder="Enter ...">
+                                                        <input name="name" type="text" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -233,26 +233,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">List galeri</h3>
+                                        <h3 class="card-title">List Galeri</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <div style="margin-bottom: 10px;" class="row">
                                             <div class="col-lg-12">
                                                 <a class="btn btn-success" href="gallery.php?page=create">
-                                                    <i class="fa fa-plus"></i>&nbsp; Tambah galeri
+                                                    <i class="fa fa-plus"></i>&nbsp; Tambah Galeri
                                                 </a>
                                             </div>
                                         </div>
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Rendering engine</th>
-                                                    <th>Browser</th>
-                                                    <th>Platform(s)</th>
-                                                    <th>Engine version</th>
-                                                    <th>CSS grade</th>
-                                                    <th></th>
+                                                    <th>Nama</th>
+                                                    <th>Gambar</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -261,9 +258,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 4.0
                                                     </td>
-                                                    <td>Win 95+</td>
-                                                    <td> 4</td>
-                                                    <td>X</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -281,9 +275,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 5.0
                                                     </td>
-                                                    <td>Win 95+</td>
-                                                    <td>5</td>
-                                                    <td>C</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -301,9 +292,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 5.5
                                                     </td>
-                                                    <td>Win 95+</td>
-                                                    <td>5.5</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -321,9 +309,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 6
                                                     </td>
-                                                    <td>Win 98+</td>
-                                                    <td>6</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -339,9 +324,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Trident</td>
                                                     <td>Internet Explorer 7</td>
-                                                    <td>Win XP SP2+</td>
-                                                    <td>7</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -357,9 +339,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Trident</td>
                                                     <td>AOL browser (AOL desktop)</td>
-                                                    <td>Win XP</td>
-                                                    <td>6</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -375,9 +354,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 1.0</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -393,9 +369,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 1.5</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -411,9 +384,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 2.0</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -429,9 +399,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 3.0</td>
-                                                    <td>Win 2k+ / OSX.3+</td>
-                                                    <td>1.9</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -447,9 +414,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Camino 1.0</td>
-                                                    <td>OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -465,9 +429,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Camino 1.5</td>
-                                                    <td>OSX.3+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -483,9 +444,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Netscape 7.2</td>
-                                                    <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -501,9 +459,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Netscape Browser 8</td>
-                                                    <td>Win 98SE+</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -519,9 +474,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Netscape Navigator 9</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
                                                     <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
@@ -537,22 +489,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Rendering engine</th>
-                                                    <th>Browser</th>
-                                                    <th>Platform(s)</th>
-                                                    <th>Engine version</th>
-                                                    <th>CSS grade</th>
-                                                    <td style="text-align:center">
-                                                        <a class="btn btn-primary btn-sm" href="#">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="#">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
-                                                    </td>
+                                                    <th>Nama</th>
+                                                    <th>Gambar</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </tfoot>
                                         </table>

@@ -175,12 +175,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Tim</h1>
+                            <h1 class="m-0">Prestasi</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Tim</li>
+                                <li class="breadcrumb-item active">Prestasi</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -192,161 +192,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- FORM CREATE MEMBER -->
                         <?php if (!empty($_GET['page']) == 'create') { ?>
-                            <div class="col-sm-6">
+                            <div class="col-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Tambah Data Official Tim</h3>
+                                        <h3 class="card-title">Tambah Prestasi</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <form>
+
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
-                                                        <label for="namaklub">Nama Klub</label>
-                                                        <input name="club-name" type="text" class="form-control" placeholder="Enter ...">
+                                                        <label>Nama</label>
+                                                        <input name="name" type="text" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
-                                                        <label for="lisensi">Lisensi</label>
-                                                        <input name="license" type="text" class="form-control" placeholder="Enter ...">
+                                                        <label>Deskripsi</label>
+                                                        <input name="description" type="text" class="form-control" placeholder="Enter ...">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
+                                                <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="emailklub">Email</label>
-                                                        <input name="email" type="email" class="form-control" placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label for="notelfonklub">No Telfon</label>
-                                                        <input name="phone-number" type="number" class="form-control" placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label for="alamatklub">Alamat</label>
-                                                        <textarea name="address" rows="2" class="form-control" placeholder="Enter ..."></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label for="customFile">Upload Logo Klub</label>
+                                                        <label for="customFile">Upload Gambar</label>
                                                         <div class="custom-file">
-                                                            <input name="photo" type="file" class="custom-file-input" id="customFile">
+                                                            <input type="file" class="custom-file-input" id="customFile">
                                                             <label class="custom-file-label" for="customFile">Choose file</label>
-                                                            <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4">
-                                                            <label for="manager-name">Nama Manajer</label>
-                                                            <input name="manager-name" type="text" class="form-control" placeholder="Enter ...">
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <label for="manager-telp">No Telfon Manajer</label>
-                                                            <input name="manager-phone" type="text" class="form-control" placeholder="Enter ...">
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <label for="manager-files">Upload Foto Manajer</label>
-                                                            <div class="custom-file">
-                                                                <input name="manager-photo" type="file" class="custom-file-input" id="manager-files">
-                                                                <label class="custom-file-label" for="manager-files">Choose file</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-6">
-                                                            <label for="pelatihkepala">Nama Pelatih</label>
-                                                            <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="" required>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label for="customFile">Upload Foto Pelatih</label>
-                                                            <div class="custom-file">
-                                                                <input name="photo" type="file" class="custom-file-input" id="customFile">
-                                                                <label class="custom-file-label" for="customFile">Choose file</label>
-                                                            </div>
+                                                            <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- /.card-body -->
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Tambah Data Individu Pemain</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <form>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
-                                                                <i class="fa fa-plus"></i>&nbsp; Tambah
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="players-table" class="card-body table-responsive p-0">
-                                                <table class="table table-hover text-nowrap">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ID</th>
-                                                            <th>Nama</th>
-                                                            <th>TTL</th>
-                                                            <th>Posisi</th>
-                                                            <th>No. Punggung</th>
-                                                            <th>Aksi</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Trident</td>
-                                                            <td>Internet
-                                                                Explorer 4.0
-                                                            </td>
-                                                            <td>Win 95+</td>
-                                                            <td> 4</td>
-                                                            <td>X</td>
-                                                            <td>
-                                                                <a class="btn btn-danger btn-sm" href="#">
-                                                                    <i class="fas fa-trash"></i> Delete
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <!-- /.card-body -->
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card">
-                                    <form>
                                         <div class="card-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -358,14 +240,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">List Tim</h3>
+                                        <h3 class="card-title">List Prestasi</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <div style="margin-bottom: 10px;" class="row">
                                             <div class="col-lg-12">
-                                                <a class="btn btn-success" href="team.php?page=create">
-                                                    <i class="fa fa-plus"></i>&nbsp; Tambah Tim
+                                                <a class="btn btn-success" href="achievement.php?page=create">
+                                                    <i class="fa fa-plus"></i>&nbsp; Tambah Prestasi
                                                 </a>
                                             </div>
                                         </div>
@@ -373,10 +255,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <thead>
                                                 <tr>
                                                     <th>Nama</th>
-                                                    <th>Lisensi</th>
-                                                    <th>Email</th>
-                                                    <th>No Telfon</th>
-                                                    <th>Alamat</th>
+                                                    <th>Jabatan</th>
+                                                    <th>Gambar</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -386,10 +266,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 4.0
                                                     </td>
-                                                    <td>Win 95+</td>
-                                                    <td> 4</td>
-                                                    <td>X</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -406,10 +284,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 5.0
                                                     </td>
-                                                    <td>Win 95+</td>
-                                                    <td>5</td>
-                                                    <td>C</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -426,10 +302,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 5.5
                                                     </td>
-                                                    <td>Win 95+</td>
-                                                    <td>5.5</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -446,10 +320,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Internet
                                                         Explorer 6
                                                     </td>
-                                                    <td>Win 98+</td>
-                                                    <td>6</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -464,10 +336,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Trident</td>
                                                     <td>Internet Explorer 7</td>
-                                                    <td>Win XP SP2+</td>
-                                                    <td>7</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -482,10 +352,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Trident</td>
                                                     <td>AOL browser (AOL desktop)</td>
-                                                    <td>Win XP</td>
-                                                    <td>6</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -500,10 +368,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 1.0</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -518,10 +384,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 1.5</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -536,10 +400,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 2.0</td>
-                                                    <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -554,10 +416,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Firefox 3.0</td>
-                                                    <td>Win 2k+ / OSX.3+</td>
-                                                    <td>1.9</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -572,10 +432,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tr>
                                                     <td>Gecko</td>
                                                     <td>Camino 1.0</td>
-                                                    <td>OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td>OSX.3+</td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -591,9 +449,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Gecko</td>
                                                     <td>Camino 1.5</td>
                                                     <td>OSX.3+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -609,9 +465,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Gecko</td>
                                                     <td>Netscape 7.2</td>
                                                     <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -627,9 +481,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Gecko</td>
                                                     <td>Netscape Browser 8</td>
                                                     <td>Win 98SE+</td>
-                                                    <td>1.7</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -645,9 +497,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>Gecko</td>
                                                     <td>Netscape Navigator 9</td>
                                                     <td>Win 98+ / OSX.2+</td>
-                                                    <td>1.8</td>
-                                                    <td>A</td>
-                                                    <td>
+                                                    <td style="text-align:center">
                                                         <a class="btn btn-primary btn-sm" href="#">
                                                             <i class="fas fa-eye"></i> View
                                                         </a>
@@ -663,10 +513,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <tfoot>
                                                 <tr>
                                                     <th>Nama</th>
-                                                    <th>Lisensi</th>
-                                                    <th>Email</th>
-                                                    <th>No Telfon</th>
-                                                    <th>Alamat</th>
+                                                    <th>Jabatan</th>
+                                                    <th>Gambar</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </tfoot>
@@ -686,103 +534,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-
-        <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Data Individu Pemain</h4>
-                        <button type="button" id="player-modal" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="kartu">No.Kartu Identitas</label>
-                            <input name=identity-number type="number" class="form-control" id="kartu" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="namapemain">Nama</label>
-                            <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tempatlahir">Tempat Lahir</label>
-                            <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggallahir">Tanggal Lahir</label>
-                            <input name="birth-date" type="date" class="form-control" id="tanggallahi" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="alamatpemain">Alamat</label>
-                            <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder=""></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="agamapemain">Agama</label>
-                            <select name="religion" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
-                                <option value="Islam">Islam</option>
-                                <option value="Protestan">Protestan</option>
-                                <option value="Katolik">Katolik</option>
-                                <option value="Hindu">Hindu</option>
-                                <option value="Buddha">Buddha</option>
-                                <option value="Khonghucu">Khonghucu</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="agamapemain">Jenis Kelamin</label>
-                            <select name="gender" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
-                                <option value="1">Laki-Laki</option>
-                                <option value="2">Perempuan</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="tinggibadanpemain">Tinggi Badan</label>
-                            <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="beratbadanpemain">Berat Badan</label>
-                            <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="posisipemain">Posisi Bermain</label>
-                            <input name="position" type="text" class="form-control" id="posisipemain" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nopemain">Nomor Punggung</label>
-                            <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="namapunggungpemain">Nama Punggung</label>
-                            <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="photo-file">Upload Foto</label>
-                            <div class="custom-file">
-                                <input name="photo" type="file" class="custom-file-input" id="photo-file">
-                                <label class="custom-file-label" for="photo-file">Choose file</label>
-                                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="identity-file">Upload Kartu Identitas</label>
-                            <div class="custom-file">
-                                <input name="card-identity" type="file" class="custom-file-input" id="identity-file">
-                                <label class="custom-file-label" for="identity-file">Choose file</label>
-                                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                        <button onclick="submitPemain()" type="button" class="btn btn-primary">Tambah</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -836,7 +587,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,
