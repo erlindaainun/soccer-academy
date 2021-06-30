@@ -216,82 +216,91 @@
                   $TEAM_ID = $row['id'];
 
                   if ($result->num_rows != 0) {
+                    if ($row['status'] == 'draft') {
                   ?>
-                    <div class="alert alert-warning alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                      <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
-                      Silahkan simpan nomor registrasi untuk melakukan perubahan pada data tim
-                    </div>
-                    <div class="callout callout-warning">
-                      <h5>INFO TIM</h5>
-                      <p>
-                        Nomor Registrasi: <strong><?php echo $row['registration_number'] ?></strong><br>
-                        Nama Tim: <strong><?php echo $row['name'] ?></strong><br>
-                      </p>
-                    </div>
-                    <input name="registration-number" type="hidden" value="<?php echo $row['registration_number'] ?>">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
-                          <i class="fa fa-plus"></i>&nbsp; Tambah
-                        </button>
+                      <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+                        Silahkan simpan nomor registrasi untuk melakukan perubahan pada data tim
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="card">
-                          <div class="card-header">
-                            <h3 class="card-title">Nama Pemain</h3>
-                          </div>
-                          <!-- /.card-header -->
-                          <div id="players-table" class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                              <thead>
-                                <tr>
-                                  <th>ID</th>
-                                  <th>Nama</th>
-                                  <th>TTL</th>
-                                  <th>Posisi</th>
-                                  <th>No. Punggung</th>
-                                  <th>Aksi</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php
+                      <div class="callout callout-warning">
+                        <h5>INFO TIM</h5>
+                        <p>
+                          Nomor Registrasi: <strong><?php echo $row['registration_number'] ?></strong><br>
+                          Nama Tim: <strong><?php echo $row['name'] ?></strong><br>
+                        </p>
+                      </div>
+                      <input name="registration-number" type="hidden" value="<?php echo $row['registration_number'] ?>">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                            <i class="fa fa-plus"></i>&nbsp; Tambah
+                          </button>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h3 class="card-title">Nama Pemain</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div id="players-table" class="card-body table-responsive p-0">
+                              <table class="table table-hover text-nowrap">
+                                <thead>
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>TTL</th>
+                                    <th>Posisi</th>
+                                    <th>No. Punggung</th>
+                                    <th>Aksi</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <?php
 
-                                $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $row['id'];
-                                $result = $conn->query($sql);
+                                  $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $row['id'];
+                                  $result = $conn->query($sql);
 
-                                if ($result->num_rows != 0)
-                                  while ($row = mysqli_fetch_assoc($result)) {
-                                    $ttl = $row['birth_place'] . ', ' . $row['birth_date'];
-                                    echo '<tr>',
-                                    '<td>' . $row['id'] . '</td>',
-                                    '<td>' . $row['full_name'] . '</td>',
-                                    '<td>' . $ttl . '</td>',
-                                    '<td>' . $row['position'] . '</td>',
-                                    '<td>' . $row['back_number'] . '</td>',
-                                    '<td>
+                                  if ($result->num_rows != 0)
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                      $ttl = $row['birth_place'] . ', ' . $row['birth_date'];
+                                      echo '<tr>',
+                                      '<td>' . $row['id'] . '</td>',
+                                      '<td>' . $row['full_name'] . '</td>',
+                                      '<td>' . $ttl . '</td>',
+                                      '<td>' . $row['position'] . '</td>',
+                                      '<td>' . $row['back_number'] . '</td>',
+                                      '<td>
                                       <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="deletePlayer(' . $row['id'] . ');">
                                           <i class="fas fa-trash"></i> Hapus
                                       </a>
                                     </td>',
-                                    '</tr>';
-                                  }
-                                else
-                                  echo '<tr><td colspan="6" class="text-secondary text-center">Belum ada pemain</td></tr>';
+                                      '</tr>';
+                                    }
+                                  else
+                                    echo '<tr><td colspan="6" class="text-secondary text-center">Belum ada pemain</td></tr>';
 
-                                ?>
-                              </tbody>
-                            </table>
+                                  ?>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- /.card-body -->
                           </div>
-                          <!-- /.card-body -->
+                          <!-- /.card -->
                         </div>
-                        <!-- /.card -->
                       </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="goToStepThree()">Selanjutnya</button>
-                  <?php } else { ?>
+                      <button class="btn btn-primary" onclick="goToStepThree()">Selanjutnya</button>
+                    <?php } else { ?>
+                      <div class="callout callout-warning">
+
+                        <h5>Eits..!</h5>
+
+                        <p>Sepertinya nomor registrasi <span class="text-primary text-uppercase text-bold"><?php echo $_GET['nomorRegistrasi'] ?? '' ?></span> sedang/sudah diverifikasi.</p>
+                      </div>
+                    <?php }
+                  } else { ?>
                     <div class="callout callout-warning">
                       <h5>Eits..!</h5>
 
@@ -420,7 +429,7 @@
                   </div>
 
                   <button class="btn btn-secondary" onclick="backToStepTwo()">Sebelumnya</button>
-                  <button type="submit" class="btn btn-success">Selesai</button>
+                  <button type="submit" onclick="finishCreateTeam(<?php echo $TEAM_ID ?>)" class="btn btn-success">Selesai</button>
                 </div>
               </div>
             </div>
@@ -593,6 +602,18 @@
     // BS-Stepper Init
     document.addEventListener('DOMContentLoaded', function() {
       window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+      console.log(findGetParameter('submitTeam'))
+      if (findGetParameter('submitTeam')) {
+        var submit_team_status = findGetParameter('submitTeam');
+
+        if (submit_team_status == 'success') {
+          Swal.fire(
+            'Terkirim!',
+            'Berhasil mengirimkan data tim!',
+            'success'
+          )
+        }
+      }
 
       if (findGetParameter('nomorRegistrasi')) {
         var no_reg = findGetParameter('nomorRegistrasi')
@@ -605,7 +626,9 @@
             'noreg': no_reg,
           },
           success: function(response) {
-            if (response == true) {
+            var res = JSON.parse(response)
+
+            if (res.status == true) {
               if (findGetParameter('step') == 3) {
                 stepper.next()
               } else {
@@ -639,6 +662,36 @@
                   }
                 })
               }
+            } else if (res.status == false) {
+              Swal.fire({
+                title: 'Tim telah diajukan!',
+                text: res.msg,
+                timer: 5000,
+                icon: 'info',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                didOpen: () => {
+                  // Swal.showLoading()
+                  timerInterval = setInterval(() => {
+                    const content = Swal.getHtmlContainer()
+                    if (content) {
+                      const b = content.querySelector('b')
+                      if (b) {
+                        b.textContent = Swal.getTimerLeft()
+                      }
+                    }
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  // Setelah swal ditutup otomatis
+                  // window.location.href = "registration-team.php"
+                }
+              })
             }
           }
         });
@@ -661,6 +714,55 @@
     function goToStepThree() {
       var no_registrasi = $('input[name=registration-number]').val();
       window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi + "&step=3";
+    }
+
+    // Finish and submit team
+    function finishCreateTeam(team_id) {
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Setelah klik selesai, maka team akan diverifikasi oleh admin!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Kirim!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "api/team.php",
+            data: {
+              'tipe': 'submitTeam',
+              'team_id': team_id
+            },
+            success: function(response) {
+              var res = JSON.parse(response);
+              if (res.status) {
+                window.location.href = "registration-team.php?submitTeam=success"
+                // Swal.fire(
+                //   'Terkirim!',
+                //   res.msg,
+                //   'success'
+                // )
+              } else {
+                Swal.fire(
+                  'Gagal!',
+                  res.msg,
+                  'error'
+                )
+              }
+            },
+            fail: function(response) {
+              Swal.fire(
+                'Error!',
+                'Terjadi kesalahan, silahkan coba kembali.',
+                'fail'
+              )
+            }
+          });
+        }
+      })
     }
 
     function playerPartStep() {
