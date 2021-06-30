@@ -213,7 +213,7 @@
                   $TEAM_ADDRESS = $row['address'] ?? '';
                   $TEAM_LICENSE = $row['licenses'] ?? '';
                   $TEAM_MANAGER_ID = $row['manager_id'] ?? '';
-                  $TEAM_ID = $row['id'];
+                  $TEAM_ID = $row['id'] ?? '';
 
                   if ($result->num_rows != 0) {
                     if ($row['status'] == 'draft') {
@@ -294,18 +294,15 @@
                       <button class="btn btn-primary" onclick="goToStepThree()">Selanjutnya</button>
                     <?php } else { ?>
                       <div class="callout callout-warning">
-
                         <h5>Eits..!</h5>
-
                         <p>Sepertinya nomor registrasi <span class="text-primary text-uppercase text-bold"><?php echo $_GET['nomorRegistrasi'] ?? '' ?></span> sedang/sudah diverifikasi.</p>
                       </div>
+                      <button class="btn btn-primary" onclick="backToStepOne()">Kembali</button>
                     <?php }
                   } else { ?>
                     <div class="callout callout-warning">
                       <h5>Eits..!</h5>
-
                       <p>Sepertinya nomor registrasi <span class="text-primary text-uppercase text-bold"><?php echo $_GET['nomorRegistrasi'] ?? '' ?></span> tidak ada.</p>
-
                     </div>
                     <button class="btn btn-primary" onclick="backToStepOne()">Kembali</button>
                   <?php } ?>
@@ -427,9 +424,10 @@
                     </div>
                     <!-- /.card -->
                   </div>
-
-                  <button class="btn btn-secondary" onclick="backToStepTwo()">Sebelumnya</button>
-                  <button type="submit" onclick="finishCreateTeam(<?php echo $TEAM_ID ?>)" class="btn btn-success">Selesai</button>
+                  <?php if ($TEAM_ID != "") { ?>
+                    <button class="btn btn-secondary" onclick="backToStepTwo()">Sebelumnya</button>
+                    <button type="submit" onclick="finishCreateTeam(<?php echo $TEAM_ID ?>)" class="btn btn-success">Selesai</button>
+                  <?php } ?>
                 </div>
               </div>
             </div>
