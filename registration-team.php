@@ -47,7 +47,17 @@
 
   <!-- ======= Header ======= -->
   <?php include 'header.php'; ?>
-  <?php include 'connection.php'; ?>
+  <?php
+  include 'connection.php';
+
+  $TEAM_NAME = "";
+  $TEAM_ADDRESS = "";
+  $TEAM_LICENSE = "";
+  $TEAM_MANAGER_ID = "";
+  $REGISTRATION_NUMBER = "";
+
+  ?>
+
 
   <main id="main">
 
@@ -198,6 +208,11 @@
                   $result = $conn->query($sql);
                   $row = $result->fetch_assoc();
 
+                  $TEAM_NAME = $row['name'] ?? '';
+                  $TEAM_ADDRESS = $row['address'] ?? '';
+                  $TEAM_LICENSE = $row['licenses'] ?? '';
+                  $TEAM_MANAGER_ID = $row['manager_id'] ?? '';
+
                   if ($result->num_rows != 0) {
                   ?>
                     <div class="alert alert-warning alert-dismissible">
@@ -241,7 +256,6 @@
                               </thead>
                               <tbody>
                                 <?php
-                                // include 'connection.php';
 
                                 $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $row['id'];
                                 $result = $conn->query($sql);
@@ -274,7 +288,7 @@
                         <!-- /.card -->
                       </div>
                     </div>
-                    <button class="btn btn-primary" onclick="stepper.next()">Selanjutnya</button>
+                    <button class="btn btn-primary" onclick="goToStepThree()">Selanjutnya</button>
                   <?php } else { ?>
                     <div class="callout callout-warning">
                       <h5>Eits..!</h5>
@@ -284,11 +298,74 @@
                     </div>
                     <button class="btn btn-primary" onclick="backToStepOne()">Kembali</button>
                   <?php } ?>
-                  <!-- <button class="btn btn-primary" onclick="stepper.previous()">Previous</button> -->
                 </div>
                 <div id="confirmation" class="content" role="tabpanel" aria-labelledby="confirmation-trigger">
-                  <button class="btn btn-primary" onclick="stepper.previous()">Previous</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <!-- Detail Team -->
+                  <div class="row">
+                    <div class="col-12 mt-3">
+                      <div class="card">
+                        <div class="card-horizontal" style="display:flex; flex: 1 1 auto;">
+                          <div class="img-square-wrapper">
+                            <img class="" src="http://via.placeholder.com/220x220" alt="Card image cap">
+                          </div>
+                          <div class="card-body">
+                            <dl>
+                              <dt>Nama Tim</dt>
+                              <dd><?php echo $TEAM_NAME ?? '' ?></dd>
+                              <dt>Alamat</dt>
+                              <dd><?php echo $TEAM_ADDRESS ?? '' ?></dd>
+                              <dt>Lisensi</dt>
+                              <dd><?php echo $TEAM_LICENSE ?? '' ?></dd>
+                            </dl>
+                          </div>
+                        </div>
+                        <div class="card-footer">
+                          <?php
+                          $sql = 'SELECT `name` FROM `managers` WHERE `id` = ' . $TEAM_MANAGER_ID ?? '';
+                          $result = $conn->query($sql);
+                          if ($result)
+                            $team_manager_name = $result->fetch_assoc()['name'];
+                          ?>
+                          <small class="text-muted">Manajer by <span class="text-bold"><?php echo $team_manager_name ?></span></small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--  Pemain -->
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title">
+                        <i class="fas fa-edit"></i>
+                        Data Pemain
+                      </h3>
+                    </div>
+                    <div class="card-body">
+                      <!-- <h4>Left Sided</h4> -->
+                      <div class="row">
+                        <div class="col-5 col-sm-3">
+                          <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">[K] 31. Kuame Bowen	</a>
+                            <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">[P] 32. Rinah Estrada </a>
+                          </div>
+                        </div>
+                        <div class="col-7 col-sm-9">
+                          <div class="tab-content" id="vert-tabs-tabContent">
+                            <div class="tab-pane text-left fade active show" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+                            </div>
+                            <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                              Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card -->
+                  </div>
+
+                  <button class="btn btn-primary" onclick="backToStepTwo()">Previous</button>
+                  <button type="submit" class="btn btn-primary">Selesai</button>
                 </div>
               </div>
             </div>
@@ -474,40 +551,39 @@
           },
           success: function(response) {
             if (response == true) {
-              let timerInterval
-              Swal.fire({
-                title: 'Nomor Registrasi Terdaftar!',
-                text: 'Silahkan melanjutkan pengisian',
-                timer: 2000,
-                icon: 'success',
-                showConfirmButton: false,
-                timerProgressBar: true,
-                didOpen: () => {
-                  // Swal.showLoading()
-                  timerInterval = setInterval(() => {
-                    const content = Swal.getHtmlContainer()
-                    if (content) {
-                      const b = content.querySelector('b')
-                      if (b) {
-                        b.textContent = Swal.getTimerLeft()
+              if (findGetParameter('step') == 3) {
+                stepper.next()
+              } else {
+                let timerInterval
+                Swal.fire({
+                  title: 'Nomor Registrasi Terdaftar!',
+                  text: 'Silahkan melanjutkan pengisian',
+                  timer: 2000,
+                  icon: 'success',
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    // Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      const content = Swal.getHtmlContainer()
+                      if (content) {
+                        const b = content.querySelector('b')
+                        if (b) {
+                          b.textContent = Swal.getTimerLeft()
+                        }
                       }
-                    }
-                  }, 100)
-                },
-                willClose: () => {
-                  clearInterval(timerInterval)
-                }
-              }).then((result) => {
-                /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {
-                  // console.log('I was closed by the timer')
-                }
-              })
-              // Swal.fire(
-              //   'Nomor Registrasi Terdaftar!',
-              //   'Silahkan melanjutkan pengisian!',
-              //   'success'
-              // )
+                    }, 100)
+                  },
+                  willClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  /* Read more about handling dismissals below */
+                  if (result.dismiss === Swal.DismissReason.timer) {
+                    // console.log('I was closed by the timer')
+                  }
+                })
+              }
             }
           }
         });
@@ -517,6 +593,19 @@
 
     function backToStepOne() {
       window.location.href = 'registration-team.php'
+    }
+
+    // back to step 2
+    function backToStepTwo() {
+      var no_registrasi = $('input[name=registration-number]').val();
+      window.history.pushState({}, '', '?nomorRegistrasi=' + no_registrasi);
+      stepper.previous();
+    }
+
+    // Step 3
+    function goToStepThree() {
+      var no_registrasi = $('input[name=registration-number]').val();
+      window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi + "&step=3";
     }
 
     function playerPartStep() {
@@ -652,7 +741,6 @@
 
     function reset_form_modal_pemain() {
       // reset semua form modal jika sudah disubmit
-      // $('#modal-default').on('hidden.bs.modal', function(e) {
       $('#modal-default')
         .find("input,textarea,select")
         .val('')
@@ -685,15 +773,6 @@
         var manager_phone_number = $('input[name=manager-phone]').val();
         var manager_photo = $('input[name=manager-photo]').val();
 
-        // if (manager_photo) {
-        //   var startIndex = (manager_photo.indexOf('\\') >= 0 ? manager_photo.lastIndexOf('\\') : manager_photo.lastIndexOf('/'));
-        //   var filename = manager_photo.substring(startIndex);
-        //   if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-        //     filename = filename.substring(1);
-        //   }
-        //   alert(filename);
-        // }
-
         if (result.isConfirmed) {
           $.ajax({
             type: "POST",
@@ -710,12 +789,6 @@
             success: function(response) {
               var res = JSON.parse(response)
               window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg;
-              // stepper.next()
-              // Swal.fire(
-              //   'Selamat!',
-              //   res.msg,
-              //   'success'
-              // )
             }
           });
 
