@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2021 at 05:32 PM
+-- Generation Time: Jun 30, 2021 at 06:25 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -250,6 +250,9 @@ CREATE TABLE `teams` (
   `address` varchar(255) DEFAULT NULL,
   `manager_id` varchar(45) DEFAULT NULL,
   `licenses` varchar(45) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `telp` varchar(20) DEFAULT NULL,
+  `photo` text DEFAULT NULL,
   `registration_number` varchar(255) DEFAULT NULL,
   `status` varchar(32) NOT NULL DEFAULT 'draft',
   `created_at` varchar(45) DEFAULT NULL,
@@ -417,7 +420,7 @@ ALTER TABLE `leagues`
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `matches`
@@ -435,7 +438,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `schedules`
@@ -459,7 +462,7 @@ ALTER TABLE `structures`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `users`
