@@ -55,6 +55,7 @@
   $TEAM_LICENSE = "";
   $TEAM_MANAGER_ID = "";
   $REGISTRATION_NUMBER = "";
+  $TEAM_ID = "";
 
   ?>
 
@@ -212,6 +213,7 @@
                   $TEAM_ADDRESS = $row['address'] ?? '';
                   $TEAM_LICENSE = $row['licenses'] ?? '';
                   $TEAM_MANAGER_ID = $row['manager_id'] ?? '';
+                  $TEAM_ID = $row['id'];
 
                   if ($result->num_rows != 0) {
                   ?>
@@ -342,30 +344,83 @@
                     </div>
                     <div class="card-body">
                       <!-- <h4>Left Sided</h4> -->
-                      <div class="row">
-                        <div class="col-5 col-sm-3">
-                          <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                            <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">[K] 31. Kuame Bowen	</a>
-                            <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">[P] 32. Rinah Estrada </a>
+                      <?php
+                      if ($TEAM_ID != "") {
+                        $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $TEAM_ID;
+                        $result = $conn->query($sql);
+                        // $rows = $result->fetch_assoc();
+                        // foreach ($rows as $key => $value) {
+                        //   echo $key . '  ' . $value;
+                        // }
+                      ?>
+                        <div class="row">
+                          <div class="col-5 col-sm-3">
+                            <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                              <?php
+                              $i = 0;
+                              while ($row = $result->fetch_assoc()) {
+                                $name = str_replace(' ', '-', strtolower($row['full_name']));
+                              ?>
+                                <a class="nav-link <?php if ($i == 0) echo 'active';
+                                                    $i++; ?>" id="vert-tabs-<?php echo $name ?>-tab" data-toggle="pill" href="#vert-tabs-<?php echo $name ?>" role="tab" aria-controls="vert-tabs-home" aria-selected="true"><?php echo $row['id'] . '. ' . $row['full_name'] ?></a>
+                              <?php } ?>
+                            </div>
+                          </div>
+                          <div class="col-7 col-sm-9">
+                            <div class="tab-content" id="vert-tabs-tabContent">
+                              <?php
+                              $result = $conn->query($sql);
+                              $i = 0;
+                              while ($row = $result->fetch_assoc()) {
+                                $name = str_replace(' ', '-', strtolower($row['full_name']));
+                              ?>
+                                <div class="tab-pane text-left fade <?php if ($i == 0) echo 'active show';
+                                                                    $i++; ?>" id="vert-tabs-<?php echo $name ?>" role="tabpanel" aria-labelledby="vert-tabs-<?php echo $name ?>-tab">
+                                  <!-- Detail player -->
+                                  <div class="row">
+                                    <div class="col-8 col-sm-6 col-md-8 d-flex align-items-stretch flex-column">
+                                      <div class="card bg-light d-flex flex-fill">
+                                        <div class="card-header text-muted border-bottom-0">
+                                          <?php echo $row['position'] ?>
+                                        </div>
+                                        <div class="card-body pt-0">
+                                          <div class="row">
+                                            <div class="col-7">
+                                              <h2 class="lead"><b><?php echo $row['full_name'] ?></b></h2>
+                                              <p class="text-muted text-sm"><b>No. Identitas: </b> <?php echo $row['identity_number'] ?> </p>
+                                              <p class="text-muted text-sm"><b>TTL: </b> <?php echo $row['birth_place'] . ', ' . $row['birth_date'] ?> </p>
+                                              <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: + 800 - 12 12 23 52</li>
+                                              </ul>
+                                            </div>
+                                            <div class="col-5 text-center">
+                                              <img src="/assets/img/team/team-1.jpg" alt="user-avatar" class="img-circle img-fluid">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="card-footer">
+                                          <div class="text-right">
+                                            <a href="#" class="btn btn-sm btn-primary">
+                                              <i class="fas fa-user"></i> Detail
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            <?php }
+                            } ?>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-7 col-sm-9">
-                          <div class="tab-content" id="vert-tabs-tabContent">
-                            <div class="tab-pane text-left fade active show" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
-                            </div>
-                            <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                              Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                     <!-- /.card -->
                   </div>
 
-                  <button class="btn btn-primary" onclick="backToStepTwo()">Previous</button>
-                  <button type="submit" class="btn btn-primary">Selesai</button>
+                  <button class="btn btn-secondary" onclick="backToStepTwo()">Sebelumnya</button>
+                  <button type="submit" class="btn btn-success">Selesai</button>
                 </div>
               </div>
             </div>
