@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2021 at 12:13 PM
+-- Generation Time: Jun 30, 2021 at 03:37 AM
 -- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -91,6 +91,9 @@ INSERT INTO `genders` (`id`, `name`) VALUES
 CREATE TABLE `leagues` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(45) DEFAULT NULL,
+  `date` date NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `registration_status` varchar(255) NOT NULL,
   `image_path` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -98,9 +101,9 @@ CREATE TABLE `leagues` (
 -- Dumping data for table `leagues`
 --
 
-INSERT INTO `leagues` (`id`, `name`, `image_path`) VALUES
-(1, 'Liga Internal', NULL),
-(2, 'AFF2022', NULL);
+INSERT INTO `leagues` (`id`, `name`, `date`, `location`, `registration_status`, `image_path`) VALUES
+(1, 'Liga Internal', '0000-00-00', '', '', NULL),
+(2, 'AFF2022', '0000-00-00', '', '', NULL);
 
 -- --------------------------------------------------------
 
