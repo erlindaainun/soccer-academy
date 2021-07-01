@@ -4,7 +4,7 @@ function index()
 {
     include '../connection.php';
 
-    $sql = 'SELECT `nisn`, `name`, `class_type`, `address`, `status`, `id` FROM `news`';
+    $sql = 'SELECT `name`, `date`, `description`, `images`, `id` FROM `news`';
     $result = $conn->query($sql);
 
     $data = $result->fetch_all();
@@ -16,29 +16,17 @@ function store()
 {
     include '../connection.php';
 
-    $sql = 'INSERT INTO `news` (`name`, `nisn`, `birth_date`, `birth_place`, `class_type`, `gender_id`, `religion`, `address`, `height`, `weight`, `phone_number`, `image_path`, `position`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES (' .
-        '"' . $_POST['name'] . '", ' .
-        '"' . $_POST['identity_number'] . '", ' .
-        '"' . $_POST['birth_date'] . '", ' .
-        '"' . $_POST['birth_place'] . '", ' .
-        '"' . $_POST['class_type'] . '", ' .
-        '"' . $_POST['gender_id'] . '", ' .
-        '"' . $_POST['religion'] . '", ' .
-        '"' . $_POST['address'] . '", ' .
-        '"' . $_POST['height'] . '", ' .
-        '"' . $_POST['weight'] . '", ' .
-        '"' . $_POST['phone_number'] . '", ' .
-        '"' . $_POST['image_path'] . '", ' .
-        '"' . $_POST['position'] . '", ' .
-        '"' . $_POST['reason'] . '", ' .
-        '"' . $_POST['notes'] . '", ' .
-        '"' . 'draft' . '", ' .
+    $sql = 'INSERT INTO `news` (`name`, `description`, `date`, `images`, `created_at`, `updated_at`) VALUES (' .
+        '"' . $_POST['title'] . '", ' .
+        '"' . $_POST['description'] . '", ' .
+        '"' . $_POST['date'] . '", ' .
+        '"' . $_POST['images'] . '", ' .
         'NOW(), NOW())';
 
     $result = $conn->query($sql);
 
     if ($result)
-        return header("Location:/server/member.php?status=stored");
+        return header("Location:/server/news.php?status=stored");
     else
         return json_encode(['status' => false, 'msg' => 'Gagal']);
 }
@@ -63,28 +51,16 @@ function update()
     include '../connection.php';
 
     $sql = 'UPDATE `news` SET ' .
-        'name = "' . $_POST['name'] . '",' .
-        'nisn = "' . $_POST['identity_number'] . '",' .
-        'birth_date = "' . $_POST['birth_date'] . '",' .
-        'birth_place = "' . $_POST['birth_place'] . '",' .
-        'class_type = "' . $_POST['class_type'] . '",' .
-        'gender_id = "' . $_POST['gender_id'] . '",' .
-        'religion = "' . $_POST['religion'] . '",' .
-        'address = "' . $_POST['address'] . '",' .
-        'height = "' . $_POST['height'] . '",' .
-        'weight = "' . $_POST['weight'] . '",' .
-        'phone_number = "' . $_POST['phone_number'] . '",' .
-        'image_path = "' . $_POST['image_path'] . '",' .
-        'position = "' . $_POST['position'] . '",' .
-        'reason = "' . $_POST['reason'] . '",' .
-        'notes = "' . $_POST['notes'] . '",' .
-        'status = "' . 'draft' . '",' .
+        'name = "' . $_POST['title'] . '",' .
+        'description = "' . $_POST['description'] . '",' .
+        'date = "' . $_POST['date'] . '",' .
+        'images = "' . $_POST['images'] . '",' .
         'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
 
     $result = $conn->query($sql);
 
     if ($result)
-        return header("Location:/server/member.php?status=updated");
+        return header("Location:/server/news.php?status=updated");
     else
         return json_encode(['status' => false, 'msg' => 'Gagal']);
 }

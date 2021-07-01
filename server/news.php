@@ -10,6 +10,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Starter</title>
 
+  <?php include '../connection.php' ?>
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -193,58 +195,228 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
           <div class="row">
             <!-- FORM CREATE NEWS -->
-            <?php if (!empty($_GET['page']) == 'create') { ?>
-              <div class="col-8">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Berita</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <form>
+            <?php
 
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Judul</label>
-                            <input name="title" type="text" class="form-control" placeholder="Enter ...">
+            // Ambil parameter page
+            $page = $_GET['page'] ?? '';
+
+            // Jika parameter `page` sama dengan `create` atau `edit`
+            if ($page == 'create' || $page == 'edit') {
+
+              // Jika page sama dengan `edit` dan memiliki `id`
+              if ($page == 'edit' && isset($_GET['id'])) {
+                // Check apakah `id` ada didatabase
+                $id = $_GET['id'];
+                $sql = 'SELECT * FROM `news` WHERE id = ' . $id;
+                $result = $conn->query($sql);
+
+                $num_rows = $result ? $result->num_rows : 0;
+
+                // jika result ada maka tampilkan form dengan value yang ada didatabase
+                if ($num_rows > 0 && $id != "") { ?>
+                  <div class="col-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Ubah Berita</h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <form name="form1" method="post" action="/api/news.php">
+                        <input type="hidden" name="tipe" value="update">
+                        <input type="hidden" name="id" value="">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label>Judul</label>
+                                <input name="title" type="text" class="form-control" placeholder="Enter ...">
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label>Deskripsi</label>
+                                <textarea name="description" rows="10" class="form-control" placeholder="Enter ..."></textarea>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label>Tanggal</label>
+                                <input name="date" type="date" class="form-control" placeholder="Enter ...">
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="customFile">Upload Gambar</label>
+                                <div class="custom-file">
+                                  <input name="images" type="file" class="custom-file-input" id="customFile">
+                                  <label class="custom-file-label"  for="customFile">Choose file</label>
+                                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea name="description" rows="10" class="form-control" placeholder="Enter ..."></textarea>
-                          </div>
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Tanggal</label>
-                            <input name="date" type="date" class="form-control" placeholder="Enter ...">
+                        <!-- /.card-body -->
+                      </form>
+                    </div>
+                  </div>
+                <?php
+                  // get data from ajax request
+                  echo '<script>document.addEventListener("DOMContentLoaded", function() {editNews(' . $id . ')})</script>';
+                } else { // jika `id` yang diberikan tidak ada di database
+                  echo '<div class="error-page">
+                  <h2 class="headline text-warning"> 404</h2>
+          
+                  <div class="error-content">
+                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+          
+                    <p>
+                      We could not find the page you were looking for.
+                      Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                    </p>
+                  </div>
+                  <!-- /.error-content -->
+                </div>';
+                }
+              } else if ($page == 'edit' && !isset($_GET['id'])) { // Jika page sama dengan `edit` dan tidak memiliki `id`
+                echo '<div class="error-page">
+                  <h2 class="headline text-warning"> 404</h2>
+          
+                  <div class="error-content">
+                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+          
+                    <p>
+                      We could not find the page you were looking for.
+                      Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                    </p>
+                  </div>
+                  <!-- /.error-content -->
+                </div>';
+              } else {
+                ?>
+                <div class="col-8">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Tambah Berita</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form name="form1" method="post" action="/api/news.php">
+                      <input type="hidden" name="tipe" value="store">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label>Judul</label>
+                              <input name="title" type="text" class="form-control" placeholder="Enter ...">
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="customFile">Upload Gambar</label>
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="customFile">
-                              <label class="custom-file-label" for="customFile">Choose file</label>
-                              <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label>Deskripsi</label>
+                              <textarea name="description" rows="10" class="form-control" placeholder="Enter ..."></textarea>
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label>Tanggal</label>
+                              <input name="date" type="date" class="form-control" placeholder="Enter ...">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="customFile">Upload Gambar</label>
+                              <div class="custom-file">
+                                <input name="images" type="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                    <!-- /.card-body -->
-                  </form>
+                      <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                      <!-- /.card-body -->
+                    </form>
+                  </div>
                 </div>
-              </div>
-            <?php } else { ?>
+                <?php }
+            } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
+
+              if (!empty($id = $_GET['id'])) {
+                $sql = 'SELECT * FROM `news` WHERE `id` = ' . $id;
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+
+                $num_rows = $result ? $result->num_rows : 0;
+
+                // jika result ada maka tampilkan form dengan value yang ada didatabase
+                if ($num_rows > 0 && $id != "") {
+
+                ?>
+                  <div class="col-md-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="fas fa-eye"></i>
+                          Lihat Berita
+                        </h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <dl class="row">
+                          <dt class="col-sm-4">Judul</dt>
+                          <dd class="col-sm-8"><?php echo $row['name'] ?></dd>
+                          <dt class="col-sm-4">Tanggal</dt>
+                          <dd class="col-sm-8"><?php echo $row['date'] ?></dd>
+                          <dt class="col-sm-4">Deskripsi</dt>
+                          <dd class="col-sm-8"><?php echo $row['description'] ?></dd>
+                        </dl>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+              <?php } else {
+                  echo '<div class="error-page">
+                <h2 class="headline text-warning"> 404</h2>
+        
+                <div class="error-content">
+                  <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+        
+                  <p>
+                    We could not find the page you were looking for.
+                    Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                  </p>
+                </div>
+                <!-- /.error-content -->
+              </div>';
+                }
+              } else {
+                echo '<div class="error-page">
+                <h2 class="headline text-warning"> 404</h2>
+        
+                <div class="error-content">
+                  <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+        
+                  <p>
+                    We could not find the page you were looking for.
+                    Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                  </p>
+                </div>
+                <!-- /.error-content -->
+              </div>';
+              }
+            } else { ?>
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
@@ -270,269 +442,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 4.0
-                          </td>
-                          <td>Win 95+</td>
-                          <td> 4</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 5.0
-                          </td>
-                          <td>Win 95+</td>
-                          <td>5</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 5.5
-                          </td>
-                          <td>Win 95+</td>
-                          <td>5.5</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 6
-                          </td>
-                          <td>Win 98+</td>
-                          <td>6</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet Explorer 7</td>
-                          <td>Win XP SP2+</td>
-                          <td>7</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>AOL browser (AOL desktop)</td>
-                          <td>Win XP</td>
-                          <td>6</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 1.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.7</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 1.5</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 2.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 3.0</td>
-                          <td>Win 2k+ / OSX.3+</td>
-                          <td>1.9</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Camino 1.0</td>
-                          <td>OSX.2+</td>
-                          <td>1.8</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Camino 1.5</td>
-                          <td>OSX.3+</td>
-                          <td>1.8</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Netscape 7.2</td>
-                          <td>Win 95+ / Mac OS 8.6-9.2</td>
-                          <td>1.7</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Netscape Browser 8</td>
-                          <td>Win 98SE+</td>
-                          <td>1.7</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Netscape Navigator 9</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>
-                            <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-eye"></i> View
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
                       </tbody>
                       <tfoot>
                         <tr>
@@ -605,6 +514,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="/server/dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="/server/dist/js/demo.js"></script>
+  <!-- Swal2 -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Page specific script -->
   <script>
     $(function() {
@@ -612,18 +523,121 @@ scratch. This page gets rid of all links and provides the needed markup only.
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
-        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        "ajax": '/api/news.php',
+        "columnDefs": [{
+          "targets": 4,
+          "data": 4,
+          "render": function(data, type, full, meta) {
+            return '<a class="btn btn-primary btn-sm" href="/server/news.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a>' +
+              '<a class="btn btn-info btn-sm" href="/server/news.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a>' +
+              '<a class="btn btn-danger btn-sm" onclick="deleteNews(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
+
+          }
+        }]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
     });
+
+    function findGetParameter(parameterName) {
+      var result = null,
+        tmp = [];
+      var items = location.search.substr(1).split("&");
+      for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+      }
+      return result;
+    }
+
+    if (status = findGetParameter('status')) {
+      if (status == 'stored')
+        Swal.fire(
+          'Berhasil!',
+          'Berhasil menambahkan berita!',
+          'success'
+        )
+      else if (status == 'updated')
+        Swal.fire(
+          'Berhasil!',
+          'Berhasil mengubah berita!',
+          'success'
+        )
+    }
+
+    function editNews(id) {
+      $.ajax({
+        type: "POST",
+        url: "/api/news.php",
+        data: {
+          'tipe': 'edit',
+          'id': id
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+          var data = res.data
+
+          // for (let key in data) {
+          //   if (data.hasOwnProperty(key)) {
+          //     $("input")
+          //     console.log(`${key} : ${data[key]}`)
+          //   }
+          // }
+
+          $("input[name=id]").val(data.id);
+          $("input[name=title]").val(data.name);
+          $("textarea[name=description]").val(data.description);
+          $("input[name=date]").val(data.date);
+          $("input[name=images]").val(data.images);
+        }
+      });
+    }
+
+    function deleteNews(id) {
+      Swal.fire({
+        title: 'Apakah anda yakin hapus berita ini?',
+        text: "Anda tidak akan dapat mengembalikan ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "/api/news.php",
+            data: {
+              'tipe': 'delete',
+              'id': id
+            },
+            success: function(response) {
+              $('#example1').DataTable().ajax.reload();
+              var res = JSON.parse(response);
+              if (res.status)
+                Swal.fire(
+                  'Dihapus!',
+                  'Berita berhasil dihapus.',
+                  'success'
+                )
+              else
+                Swal.fire(
+                  'Gagal!',
+                  'Gagal menghapus tim.',
+                  'error'
+                )
+            },
+            fail: function(response) {
+              Swal.fire(
+                'Error!',
+                'Terjadi kesalahan, silahkan coba kembali.',
+                'fail'
+              )
+            }
+          });
+        }
+      })
+    }
   </script>
 </body>
 
