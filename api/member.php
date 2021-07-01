@@ -97,9 +97,9 @@ function delete()
     $result = $conn->query($sql);
 
     if ($result)
-        return json_encode(['status' => true, 'msg' => 'Tim berhasil dihapus!']);
+        return json_encode(['status' => true, 'msg' => 'Anggota berhasil dihapus!']);
     else
-        return json_encode(['status' => false, 'msg' => 'Tim tidak dapat dihapus!']);
+        return json_encode(['status' => false, 'msg' => 'Anggota tidak dapat dihapus!']);
 }
 
 
