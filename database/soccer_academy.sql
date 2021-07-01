@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2021 at 06:29 PM
+-- Generation Time: Jul 01, 2021 at 08:41 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -99,14 +99,6 @@ CREATE TABLE `leagues` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `leagues`
---
-
-INSERT INTO `leagues` (`id`, `name`, `date`, `location`, `image_path`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Liga Internal', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'AFF2022', NULL, NULL, NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -121,22 +113,6 @@ CREATE TABLE `managers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `managers`
---
-
-INSERT INTO `managers` (`id`, `name`, `image_path`, `phone_number`, `created_at`, `updated_at`) VALUES
-(14, 'Patrick Byrd', 'test/file.img', '+1 (784) 624-6826', '2021-06-30 16:26:47', '2021-06-30 16:26:47'),
-(15, 'Wilma Franklin', 'test/file.img', '+1 (151) 334-4023', '2021-06-30 16:39:59', '2021-06-30 16:39:59'),
-(16, 'Neville Harmon', 'test/file.img', '+1 (513) 568-4905', '2021-06-30 16:40:39', '2021-06-30 16:40:39'),
-(17, 'Abra White', 'test/file.img', '+1 (819) 922-9272', '2021-06-30 16:40:49', '2021-06-30 16:40:49'),
-(18, 'Ann Olson', 'test/file.img', '+1 (479) 845-3171', '2021-06-30 16:43:24', '2021-06-30 16:43:24'),
-(19, 'Boris Goff', 'test/file.img', '+1 (162) 581-2485', '2021-06-30 16:43:32', '2021-06-30 16:43:32'),
-(20, 'Jasper Holman', 'test/file.img', '+1 (761) 319-4658', '2021-06-30 17:03:32', '2021-06-30 17:03:32'),
-(21, 'Cailin Diaz', 'test/file.img', '+1 (805) 919-8796', '2021-06-30 17:51:07', '2021-06-30 17:51:07'),
-(22, 'Beau Fitzpatrick', 'test/file.img', '+1 (524) 644-6734', '2021-06-30 17:51:18', '2021-06-30 17:51:18'),
-(23, 'Wyoming Wiley', 'test/file.img', '+1 (894) 609-4787', '2021-06-30 17:51:31', '2021-06-30 17:51:31');
 
 -- --------------------------------------------------------
 
@@ -178,13 +154,6 @@ CREATE TABLE `members` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `members`
---
-
-INSERT INTO `members` (`id`, `name`, `nisn`, `birth_date`, `birth_place`, `class_type`, `gender_id`, `religion`, `address`, `height`, `weight`, `phone_number`, `image_path`, `position`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
-(7, 'Tanek Ballard', 740, '1997-04-04', 'Et sint delectus s', 'U16-U18', 2, 'Islam', 'Id quia facilis veri', '22', '22', '582', '', 'Ad aute ratione ut s', 'Quis qui ut quis asp', 'Aperiam tempor non f', 'draft', '2021-07-01 15:51:19', '2021-07-01 15:51:29');
 
 -- --------------------------------------------------------
 
@@ -429,10 +398,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `achievements`
+--
+ALTER TABLE `achievements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `coaches`
 --
 ALTER TABLE `coaches`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `galleries`
+--
+ALTER TABLE `galleries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `genders`
@@ -444,7 +425,7 @@ ALTER TABLE `genders`
 -- AUTO_INCREMENT for table `leagues`
 --
 ALTER TABLE `leagues`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `managers`
@@ -462,13 +443,19 @@ ALTER TABLE `matches`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `schedules`
@@ -492,7 +479,7 @@ ALTER TABLE `structures`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
