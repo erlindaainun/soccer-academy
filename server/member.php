@@ -833,7 +833,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     function deleteMember(id) {
       Swal.fire({
-        title: 'Apakah anda yakin hapus tim ini?',
+        title: 'Apakah anda yakin hapus anggota ini?',
         text: "Anda tidak akan dapat mengembalikan ini!",
         icon: 'warning',
         showCancelButton: true,

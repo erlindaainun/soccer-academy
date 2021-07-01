@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2021 at 02:20 PM
+-- Generation Time: Jul 01, 2021 at 06:29 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -91,16 +91,21 @@ INSERT INTO `genders` (`id`, `name`) VALUES
 CREATE TABLE `leagues` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `image_path` varchar(45) DEFAULT NULL
+  `date` date DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `image_path` varchar(45) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `leagues`
 --
 
-INSERT INTO `leagues` (`id`, `name`, `image_path`) VALUES
-(1, 'Liga Internal', NULL),
-(2, 'AFF2022', NULL);
+INSERT INTO `leagues` (`id`, `name`, `date`, `location`, `image_path`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Liga Internal', NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 'AFF2022', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -158,7 +163,7 @@ CREATE TABLE `members` (
   `nisn` int(20) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `birth_place` varchar(255) DEFAULT NULL,
-  `class_type` varchar(10) DEFAULT NULL,
+  `class_type` varchar(255) DEFAULT NULL,
   `gender_id` int(10) UNSIGNED NOT NULL,
   `religion` varchar(45) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
@@ -173,6 +178,13 @@ CREATE TABLE `members` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `members`
+--
+
+INSERT INTO `members` (`id`, `name`, `nisn`, `birth_date`, `birth_place`, `class_type`, `gender_id`, `religion`, `address`, `height`, `weight`, `phone_number`, `image_path`, `position`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
+(7, 'Tanek Ballard', 740, '1997-04-04', 'Et sint delectus s', 'U16-U18', 2, 'Islam', 'Id quia facilis veri', '22', '22', '582', '', 'Ad aute ratione ut s', 'Quis qui ut quis asp', 'Aperiam tempor non f', 'draft', '2021-07-01 15:51:19', '2021-07-01 15:51:29');
 
 -- --------------------------------------------------------
 
@@ -450,7 +462,7 @@ ALTER TABLE `matches`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `players`
