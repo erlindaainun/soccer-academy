@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2021 at 06:25 PM
+-- Generation Time: Jul 01, 2021 at 02:20 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -117,6 +117,22 @@ CREATE TABLE `managers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `managers`
+--
+
+INSERT INTO `managers` (`id`, `name`, `image_path`, `phone_number`, `created_at`, `updated_at`) VALUES
+(14, 'Patrick Byrd', 'test/file.img', '+1 (784) 624-6826', '2021-06-30 16:26:47', '2021-06-30 16:26:47'),
+(15, 'Wilma Franklin', 'test/file.img', '+1 (151) 334-4023', '2021-06-30 16:39:59', '2021-06-30 16:39:59'),
+(16, 'Neville Harmon', 'test/file.img', '+1 (513) 568-4905', '2021-06-30 16:40:39', '2021-06-30 16:40:39'),
+(17, 'Abra White', 'test/file.img', '+1 (819) 922-9272', '2021-06-30 16:40:49', '2021-06-30 16:40:49'),
+(18, 'Ann Olson', 'test/file.img', '+1 (479) 845-3171', '2021-06-30 16:43:24', '2021-06-30 16:43:24'),
+(19, 'Boris Goff', 'test/file.img', '+1 (162) 581-2485', '2021-06-30 16:43:32', '2021-06-30 16:43:32'),
+(20, 'Jasper Holman', 'test/file.img', '+1 (761) 319-4658', '2021-06-30 17:03:32', '2021-06-30 17:03:32'),
+(21, 'Cailin Diaz', 'test/file.img', '+1 (805) 919-8796', '2021-06-30 17:51:07', '2021-06-30 17:51:07'),
+(22, 'Beau Fitzpatrick', 'test/file.img', '+1 (524) 644-6734', '2021-06-30 17:51:18', '2021-06-30 17:51:18'),
+(23, 'Wyoming Wiley', 'test/file.img', '+1 (894) 609-4787', '2021-06-30 17:51:31', '2021-06-30 17:51:31');
+
 -- --------------------------------------------------------
 
 --
@@ -153,7 +169,9 @@ CREATE TABLE `members` (
   `position` varchar(45) DEFAULT NULL,
   `reason` varchar(45) DEFAULT NULL,
   `notes` varchar(255) DEFAULT NULL,
-  `created_at` varchar(45) DEFAULT NULL
+  `status` varchar(32) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -420,7 +438,7 @@ ALTER TABLE `leagues`
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `matches`
@@ -462,7 +480,7 @@ ALTER TABLE `structures`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `users`
