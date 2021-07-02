@@ -80,8 +80,6 @@ if (isset($_POST['tipe'])) {
         echo store();
     else if ($_POST['tipe'] == 'edit')
         echo edit();
-    else if ($_POST['tipe'] == 'view')
-        echo view();
     else if ($_POST['tipe'] == 'update')
         echo update();
     else if ($_POST['tipe'] == 'delete')
