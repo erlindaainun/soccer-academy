@@ -1054,6 +1054,11 @@ section {
 
 .portfolio .portfolio-wrap img {
   transition: all ease-in-out 0.3s;
+  width: auto;
+  height: 300px;
+  /* align-items: center; */
+  /* margin: -75px 0 0 -100px; */
+
 }
 
 .portfolio .portfolio-wrap .portfolio-info {
@@ -1145,7 +1150,6 @@ section {
   font-size: 18px;
   color: #222222;
 }
-
 
 /*--------------------------------------------------------------
 # Portfolio Details

@@ -220,10 +220,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 class="card-title">Ubah Galeri</h3>
                       </div>
                       <!-- /.card-header -->
-                      <form name="form1" method="post" action="/api/gallery.php">
+                      <form name="form1" method="post" action="/api/gallery.php" enctype="multipart/form-data">
                         <input type="hidden" name="tipe" value="update">
                         <input type="hidden" name="id" value="">
                         <div class="card-body">
+                          <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                            if ($error_msg == 'already_exist')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                            else if ($error_msg == 'file_size')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                            else if ($error_msg == 'file_format')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                            else
+                              echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                          ?>
                           <div class="row">
                             <div class="col-sm-12">
                               <!-- text input -->
@@ -234,10 +264,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <div class="col-md-12">
                               <div class="form-group">
-                                <label for="customFile">Upload Gambar</label>
+                                <label for="fileToUpload">Upload Gambar</label>
                                 <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label" for="customFile">Choose file</label>
+                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
@@ -291,9 +321,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <h3 class="card-title">Tambah Galeri</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form name="form1" method="post" action="/api/gallery.php">
+                    <form name="form1" method="post" action="/api/gallery.php" enctype="multipart/form-data">
                       <input type="hidden" name="tipe" value="store">
                       <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          if ($error_msg == 'already_exist')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                          else if ($error_msg == 'file_size')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                          else if ($error_msg == 'file_format')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                          else
+                            echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                        ?>
                         <div class="row">
                           <div class="col-sm-12">
                             <!-- text input -->
@@ -304,10 +364,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="customFile">Upload Gambar</label>
+                              <label for="fileToUpload">Upload Gambar</label>
                               <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
@@ -349,7 +409,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <dt class="col-sm-4">Nama</dt>
                           <dd class="col-sm-8"><?php echo $row['name'] ?></dd>
                           <dt class="col-sm-4">Gambar</dt>
-                          <dd class="col-sm-8"><?php echo $row['image_path'] ?></dd>
+                          <!-- <dd class="col-sm-8"><?php echo $row['image_path'] ?></dd> -->
+                          <?php
+                          // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                          $image_path = str_replace('..', '', $row['image_path']);
+                          $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                          ?>
+                          <dd class="col-sm-8"><img width="200px" height="auto" src="<?php echo $src ?>" alt=""></dd>
                         </dl>
                       </div>
                       <!-- /.card-body -->
@@ -482,6 +549,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="/server/dist/js/demo.js"></script>
   <!-- Swal2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
   <!-- Page specific script -->
   <script>
     $(function() {
@@ -499,6 +576,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               '<a class="btn btn-info btn-sm" href="/server/gallery.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a>' +
               '<a class="btn btn-danger btn-sm" onclick="deleteGallery(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
 
+          }
+        }, {
+          "targets": 1,
+          "data": 1,
+          "render": function(data, type, full, meta) {
+            var data = data.replace('..', '', data);
+            var src = window.location.host + data;
+            // console.log(window.location.host);
+            return '<img width="auto" height="100px" src="' + data + '" alt="">';
           }
         }]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -530,6 +616,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         )
     }
 
+    // if (status = findGetParameter('errorMsg')) {
+    //   Swal.fire(
+    //     'test',
+    //     'Gagal menghapus galeri.',
+    //     'error'
+    //   )
+    // }
+
     function editGallery(id) {
       $.ajax({
         type: "POST",
@@ -542,16 +636,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           var res = JSON.parse(response)
           var data = res.data
 
-          // for (let key in data) {
-          //   if (data.hasOwnProperty(key)) {
-          //     $("input")
-          //     console.log(`${key} : ${data[key]}`)
-          //   }
-          // }
-
           $("input[name=id]").val(data.id);
           $("input[name=name]").val(data.name);
-          $("input[name=image_path]").val(data.nisn);
 
         }
       });
