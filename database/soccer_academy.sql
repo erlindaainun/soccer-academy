@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2021 at 02:35 PM
+-- Generation Time: Jul 03, 2021 at 06:10 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -201,17 +201,6 @@ CREATE TABLE `players` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `schedules`
---
-
-CREATE TABLE `schedules` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `schedulescol` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `scores`
 --
 
@@ -261,10 +250,10 @@ CREATE TABLE `teams` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teams_has_leagues`
+-- Table structure for table `team_has_leagues`
 --
 
-CREATE TABLE `teams_has_leagues` (
+CREATE TABLE `team_has_leagues` (
   `team_id` int(10) UNSIGNED NOT NULL,
   `league_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -353,12 +342,6 @@ ALTER TABLE `players`
   ADD KEY `fk_players_gender1_idx` (`gender_id`);
 
 --
--- Indexes for table `schedules`
---
-ALTER TABLE `schedules`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `scores`
 --
 ALTER TABLE `scores`
@@ -380,9 +363,9 @@ ALTER TABLE `teams`
   ADD UNIQUE KEY `registration_number` (`registration_number`);
 
 --
--- Indexes for table `teams_has_leagues`
+-- Indexes for table `team_has_leagues`
 --
-ALTER TABLE `teams_has_leagues`
+ALTER TABLE `team_has_leagues`
   ADD PRIMARY KEY (`team_id`,`league_id`),
   ADD KEY `fk_teams_has_leagues_leagues1_idx` (`league_id`),
   ADD KEY `fk_teams_has_leagues_teams1_idx` (`team_id`);
@@ -458,12 +441,6 @@ ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `schedules`
---
-ALTER TABLE `schedules`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `scores`
 --
 ALTER TABLE `scores`
@@ -518,9 +495,9 @@ ALTER TABLE `scores`
   ADD CONSTRAINT `fk_scores_teams1` FOREIGN KEY (`teams_id`) REFERENCES `teams` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `teams_has_leagues`
+-- Constraints for table `team_has_leagues`
 --
-ALTER TABLE `teams_has_leagues`
+ALTER TABLE `team_has_leagues`
   ADD CONSTRAINT `fk_teams_has_leagues_leagues1` FOREIGN KEY (`league_id`) REFERENCES `leagues` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_teams_has_leagues_teams1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
