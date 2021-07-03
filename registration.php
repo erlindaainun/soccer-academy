@@ -71,7 +71,7 @@
               <div class="card-body">
                 <h5 class="card-title">Registrasi Tim</h5>
                 <p class="card-text">Merupakan form registrasi tim.</p>
-                <a href="#" class="btn btn-primary">Daftar Tim</a>
+                <a href="registration-team.php" class="btn btn-primary">Daftar Tim</a>
               </div>
             </div>
           </div>

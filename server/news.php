@@ -251,7 +251,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <label for="customFile">Upload Gambar</label>
                                 <div class="custom-file">
                                   <input name="images" type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label"  for="customFile">Choose file</label>
+                                  <label class="custom-file-label" for="customFile">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
@@ -305,9 +305,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <h3 class="card-title">Tambah Berita</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form name="form1" method="post" action="/api/news.php">
+                    <form name="form1" method="post" action="/api/news.php" enctype="multipart/form-data">
                       <input type="hidden" name="tipe" value="store">
                       <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          if ($error_msg == 'already_exist')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                          else if ($error_msg == 'file_size')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                          else if ($error_msg == 'file_format')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                          else
+                            echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                        ?>
                         <div class="row">
                           <div class="col-sm-12">
                             <!-- text input -->
@@ -332,10 +362,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="customFile">Upload Gambar</label>
+                              <label for="fileToUpload">Upload Gambar</label>
                               <div class="custom-file">
-                                <input name="images" type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
