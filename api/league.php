@@ -90,5 +90,7 @@ if (isset($_POST['tipe'])) {
         echo update();
     else if ($_POST['tipe'] == 'delete')
         echo delete();
+    else if ($_POST['tipe'] == 'manage')
+        echo 'wkwk';
 } else
     echo index();

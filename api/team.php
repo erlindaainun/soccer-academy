@@ -70,7 +70,14 @@ function store()
 
     $result = $conn->query($sql);
 
+    // Jika team berhasil dibuat
     if ($result) {
+        // Insert into team_has_league
+        $sql = 'INSERT INTO `team_has_leagues` (`team_id`, `league_id`) VALUES (' .
+            '"' . $conn->insert_id . '",' .
+            '"' . $_POST['league_id'] . '")';
+        $conn->query($sql); // Execute sql
+
         return json_encode([
             'status' => true,
             'msg' => 'Nama tim: xxx berhasil dibuat!',

@@ -931,6 +931,9 @@
         var manager_phone_number = $('input[name=manager-phone]').val();
         var manager_photo = $('input[name=manager-photo]').val();
 
+        // Team has league
+        var league_id = $('select[name=league]').val();
+
         if (result.isConfirmed) {
           $.ajax({
             type: "POST",
@@ -946,6 +949,7 @@
               'manager_name': manager_name,
               'manager_phone_number': manager_phone_number,
               'manager_photo': manager_photo,
+              'league_id': league_id,
             },
             success: function(response) {
               var res = JSON.parse(response)

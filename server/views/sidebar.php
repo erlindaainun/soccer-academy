@@ -51,13 +51,11 @@
                                         $_SERVER['SCRIPT_NAME'] == "/server/team.php"
                                         || $_SERVER['SCRIPT_NAME'] == "/server/league.php"
                                         || $_SERVER['SCRIPT_NAME'] == "/server/match.php"
-                                        || $_SERVER['SCRIPT_NAME'] == "/server/score.php"
                                     ) echo "menu-open" ?>">
                     <a href="#" class="nav-link <?php if (
                                                     $_SERVER['SCRIPT_NAME'] == "/server/team.php"
                                                     || $_SERVER['SCRIPT_NAME'] == "/server/league.php"
                                                     || $_SERVER['SCRIPT_NAME'] == "/server/match.php"
-                                                    || $_SERVER['SCRIPT_NAME'] == "/server/score.php"
                                                 ) echo "active" ?>">
                         <i class="nav-icon fas fa-futbol"></i>
                         <p>Turnamen<i class="right fas fa-angle-left"></i></p>
@@ -79,12 +77,6 @@
                             <a href="/server/match.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/match.php") echo "active" ?>">
                                 <i class=" far fa-circle nav-icon"></i>
                                 <p>Pertandingan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/server/score.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/score.php") echo "active" ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Skor</p>
                             </a>
                         </li>
                     </ul>

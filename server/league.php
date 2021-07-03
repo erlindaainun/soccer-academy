@@ -24,6 +24,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -357,6 +359,137 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
                 <?php }
+            } else if (!empty($_GET['page']) == 'manage') {
+              $id = $_GET['id'] ?? '';
+
+              // Jika id tidak di isi 
+              if ($id == '') {
+                echo '<div class="error-page">
+                <h2 class="headline text-warning"> 404</h2>
+        
+                <div class="error-content">
+                  <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+        
+                  <p>
+                    We could not find the page you were looking for.
+                    Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                  </p>
+                </div>
+                <!-- /.error-content -->
+              </div>';
+              } else {
+                //  Checking id in database
+                $sql = 'SELECT * FROM `leagues` WHERE id=' . $id . ' AND `status`="Buka"';
+                $result = $conn->query($sql);
+
+                // Jika ada 
+                if ($row = $result->fetch_assoc()) {
+                ?>
+                  <div class="col-8">
+
+                    <div class="card card-default">
+                      <div class="card-header">
+                        <h3 class="card-title">Kelola Liga</h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <form name="form1" method="post" action="/api/league.php">
+                        <input type="hidden" name="tipe" value="manage">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="row">
+                                <div class="col-12 col-sm-4">
+                                  <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                      <span class="info-box-text text-center text-muted">Nama Liga</span>
+                                      <span class="info-box-number text-center text-muted mb-0"><?php echo $row['name'] ?></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                  <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                      <span class="info-box-text text-center text-muted">Tanggal</span>
+                                      <span class="info-box-number text-center text-muted mb-0"><?php echo $row['date'] ?></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                  <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                      <span class="info-box-text text-center text-muted">Lokasi</span>
+                                      <span class="info-box-number text-center text-muted mb-0"><?php echo $row['location'] ?></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label>Pilih Tim</label>
+                                <select class="duallistbox" multiple="multiple" style="display: none;">
+                                  <?php
+                                  // Select hasMany using from this link https://stackoverflow.com/a/7774879 (13)
+                                  // $sql = 'SELECT `t.*` FROM `teams` AS `t` WHERE EXIST (' .
+                                  //   'SELECT `*` FROM `team_has_leagues` AS `x` JOIN `team_has_leagues` AS `y` USING (`team_id`) WHERE `x.team_id` = ';
+                                  ?>
+                                  <option>Alabama</option>
+                                  <option>Alaska</option>
+                                  <option>California</option>
+                                  <option>Delaware</option>
+                                  <option>Tennessee</option>
+                                  <option>Texas</option>
+                                  <option>Washington</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                              <div class="form-group">
+                                <label>Ronde Pertama <i class="fa fa-info-circle" data-toggle="tooltip" title="Info apa itu ronde pertama"></i></label>
+                                <select name="status" class="custom-select">
+                                  <option selected disabled value="">Choose...</option>
+                                  <option value="Acak">Acak</option>
+                                  <option value="Unggulan">Unggulan</option>
+                                  <option value="Manual">Manual</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                              <div class="form-group">
+                                <label>Juara 3 <i class="fa fa-info-circle" data-toggle="tooltip" title="Info apa itu juara 3"></i></label>
+                                <select name="status" class="custom-select">
+                                  <option selected disabled value="">Choose...</option>
+                                  <option value="Ya">Ya</option>
+                                  <option value="Tidak">Tidak</option>
+                                </select>
+
+                              </div>
+                              <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                          </div>
+                          <!-- /.row -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary">Generate</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                <?php
+                } else { // Jika tidak ada didatabase
+                  echo '<div class="error-page">
+                  <h2 class="headline text-warning"> 404</h2>
+          
+                  <div class="error-content">
+                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+          
+                    <p>
+                      We could not find the page you were looking for.
+                      Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                    </p>
+                  </div>
+                  <!-- /.error-content -->
+                </div>';
+                }
+              }
             } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
               if (!empty($id = $_GET['id'])) {
                 $sql = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
@@ -525,6 +658,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="/server/dist/js/demo.js"></script>
   <!-- Swal2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
   <!-- Page specific script -->
   <script>
     $(function() {
@@ -538,13 +675,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
           "targets": 4,
           "data": 4,
           "render": function(data, type, full, meta) {
-            return '<a class="btn btn-primary btn-sm" href="/server/league.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a>' +
-              '<a class="btn btn-info btn-sm" href="/server/league.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a>' +
+            console.log(full['3']);
+
+            var manage_button = full['3'] == "Buka" ? '<a class="btn btn-primary btn-sm" href="/server/league.php?page=manage&id=' + data + '"><i class="far fa-edit"></i> Kelola</a> ' : '';
+            return '' +
+              manage_button +
+              '<a class="btn btn-primary btn-sm" href="/server/league.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
+              '<a class="btn btn-info btn-sm" href="/server/league.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
               '<a class="btn btn-danger btn-sm" onclick="deleteLeague(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
 
           }
         }]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+      //Bootstrap Duallistbox
+      $('.duallistbox').bootstrapDualListbox()
+
+      $('[data-toggle="tooltip"]').tooltip()
     });
 
     function findGetParameter(parameterName) {
