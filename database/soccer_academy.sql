@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2021 at 08:41 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Generation Time: Jul 03, 2021 at 02:35 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,7 +58,7 @@ CREATE TABLE `coaches` (
 CREATE TABLE `galleries` (
   `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `image_path` varchar(45) DEFAULT NULL,
+  `image_path` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -108,7 +108,7 @@ CREATE TABLE `leagues` (
 CREATE TABLE `managers` (
   `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `image_path` varchar(45) DEFAULT NULL,
+  `image_path` text DEFAULT NULL,
   `phone_number` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -166,7 +166,7 @@ CREATE TABLE `news` (
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `images` varchar(45) DEFAULT NULL,
+  `images` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -431,7 +431,7 @@ ALTER TABLE `leagues`
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `matches`
