@@ -67,7 +67,7 @@
 
         <div class="row" data-aos="fade-up">
 
-          <div class="col-lg-6 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-6 col-md-6 aos-init aos-animate" data-aos="fade-up">
             <div class="contact-about">
               <h3>SSB Tunas Jaya Duriangkang</h3>
               <p>Untuk mengetahui info lebih lanjut terkait SSB Tunas Jaya Duriangkang dapat menghubungi kontak yang tertera.</p>
@@ -104,8 +104,7 @@
             </div>
           </div>
 
-
-          <div class="col-lg-6 col-md-12 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-6 col-md-12 aos-init aos-animate" data-aos="fade-up">
             <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3989.1733952867035!2d104.05700600000002!3d1.0302!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x2a879e735daad29f!2sLapangan%20Sakura%20Duriangkang!5e0!3m2!1sid!2sid!4v1583671197025!5m2!1sid!2sid" width="550" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
 
           </div>

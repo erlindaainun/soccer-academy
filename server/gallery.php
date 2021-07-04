@@ -638,6 +638,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           $("input[name=id]").val(data.id);
           $("input[name=name]").val(data.name);
+          $("input[name=image_path]").val(data.image_path);
 
         }
       });

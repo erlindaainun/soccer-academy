@@ -220,10 +220,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 class="card-title">Ubah Berita</h3>
                       </div>
                       <!-- /.card-header -->
-                      <form name="form1" method="post" action="/api/news.php">
+                      <form name="form1" method="post" action="/api/news.php" enctype="multipart/form-data">
                         <input type="hidden" name="tipe" value="update">
                         <input type="hidden" name="id" value="">
                         <div class="card-body">
+                          <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                            if ($error_msg == 'already_exist')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                            else if ($error_msg == 'file_size')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                            else if ($error_msg == 'file_format')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                            else
+                              echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                          ?>
                           <div class="row">
                             <div class="col-sm-12">
                               <!-- text input -->
@@ -251,7 +281,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <label for="customFile">Upload Gambar</label>
                                 <div class="custom-file">
                                   <input name="images" type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label"  for="customFile">Choose file</label>
+                                  <label class="custom-file-label" for="customFile">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
@@ -305,9 +335,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <h3 class="card-title">Tambah Berita</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form name="form1" method="post" action="/api/news.php">
+                    <form name="form1" method="post" action="/api/news.php" enctype="multipart/form-data">
                       <input type="hidden" name="tipe" value="store">
                       <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          if ($error_msg == 'already_exist')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                          else if ($error_msg == 'file_size')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                          else if ($error_msg == 'file_format')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                          else
+                            echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                        ?>
                         <div class="row">
                           <div class="col-sm-12">
                             <!-- text input -->
@@ -332,24 +392,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="customFile">Upload Gambar</label>
+                              <label for="fileToUpload">Upload Gambar</label>
                               <div class="custom-file">
-                                <input name="images" type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
-                      <!-- /.card-body -->
-                    </form>
                   </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                  <!-- /.card-body -->
+                  </form>
                 </div>
-                <?php }
+          </div>
+          <?php }
             } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
 
               if (!empty($id = $_GET['id'])) {
@@ -362,31 +423,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // jika result ada maka tampilkan form dengan value yang ada didatabase
                 if ($num_rows > 0 && $id != "") {
 
-                ?>
-                  <div class="col-md-8">
-                    <div class="card">
-                      <div class="card-header">
-                        <h3 class="card-title">
-                          <i class="fas fa-eye"></i>
-                          Lihat Berita
-                        </h3>
-                      </div>
-                      <!-- /.card-header -->
-                      <div class="card-body">
-                        <dl class="row">
-                          <dt class="col-sm-4">Judul</dt>
-                          <dd class="col-sm-8"><?php echo $row['name'] ?></dd>
-                          <dt class="col-sm-4">Tanggal</dt>
-                          <dd class="col-sm-8"><?php echo $row['date'] ?></dd>
-                          <dt class="col-sm-4">Deskripsi</dt>
-                          <dd class="col-sm-8"><?php echo $row['description'] ?></dd>
-                        </dl>
-                      </div>
-                      <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                  </div>
-              <?php } else {
+          ?>
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-eye"></i>
+                    Lihat Berita
+                  </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <dl class="row">
+                    <dt class="col-sm-4">Judul</dt>
+                    <dd class="col-sm-8"><?php echo $row['name'] ?></dd>
+                    <dt class="col-sm-4">Tanggal</dt>
+                    <dd class="col-sm-8"><?php echo $row['date'] ?></dd>
+                    <dt class="col-sm-4">Deskripsi</dt>
+                    <dd class="col-sm-8"><?php echo $row['description'] ?></dd>
+                    <dt class="col-sm-4">Gambar</dt>
+                    <!-- <dd class="col-sm-8"><?php echo $row['images'] ?></dd> -->
+                    <?php
+                    // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                    $image_path = str_replace('..', '', $row['images']);
+                    $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                    ?>
+                    <dd class="col-sm-8"><img width="200px" height="auto" src="<?php echo $src ?>" alt=""></dd>
+                  </dl>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+        <?php } else {
                   echo '<div class="error-page">
                 <h2 class="headline text-warning"> 404</h2>
         
@@ -417,77 +487,77 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>';
               }
             } else { ?>
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">List Berita</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <div style="margin-bottom: 10px;" class="row">
-                      <div class="col-lg-12">
-                        <a class="btn btn-success" href="news.php?page=create">
-                          <i class="fa fa-plus"></i>&nbsp; Tambah Berita
-                        </a>
-                      </div>
-                    </div>
-                    <table id="example1" class="table table-bordered table-striped">
-                      <thead>
-                        <tr>
-                          <th>Judul</th>
-                          <th>Tanggal</th>
-                          <th>Deskripsi</th>
-                          <th>Gambar</th>
-                          <th>Aksi</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th>Judul</th>
-                          <th>Tanggal</th>
-                          <th>Deskripsi</th>
-                          <th>Gambar</th>
-                          <th>Aksi</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">List Berita</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div style="margin-bottom: 10px;" class="row">
+                <div class="col-lg-12">
+                  <a class="btn btn-success" href="news.php?page=create">
+                    <i class="fa fa-plus"></i>&nbsp; Tambah Berita
+                  </a>
                 </div>
-                <!-- /.card -->
               </div>
-            <?php } ?>
-            <!-- /.col -->
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Judul</th>
+                    <th>Tanggal</th>
+                    <th>Deskripsi</th>
+                    <th>Gambar</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Judul</th>
+                    <th>Tanggal</th>
+                    <th>Deskripsi</th>
+                    <th>Gambar</th>
+                    <th>Aksi</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.card-body -->
           </div>
-          <!-- /.row -->
+          <!-- /.card -->
         </div>
-        <!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
+      <?php } ?>
+      <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-    <!-- /.content-wrapper -->
+    <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-      <div class="p-3">
-        <h5>Title</h5>
-        <p>Sidebar content</p>
-      </div>
-    </aside>
-    <!-- /.control-sidebar -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
 
-    <!-- Main Footer -->
-    <footer class="main-footer">
-      <!-- To the right -->
-      <div class="float-right d-none d-sm-inline">
-        Erlinda Ainun
-      </div>
-      <!-- Default to the left -->
-      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-    </footer>
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      Erlinda Ainun
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  </footer>
   </div>
   <!-- ./wrapper -->
 
@@ -533,6 +603,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               '<a class="btn btn-info btn-sm" href="/server/news.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a>' +
               '<a class="btn btn-danger btn-sm" onclick="deleteNews(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
 
+          }
+        }, {
+          "targets": 3,
+          "data": 3,
+          "render": function(data, type, full, meta) {
+            var data = data.replace('..', '', data);
+            var src = window.location.host + data;
+            // console.log(window.location.host);
+            return '<img width="auto" height="100px" src="' + data + '" alt="">';
           }
         }]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');

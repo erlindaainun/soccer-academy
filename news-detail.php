@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Pengurus | SSB Tunas Jaya Duriangkang Official Website</title>
+    <title>Visi Misi | SSB Tunas Jaya Duriangkang Official Website</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -48,11 +48,23 @@
         <!-- ======= Breadcrumbs ======= -->
         <section id="breadcrumbs" class="breadcrumbs">
             <div class="container">
+                <?php
+                $id = $_GET['id'];
+                $sql = 'SELECT * FROM `news` WHERE `id` = ' . $id;
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+
+                $num_rows = $result ? $result->num_rows : 0;
+
+                // jika result ada maka tampilkan form dengan value yang ada didatabase
+                if ($num_rows > 0 && $id != "")
+                ?>
 
                 <div class="d-flex justify-content-between align-items-center">
+                    <h2>Detail Berita</h2>
                     <ol>
                         <li><a href="/">Beranda</a></li>
-                        <li>Pengurus</li>
+                        <li><?php echo $row['name'] ?></li>
                     </ol>
                 </div>
 
@@ -60,34 +72,28 @@
         </section><!-- End Breadcrumbs -->
 
         <!-- ======= Contact Section ======= -->
-        <section id="contact" class="contact">
+        <section id="more-services" class="more-services">
             <div class="container">
 
-                <div class="section-title" data-aos="fade-up">
-                    <h2>Pengurus</h2>
-                </div>
+                <div class="col-lg-8">
+                    <h2 class="portfolio-title"><?php echo $row['name'] ?></h2>
 
-                <div class="row" data-aos="fade-up">
                     <?php
-                    $sql = 'SELECT * FROM `structures`';
-                    $result = $conn->query($sql);
+                    // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-                    while ($row = $result->fetch_assoc()) {
-                        $image_path = str_replace('..', '', $row['image_path']);
-                        $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                    $image_path = str_replace('..', '', $row['images']);
+                    $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
                     ?>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <img src="<?php echo $src ?>" class="card-img-top" alt="...">
-                                <div class="card-body manager">
-                                    <h5 class="card-title"><strong><?php echo $row['name'] ?></strong></h5>
-                                    <p class="card-text"><?php echo $row['position'] ?></p>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
+                    <div class="owl-carousel portfolio-details-carousel">
+                        <img src="<?php echo $src ?>" class="img-fluid" alt="">
+                    </div>
                 </div>
 
+                <div class="col-lg-12 portfolio-info">
+                    <h5 class="text-justify"><?php echo $row['description'] ?></h5>
+                </div>
+
+                <?php ?>
             </div>
         </section><!-- End Contact Section -->
 

@@ -67,7 +67,7 @@
           <h2>Galeri</h2>
         </div>
 
-        <div class="row portfolio-container aos-init aos-animate" data-aos="fade-up" style="position: relative; height: 891px;">
+        <div class="row portfolio-container" data-aos="fade-up">
           <?php
           $sql = 'SELECT * FROM `galleries`';
           $result = $conn->query($sql);

@@ -9,6 +9,8 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+  <?php include 'connection.php'; ?>
+
   <!-- Favicons -->
   <link href="assets/img/favicon.ico" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -92,38 +94,31 @@
       <div class="container">
 
         <div class="row">
-          <div class="col-md-6 d-flex align-items-stretch mt-4">
-            <div class="card">
-              <img src="assets/img/more-services-1.jpg" class="card-img-top" alt="">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">Nive Lodo</a></h5>
-                <div class="meta">
-                  <ul>
-                    <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                  </ul>
+          <?php
+          $sql = 'SELECT * FROM `news`';
+          $result = $conn->query($sql);
+
+          while ($row = $result->fetch_assoc()) {
+            $image_path = str_replace('..', '', $row['images']);
+            $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+          ?>
+            <div class="col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up">
+              <div class="card">
+                <img src="<?php echo $src ?>" class="card-img-top" alt="">
+                <div class="card-body">
+                  <h5 class="card-title"><a href=""><?php echo $row['name'] ?></a></h5>
+                  <div class="meta">
+                    <ul>
+                      <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">Admin</a></li>
+                      <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="23-01-2020"><?php echo $row['date'] ?></time></a></li>
+                    </ul>
+                  </div>
+                  <p class="card-text"><?php echo $row['description'] ?></p>
+                  <div class="read-more"><a href="news-detail.php?id=<?php echo $row['id']; ?>"> Read More</a></div>
                 </div>
-                <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores.</p>
-                <div class="read-more"><a href="#"> Read More</a></div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6 d-flex align-items-stretch mt-4">
-            <div class="card">
-              <img src="assets/img/more-services-2.jpg" class="card-img-top" alt="">
-              <div class="card-body">
-                <h5 class="card-title"><a href="">Nive Lodo</a></h5>
-                <div class="meta">
-                  <ul>
-                    <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                  </ul>
-                </div>
-                <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores.</p>
-                <div class="read-more"><a href="#"> Read More</a></div>
-              </div>
-            </div>
-          </div>
+          <?php } ?>
         </div>
 
       </div>
