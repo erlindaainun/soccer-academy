@@ -26,6 +26,147 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <style type="text/css">
+    .metroBtn {
+      background-color: #2E7BCC;
+      color: #fff;
+      font-size: 1.1em;
+      padding: 10px;
+      display: inline-block;
+      margin-bottom: 30px;
+      cursor: pointer;
+    }
+
+    .brackets>div {
+      vertical-align: top;
+      clear: both;
+    }
+
+    .brackets>div>div {
+      float: left;
+      height: 100%;
+    }
+
+    .brackets>div>div>div {
+      margin: 50px 0;
+    }
+
+    .brackets div.bracketbox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-top: 1px solid #555;
+      border-right: 1px solid #555;
+      border-bottom: 1px solid #555;
+    }
+
+    .brackets div.bracketbox>span.info {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      font-size: 0.8em;
+      color: #BBB;
+    }
+
+    .brackets div.bracketbox>span {
+      position: absolute;
+      left: 5px;
+      font-size: 0.85em;
+    }
+
+    .brackets div.bracketbox>span.teama {
+      top: -20px;
+    }
+
+    .brackets div.bracketbox>span.teamb {
+      bottom: -20px;
+    }
+
+    .brackets div.bracketbox>span.teamc {
+      bottom: 1px;
+    }
+
+    .brackets>.group2 {
+      height: 260px;
+    }
+
+    .brackets>.group2>div {
+      width: 49%;
+    }
+
+    .brackets>.group3 {
+      height: 320px;
+    }
+
+    .brackets>.group3>div {
+      width: 32.7%;
+    }
+
+    .brackets>.group4>div {
+      width: 24.5%;
+    }
+
+    .brackets>.group5>div {
+      width: 19.6%;
+    }
+
+    .brackets>.group6 {
+      height: 2000px;
+    }
+
+    .brackets>.group6>div {
+      width: 16.3%;
+    }
+
+    .brackets>div>.r1>div {
+      height: 60px;
+    }
+
+    .brackets>div>.r2>div {
+      margin: 80px 0 110px 0;
+      height: 110px;
+    }
+
+    .brackets>div>.r3>div {
+      margin: 135px 0 220px 0;
+      height: 220px;
+    }
+
+    .brackets>div>.r4>div {
+      margin: 250px 0 445px 0;
+      height: 445px;
+    }
+
+    .brackets>div>.r5>div {
+      margin: 460px 0 0 0;
+      height: 900px;
+    }
+
+    .brackets>div>.r6>div {
+      margin: 900px 0 0 0;
+    }
+
+    .brackets div.final>div.bracketbox {
+      border-top: 0px;
+      border-right: 0px;
+      height: 0px;
+    }
+
+    .brackets>div>.r4>div.drop {
+      height: 180px;
+      margin-bottom: 0px;
+    }
+
+    .brackets>div>.r5>div.final.drop {
+      margin-top: 345px;
+      margin-bottom: 0px;
+      height: 1px;
+    }
+
+    .brackets>div>div>div:last-of-type {
+      margin-bottom: 0px;
+    }
+  </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -386,14 +527,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 if ($row = $result->fetch_assoc()) {
                 ?>
                   <div class="col-8">
-
                     <div class="card card-default">
                       <div class="card-header">
                         <h3 class="card-title">Kelola Liga</h3>
                       </div>
                       <!-- /.card-header -->
-                      <form name="form1" method="post" action="/api/league.php">
-                        <input type="hidden" name="tipe" value="manage">
+
+                      <form name="formManage" method="post" action="/api/league.php">
+                        <input type="hidden" name="tipe" value="postManage">
+                        <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
                         <div class="card-body">
                           <div class="row">
                             <div class="col-12">
@@ -425,25 +567,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>
                               <div class="form-group">
                                 <label>Pilih Tim</label>
-                                <select class="duallistbox" multiple="multiple" style="display: none;">
+                                <select name="teams[]" class="duallistbox" multiple="multiple" style="display: none;">
                                   <?php
-                                  // Select hasMany using from this link https://stackoverflow.com/a/7774879 (13)
-                                  // $sql = 'SELECT `t.*` FROM `teams` AS `t` WHERE EXIST (' .
-                                  //   'SELECT `*` FROM `team_has_leagues` AS `x` JOIN `team_has_leagues` AS `y` USING (`team_id`) WHERE `x.team_id` = ';
+                                  // Select many to many using from this link https://stackoverflow.com/a/3395372
+                                  $sql = 'SELECT t.* FROM teams t 
+                                          JOIN team_has_leagues tl ON t.id = tl.team_id 
+                                          JOIN leagues l ON tl.league_id = l.id 
+                                          WHERE t.id IN (
+                                            SELECT team_id FROM team_has_leagues tl 
+                                            JOIN leagues l ON tl.league_id = l.id 
+                                            WHERE l.id = ' . $row['id'] . '
+                                          )';
+                                  $result = $conn->query($sql);
+
+                                  // Checking who joined to the leagues
+                                  $sql_league = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
+                                  $result_league = $conn->query($sql_league);
+                                  $row_league = $result_league->fetch_assoc();
+                                  $extras = json_decode($row_league['extras']);
+
+                                  $teams_joined_leagues = $extras->teams;
+
+                                  // Option
+                                  while ($row = $result->fetch_assoc()) {
+                                    if (!in_array($row['id'], $teams_joined_leagues))
+                                      echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                                    else
+                                      echo '<option value="' . $row['id'] . '" selected="">' . $row['name'] . '</option>';
+                                  }
                                   ?>
-                                  <option>Alabama</option>
-                                  <option>Alaska</option>
-                                  <option>California</option>
-                                  <option>Delaware</option>
-                                  <option>Tennessee</option>
-                                  <option>Texas</option>
-                                  <option>Washington</option>
                                 </select>
                               </div>
                               <!-- /.form-group -->
                               <div class="form-group">
                                 <label>Ronde Pertama <i class="fa fa-info-circle" data-toggle="tooltip" title="Info apa itu ronde pertama"></i></label>
-                                <select name="status" class="custom-select">
+                                <select name="round_one" class="custom-select">
                                   <option selected disabled value="">Choose...</option>
                                   <option value="Acak">Acak</option>
                                   <option value="Unggulan">Unggulan</option>
@@ -452,8 +610,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>
                               <!-- /.form-group -->
                               <div class="form-group">
-                                <label>Juara 3 <i class="fa fa-info-circle" data-toggle="tooltip" title="Info apa itu juara 3"></i></label>
-                                <select name="status" class="custom-select">
+                                <label>Pencarian Juara 3 <i class="fa fa-info-circle" data-toggle="tooltip" title="Info apa itu juara 3"></i></label>
+                                <select name="third_place_winner" class="custom-select">
                                   <option selected disabled value="">Choose...</option>
                                   <option value="Ya">Ya</option>
                                   <option value="Tidak">Tidak</option>
@@ -472,8 +630,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                       </form>
                     </div>
+                    <!-- <h1>sdf</h1>
+                    <div id="add" class="metroBtn">Add Bracket</div> -->
+                    <div class="brackets" id="brackets"></div>
                   </div>
                 <?php
+                  // Load data manage league
+                  echo '<script>document.addEventListener("DOMContentLoaded", function() {manageLeague(' . $id . ')})</script>';
                 } else { // Jika tidak ada didatabase
                   echo '<div class="error-page">
                   <h2 class="headline text-warning"> 404</h2>
@@ -611,6 +774,91 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- /.content-wrapper -->
 
+    <!-- Modal editing matches -->
+    <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Ubah Hasil</h4>
+            <button type="button" id="player-modal" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="col-12">
+              <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="false">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="true">Ubah Hasil</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Ubah stat pemain</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-four-tabContent">
+                    <div class="tab-pane fade active show" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                      <div class="form-group">
+                        <label>Tanggal</label>
+                        <input name="match_date" type="date" class="form-control" placeholder="Enter ...">
+                      </div>
+                      <div class="form-group">
+                        <label>Jam</label>
+                        <input name="match_time" type="time" class="form-control" placeholder="Enter ...">
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th style="width: 400px">Tim</th>
+                            <th>Skor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Tim #1</td>
+                            <td>
+                              <div class="col-3">
+                                <input type="text" class="form-control" placeholder="">
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Tim #2</td>
+                            <td>
+                              <div class="col-3">
+                                <input type="text" class="form-control" placeholder="">
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                      Tampilkan table team serta input
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            <button onclick="submitPemain()" type="button" class="btn btn-primary">Tambah</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
@@ -625,10 +873,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
       <!-- To the right -->
       <div class="float-right d-none d-sm-inline">
-        Erlinda Ainun
+        v0.1
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; 2021 <a href="#">Erlinda Ainun</a>.</strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->
@@ -661,6 +909,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Bootstrap4 Duallistbox -->
   <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
+  <script src="http://underscorejs.org/underscore-min.js"></script>
 
   <!-- Page specific script -->
   <script>
@@ -719,6 +969,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
           'success'
         )
     }
+
+    // If generate bracket detected
+    if (generate = findGetParameter('generate')) {
+      if (generate == "unggulan")
+        Swal.fire(
+          'Berhasil!',
+          'Berhasil membuat bracket unggulan',
+          'success'
+        )
+
+    } else
+      Swal.fire(
+        'Info!',
+        'Tidak ada tim yang terpilih dalam liga ini.',
+        'info'
+      )
 
     function editLeague(id) {
       $.ajax({
@@ -795,6 +1061,142 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
       })
     }
+
+    function manageLeague(id) {
+      $.ajax({
+        type: "POST",
+        url: "/api/league.php",
+        data: {
+          'tipe': 'manage',
+          'id': id
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+          var data = res.data
+          if (data) {
+            var extras = JSON.parse(data);
+            var teams = extras.teams;
+
+            if (teams.length > 0) {
+              for (i = 0; i < teams.length; i++)
+                exampleTeams[i] = teams[i][1];
+              getBracket(teams.length);
+            }
+          }
+          $("select[name=round_one] option[value='" + extras.round_one + "']").attr("selected", "selected");
+          $("select[name=third_place_winner ] option[value='" + extras.third_place_winner + "']").attr("selected", "selected");
+        }
+      });
+    }
+
+    // Check if form manage submit button clicked
+    // TODO
+
+    var knownBrackets = [2, 4, 8, 16, 32], // brackets with "perfect" proportions (full fields, no byes)
+
+      // exampleTeams = _.shuffle(["New Jersey Devils", "New York Islanders", "New York Rangers", "Philadelphia Flyers", "Pittsburgh Penguins", "Boston Bruins", "Buffalo Sabres", "Montreal Canadiens", "Ottawa Senators", "Toronto Maple Leafs", "Carolina Hurricanes", "Florida Panthers", "Tampa Bay Lightning", "Washington Capitals", "Winnipeg Jets", "Chicago Blackhawks", "Columbus Blue Jackets", "Detroit Red Wings", "Nashville Predators", "St. Louis Blues", "Calgary Flames", "Colorado Avalanche", "Edmonton Oilers", "Minnesota Wild", "Vancouver Canucks", "Anaheim Ducks", "Dallas Stars", "Los Angeles Kings", "Phoenix Coyotes", "San Jose Sharks", "Montreal Wanderers", "Quebec Nordiques", "Hartford Whalers"]), // because a bracket needs some teams!
+      exampleTeams = [];
+
+    bracketCount = 0;
+
+    /*
+     * Build our bracket "model"
+     */
+    function getBracket(base) {
+
+      var closest = _.find(knownBrackets, function(k) {
+          return k >= base;
+        }),
+        byes = closest - base;
+
+      if (byes > 0) base = closest;
+
+      var brackets = [],
+        round = 1,
+        baseT = base / 2,
+        baseC = base / 2,
+        teamMark = 0,
+        nextInc = base / 2;
+
+      for (i = 1; i <= (base - 1); i++) {
+        var baseR = i / baseT,
+          isBye = false;
+
+        if (byes > 0 && (i % 2 != 0 || byes >= (baseT - i))) {
+          isBye = true;
+          byes--;
+        }
+
+        var last = _.map(_.filter(brackets, function(b) {
+          return b.nextGame == i;
+        }), function(b) {
+          return {
+            game: b.bracketNo,
+            teams: b.teamnames
+          };
+        });
+
+        brackets.push({
+          lastGames: round == 1 ? null : [last[0].game, last[1].game],
+          nextGame: nextInc + i > base - 1 ? null : nextInc + i,
+          teamnames: round == 1 ? [exampleTeams[teamMark], exampleTeams[teamMark + 1]] : [last[0].teams[_.random(1)], last[1].teams[_.random(1)]],
+          bracketNo: i,
+          roundNo: round,
+          bye: isBye
+        });
+        teamMark += 2;
+        if (i % 2 != 0) nextInc--;
+        while (baseR >= 1) {
+          round++;
+          baseC /= 2;
+          baseT = baseT + baseC;
+          baseR = i / baseT;
+        }
+      }
+
+      renderBrackets(brackets);
+    }
+
+    /*
+     * Inject our brackets
+     */
+    function renderBrackets(struct) {
+      var groupCount = _.uniq(_.map(struct, function(s) {
+        return s.roundNo;
+      })).length;
+
+      var group = $('<div class="group' + (groupCount + 1) + '" id="b' + bracketCount + '"></div>'),
+        grouped = _.groupBy(struct, function(s) {
+          return s.roundNo;
+        });
+
+      for (g = 1; g <= groupCount; g++) {
+        var round = $('<div class="r' + g + '"></div>');
+        _.each(grouped[g], function(gg) {
+          if (gg.bye)
+            round.append('<div></div>');
+          else
+            round.append('<div><div class="bracketbox"><span class="info"><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></a> ' + gg.bracketNo + '</span><span class="teama">' + gg.teamnames[0] + '</span><span class="teamb">' + gg.teamnames[1] + '</span></div></div>');
+        });
+        group.append(round);
+      }
+      group.append('<div class="r' + (groupCount + 1) + '"><div class="final"><div class="bracketbox"><span class="teamc">' + _.last(struct).teamnames[_.random(1)] + '</span></div></div></div>');
+      $('#brackets').append(group);
+
+      bracketCount++;
+      $('html,body').animate({
+        scrollTop: $("#b" + (bracketCount - 1)).offset().top
+      });
+    }
+
+    $('#add').on('click', function() {
+      var opts = parseInt(prompt('Bracket size (number of teams):', 32));
+
+      if (!_.isNaN(opts) && opts <= _.last(knownBrackets))
+        getBracket(opts);
+      else
+        alert('The bracket size you specified is not currently supported.');
+    });
   </script>
 </body>
 
