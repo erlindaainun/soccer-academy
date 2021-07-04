@@ -9,6 +9,8 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
+    <?php include 'connection.php'; ?>
+
     <!-- Favicons -->
     <link href="assets/img/favicon.ico" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -66,42 +68,25 @@
                 </div>
 
                 <div class="row" data-aos="fade-up">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <i class="ri-trophy-line ri-10x text-center"></i> <!-- 10em -->
-                            <div class="card-body manager">
-                                <h5 class="card-title"><strong>Nama</strong></h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <?php
+                    $sql = 'SELECT * FROM `achievements`';
+                    $result = $conn->query($sql);
+
+                    while ($row = $result->fetch_assoc()) {
+                        $image_path = str_replace('..', '', $row['image_path']);
+                        $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                    ?>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card">
+                                <!-- <i class="ri-trophy-line ri-10x text-center"></i> -->
+                                <img src="<?php echo $src ?>" class="card-img-top" alt="...">
+                                <div class="card-body manager">
+                                    <h5 class="card-title"><strong><?php echo $row['name'] ?></strong></h5>
+                                    <p class="card-text"><?php echo $row['description'] ?></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <i class="ri-trophy-line ri-10x text-center"></i> <!-- 10em -->
-                            <div class="card-body manager">
-                                <h5 class="card-title"><strong>Nama</strong></h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <i class="ri-trophy-line ri-10x text-center"></i> <!-- 10em -->
-                            <div class="card-body manager">
-                                <h5 class="card-title"><strong>Nama</strong></h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <i class="ri-trophy-line ri-10x text-center"></i> <!-- 10em -->
-                            <div class="card-body manager">
-                                <h5 class="card-title"><strong>Nama</strong></h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
 
             </div>
