@@ -9,6 +9,8 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+  <?php include 'connection.php'; ?>
+
   <!-- Favicons -->
   <link href="assets/img/favicon.ico" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -67,111 +69,37 @@
         <div class="row aos-init" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
-              <li data-filter=".filter-u6-u8" class="filter-active">U6-U8</li>
-              <li data-filter=".filter-u9-u11">U9-U11</li>
-              <li data-filter=".filter-u12-u15">U12-U15</li>
-              <li data-filter=".filter-u16-u18">U16-U18</li>
+              <li data-filter=".filter-U6-U8" class="filter-active">U6-U8</li>
+              <li data-filter=".filter-U9-U11">U9-U11</li>
+              <li data-filter=".filter-U12-U15">U12-U15</li>
+              <li data-filter=".filter-U16-U18">U16-U18</li>
             </ul>
           </div>
         </div>
 
         <div class="row portfolio-container aos-init" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 891px;">
 
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u6-u8" style="position: absolute; left: 0px; top: 0px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
+          <?php
+          $sql = 'SELECT * FROM `members`';
+          $result = $conn->query($sql);
 
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u16-u18" style="position: absolute; left: 380px; top: 0px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
+          while ($row = $result->fetch_assoc()) {
+            $image_path = str_replace('..', '', $row['image_path']);
+            $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+          ?>
 
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u9-u11" style="position: absolute; left: 760px; top: 0px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u12-u15" style="position: absolute; left: 0px; top: 297px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
+            <div class="col-lg-3 col-md-6 portfolio-item filter-<?php echo $row['class_type'] ?>" style="position: absolute; left: 0px; top: 0px;">
+              <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                <div class="member-img">
+                  <img src="<?php echo $src ?>" class="img-fluid" alt="">
+                </div>
+                <div class="member-info">
+                  <h4><?php echo $row['name'] ?></h4>
+                  <span><?php echo $row['position'] ?></span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u16-u18" style="position: absolute; left: 380px; top: 297px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u9-u11" style="position: absolute; left: 760px; top: 297px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u12-u15" style="position: absolute; left: 0px; top: 594px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-u12-u15" style="position: absolute; left: 380px; top: 594px;">
-            <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-              </div>
-            </div>
-          </div>
+          <?php } ?>
 
         </div>
 

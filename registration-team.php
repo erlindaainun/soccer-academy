@@ -116,7 +116,7 @@
                   <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fas fa-exclamation-triangle"></i> Info Penting!</h5>
-                    Setelah mengisi form "Data Ofisial Tim", anda akan mendapatkan ID tim yang berguna untuk pengisian form selanjutnya. Jika sudah memiliki ID tim sebelumnya silahkan klik <a class="text-primary" data-toggle="modal" data-target="#modal-no-reg" href="#">disini</a> untuk lanjut mengisi form.
+                    Setelah mengisi form "Data Ofisial Tim", anda akan mendapatkan No. Registrasi yang berguna untuk pengisian form selanjutnya. Jika sudah memiliki No. Registrasi sebelumnya silahkan klik <a class="text-primary" data-toggle="modal" data-target="#modal-no-reg" href="#">disini</a> untuk lanjut mengisi form.
                   </div>
                   <div class="form-group">
                     <label for="agamapemain">Liga</label>

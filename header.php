@@ -54,7 +54,6 @@
                 <!-- <li><a class="nav-link scrollto <?php if ($_SERVER['SCRIPT_NAME'] == "/league.php") echo "active" ?>" href="league.php">Liga</a></li> -->
                 <li><a class="nav-link scrollto <?php if ($_SERVER['SCRIPT_NAME'] == "/gallery.php") echo "active" ?>" href="gallery.php">Galeri</a></li>
                 <li><a class="nav-link scrollto <?php if ($_SERVER['SCRIPT_NAME'] == "/contact.php") echo "active" ?>" href="contact.php">Kontak</a></li>
-                <li><a class="getstarted scrollto" href="registration.php">Registrasi</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->

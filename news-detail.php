@@ -75,7 +75,7 @@
         <section id="more-services" class="more-services">
             <div class="container">
 
-                <div class="col-lg-8">
+                <div class="col-lg-8" data-aos="fade-up">
                     <h2 class="portfolio-title"><?php echo $row['name'] ?></h2>
 
                     <?php
@@ -89,8 +89,13 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 portfolio-info">
-                    <h5 class="text-justify"><?php echo $row['description'] ?></h5>
+                <div class="col-lg-8 portfolio-info" data-aos="fade-up">
+                    <h5 class="text-justify"></h5>
+                </div>
+                <div class="col-lg-8" data-aos="fade-up">
+                    <p class="lead"><?php echo $row['description'] ?></p>
+                    <p class="lead">SSB TUNAS JAYA DURIANGKANG sebuah yayasan dan organisasi yang bergerak dibidang sepak bola yang menaungi SSB Tunas Jaya Duriangkang. SSB Tunas Jaya Duriangkang sendiri adalah sekolah sepak bola yangbertujuan untuk pembinaan bola anak-anak di usia dini. Perlu disadari bersama bahwa upaya peningkatan kualitas persepak bolaan Nasional haruslah di awali dari pembinaan sepak bola usia muda mulai dari usia 6 hingga usia 18 tahun sebagai awal pembentukan pesepakbola masa depan. Tunas Jaya Duriangkang terbentuk pada tanggal 21 Januari 2017. SSB Tunas Jaya Duriangkang atau yang di sebut juga dengan TJD (Tunas Jaya Duriangkang) memiliki julukan Laskar Kalajengking. </p>
+                    <p class="lead">Pada masa-masa awal terbentuknya SSB Tunas Jaya Duriangkang banyak sekali rintangan-rintangan yang di hadapi oleh TJD, terutama masalah pendanaan untuk biaya operasional pembayaran honor pelatih, Perawatan Lapangan dll. Pemasukan kas hanya berasal dari iuran para siswa. Namun tidak semua siswa sanggup membayar iuran, sehingga mereka harus di berikan subsidi atau beasiswa. Tak jarang pendiri SSB Tunas Jaya Duriangkang harus mengeluarkan dana pribadi demi keberlangsungan SSB Tunas Jaya Duriangkang dan cita-cita para siswa yang ingin menjadi pemain sepak bola profesional. Selain masalah pendanaan masalah kepengurus juga masih belum di kelola dengan baik, sebagai pelatih juga merangkap sebagai pengurus SSB. Suatu itikad dan niat yang baik demi kemajuan persepak bolaan di Indonesia, para pemerhati sepak bola di wilayah Kota Batam bersatu untuk merintis sebuah wadah pembinaan sepak bola usia dini yang lebih terarah, terpadu dan berkesinambungan dengan nama TUNAS JAYA DURIANGKANG berada dibawah naungan Yayasan Tunas Jaya.</p>
                 </div>
 
                 <?php ?>

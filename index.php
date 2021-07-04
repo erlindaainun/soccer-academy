@@ -53,7 +53,7 @@
           <h2 data-aos="fade-up" data-aos-delay="400">Ciptakan pemain yang berakhlak mulia, berkualitas dan profesional
           </h2>
           <div data-aos="fade-up" data-aos-delay="800">
-            <a href="#about" class="btn-get-started scrollto">Registrasi</a>
+            <a href="registration-member.php" class="btn-get-started scrollto">Registrasi Sekarang</a>
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">

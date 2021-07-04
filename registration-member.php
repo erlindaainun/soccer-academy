@@ -65,7 +65,39 @@
           <h2>Registrasi Anggota</h2>
         </div>
 
-        <form class="row g-3 needs-validation" novalidate data-aos="fade-up">
+        <form class="row g-3 needs-validation" novalidate data-aos="fade-up" method="post" action="/api/member.php" enctype="multipart/form-data">
+        <input type="hidden" name="tipe" value="store">
+          <div class="col-md-12">
+            <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+              if ($error_msg == 'already_exist')
+                echo '
+                      <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                        Maaf, file sudah ada.
+                      </div>';
+              else if ($error_msg == 'file_size')
+                echo '
+                      <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                        Maksimal ukuran file foto adalah 1 MB.
+                      </div>';
+              else if ($error_msg == 'file_format')
+                echo '
+                      <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                        Maaf, hanya terima file JPG, JPEG & PNG.
+                      </div>';
+              else
+                echo '<div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                        Terjadi kesalahan, harap cek kembali form!
+                      </div>';
+            ?>
+          </div>
           <div class="col-md-6">
             <label class="form-label"><strong>NISN / NIK</strong></label>
             <input name="nisn" type="number" class="form-control" required>
@@ -133,16 +165,11 @@
             <textarea name="reason" rows="1" class="form-control" required></textarea>
           </div>
           <div class="col-md-6">
-            <label class="form-label"><strong>Upload Foto</strong></label>
-            <input type="file" class="form-control" required>
-            <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
-          </div>
-          <div class="col-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-              <label class="form-check-label" for="invalidCheck">
-                Agree to terms and conditions
-              </label>
+            <label class="form-label" for="fileToUpload"><strong>Upload Gambar</strong></label>
+            <div class="custom-file">
+              <input type="file" name="fileToUpload" class="form-control" id="fileToUpload" required>
+              <label class="custom-file-label" for="fileToUpload">Choose file</label>
+              <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
             </div>
           </div>
           <div class="col-12">
