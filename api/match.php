@@ -62,7 +62,7 @@ function update()
 {
     include '../connection.php';
 
-    $sql = 'UPDATE `members` SET ' .
+    $sql = 'UPDATE `matches` SET ' .
         'name = "' . $_POST['name'] . '",' .
         'nisn = "' . $_POST['identity_number'] . '",' .
         'birth_date = "' . $_POST['birth_date'] . '",' .

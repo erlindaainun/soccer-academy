@@ -26,6 +26,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+
+  <link rel="stylesheet" type="text/css" href="dist/css/jquery.bracket.min.css" />
+
   <style type="text/css">
     .metroBtn {
       background-color: #2E7BCC;
@@ -526,7 +529,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // Jika ada 
                 if ($row = $result->fetch_assoc()) {
                 ?>
-                  <div class="col-8">
+                  <div class="col-12">
                     <div class="card card-default">
                       <div class="card-header">
                         <h3 class="card-title">Kelola Liga</h3>
@@ -630,8 +633,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                       </form>
                     </div>
-                    <!-- <h1>sdf</h1>
-                    <div id="add" class="metroBtn">Add Bracket</div> -->
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="fas fa-text-width"></i>
+                            Turnamen Bracket
+                          </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="bracketGenerated"></div>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                    <!-- ./col -->
                     <div class="brackets" id="brackets"></div>
                   </div>
                 <?php
@@ -907,6 +925,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Swal2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <script type="text/javascript" src="dist/js/jquery.bracket.min.js"></script>
+
   <!-- Bootstrap4 Duallistbox -->
   <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 
@@ -914,29 +934,101 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Page specific script -->
   <script>
+    var saveData = {
+      teams: [
+        ["Team 1", "Team 2"],
+        ["Team 3", null],
+        ["Team 4", null],
+        ["Team 5", null]
+      ],
+      results: [
+        [
+          [
+            [1, 0],
+            [null, null],
+            [null, null],
+            [null, null]
+          ],
+          [
+            [null, null],
+            [1, 4]
+          ],
+          [
+            [null, null],
+            [null, null]
+          ]
+        ]
+      ]
+    };
+
+    /* Called whenever bracket is modified
+     *
+     * data:     changed bracket object in format given to init
+     * userData: optional data given when bracket is created.
+     */
+    function saveFn(data, userData) {
+      var json = JSON.stringify(data)
+      $('#saveOutput').text('POST ' + userData + ' ' + json)
+      /* You probably want to do something like this */
+      $.ajax({
+        type: "post",
+        url: "rest/" + userData,
+        data: json,
+        dataType: "json",
+        success: function (response) {
+          
+        }
+      });
+      // jQuery.ajax("rest/" + userData, {
+      //   contentType: 'application/json',
+      //   dataType: 'json',
+      //   type: 'post',
+      //   data: json
+      // })
+    }
+
     $(function() {
-      $("#example1").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-        "ajax": '/api/league.php',
-        "columnDefs": [{
-          "targets": 4,
-          "data": 4,
-          "render": function(data, type, full, meta) {
-            console.log(full['3']);
 
-            var manage_button = full['3'] == "Buka" ? '<a class="btn btn-primary btn-sm" href="/server/league.php?page=manage&id=' + data + '"><i class="far fa-edit"></i> Kelola</a> ' : '';
-            return '' +
-              manage_button +
-              '<a class="btn btn-primary btn-sm" href="/server/league.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
-              '<a class="btn btn-info btn-sm" href="/server/league.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
-              '<a class="btn btn-danger btn-sm" onclick="deleteLeague(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
+      // For Bracket
+      var container = $('.bracketGenerated')
+      container.bracket({
+        init: saveData,
+        save: saveFn,
+        userData: "http://myapi"
+      })
 
-          }
-        }]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      /* You can also inquiry the current data */
+      var data = container.bracket('data')
+      console.log(JSON.stringify(data));
+      $('#dataOutput').text(JSON.stringify(data))
+
+      // End for bracket
+
+      if ($('#example1').length) {
+        $("#example1").DataTable({
+          "responsive": true,
+          "lengthChange": false,
+          "autoWidth": false,
+          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+          "ajax": '/api/league.php',
+          "columnDefs": [{
+            "targets": 4,
+            "data": 4,
+            "render": function(data, type, full, meta) {
+              console.log(full['3']);
+
+              var manage_button = full['3'] == "Buka" ? '<a class="btn btn-primary btn-sm" href="/server/league.php?page=manage&id=' + data + '"><i class="far fa-edit"></i> Kelola</a> ' : '';
+              return '' +
+                manage_button +
+                '<a class="btn btn-primary btn-sm" href="/server/league.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
+                '<a class="btn btn-info btn-sm" href="/server/league.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
+                '<a class="btn btn-danger btn-sm" onclick="deleteLeague(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
+
+            }
+          }]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+      }
 
       //Bootstrap Duallistbox
       $('.duallistbox').bootstrapDualListbox()
@@ -1176,11 +1268,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
           if (gg.bye)
             round.append('<div></div>');
           else
-            round.append('<div><div class="bracketbox"><span class="info"><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></a> ' + gg.bracketNo + '</span><span class="teama">' + gg.teamnames[0] + '</span><span class="teamb">' + gg.teamnames[1] + '</span></div></div>');
+            round.append(
+              '<div>' +
+              '<div class="bracketbox">' +
+              '<span class="info">' +
+              '<a href="javascript:void(0)"' +
+              'data-toggle="modal"' +
+              'data-target="#modal-default">' +
+              '<i class="fa fa-edit"></i>' +
+              '</a>' + gg.bracketNo +
+              '</span>' +
+              '<span class="teama">' + gg.teamnames[0] + '</span>' +
+              '<span class="teamb">' + gg.teamnames[1] + '</span>' +
+              '</div>' +
+              '</div>'
+            );
         });
         group.append(round);
       }
-      group.append('<div class="r' + (groupCount + 1) + '"><div class="final"><div class="bracketbox"><span class="teamc">' + _.last(struct).teamnames[_.random(1)] + '</span></div></div></div>');
+      group.append(
+        '<div class="r' + (groupCount + 1) + '">' +
+        '<div class="final">' +
+        '<div class="bracketbox">' +
+        '<span class="teamc">' +
+        _.last(struct).teamnames[_.random(1)] +
+        '</span>' +
+        '</div>' +
+        '</div>' +
+        '</div>');
       $('#brackets').append(group);
 
       bracketCount++;
@@ -1188,15 +1303,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         scrollTop: $("#b" + (bracketCount - 1)).offset().top
       });
     }
-
-    $('#add').on('click', function() {
-      var opts = parseInt(prompt('Bracket size (number of teams):', 32));
-
-      if (!_.isNaN(opts) && opts <= _.last(knownBrackets))
-        getBracket(opts);
-      else
-        alert('The bracket size you specified is not currently supported.');
-    });
   </script>
 </body>
 
