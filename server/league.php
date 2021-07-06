@@ -991,18 +991,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             saveData2['results'] = JSON.parse(res.results[0])
 
             // For Bracket
-            var container = $('.bracketGenerated')
-            container.bracket({
-              init: saveData2,
-              save: saveFn,
-              userData: "http://myapi",
-              disableToolbar: true,
-            })
+            if(teams.length > 0){
+              var container = $('.bracketGenerated')
+              container.bracket({
+                init: saveData2,
+                save: saveFn,
+                userData: "http://myapi",
+                disableToolbar: true,
+              })
 
-            /* You can also inquiry the current data */
-            var data = container.bracket('data')
-            // console.log(JSON.stringify(data));
-            // $('#dataOutput').text(JSON.stringify(data))
+              var data = container.bracket('data')
+            }
 
             // End for bracket
           }

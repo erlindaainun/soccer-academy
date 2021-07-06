@@ -122,7 +122,7 @@ function postManage()
     $conn->query($sql); // Execute update extras
 
     // Cek jika team yang di update ada
-    if ($teams != [])
+    if ($teams != []){
         if ($round_one == "Unggulan") {
             $team = implode(',', $teams);
             $count_team = count($teams);
@@ -164,6 +164,11 @@ function postManage()
             // 
             $round_one_generate = "acak";
         }
+    } else {
+        // Delete if exist match has league_id (because form has been submited again)
+        $sql_delete = 'DELETE FROM `matches` WHERE `league_id` = ' . $_POST['id'];
+        $conn->query($sql_delete);
+    }
 
     return header("Location:/server/league.php?page=manage&id=" . $_POST['id'] . '&generate=' . $round_one_generate);
 }
