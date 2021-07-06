@@ -138,6 +138,12 @@ function postManage()
                 $sql_delete = 'DELETE FROM `matches` WHERE `league_id` = ' . $_POST['id'];
                 $conn->query($sql_delete);
 
+                // reset results value if any edit to manage league
+                $sql_reset_results = 'UPDATE `leagues` SET ' .
+                    'results = "[]",' .
+                    'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
+                $conn->query($sql_reset_results);
+
                 for ($i = 0; $i < $match_count; $i++) {
                     $participant = $row[$i][0] . ', ' . $row[$count_team - ($i + 1)][0];
                     $sql = 'INSERT INTO `matches` (`participant`, `league_id`, `created_at`, `updated_at`) VALUES (' .
@@ -162,6 +168,22 @@ function postManage()
     return header("Location:/server/league.php?page=manage&id=" . $_POST['id'] . '&generate=' . $round_one_generate);
 }
 
+function setResultsToLeagueExtrasColumn()
+{
+    include '../connection.php';
+
+    $json = json_decode($_POST['json']);
+    $results = $json->results;
+
+    $sql = 'UPDATE `leagues` SET ' .
+        'results = \'' . json_encode($results) . '\',' .
+        'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
+    echo ($sql);
+    $conn->query($sql); // Execute update extras
+
+    return json_encode($results);
+}
+
 
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'store')
@@ -176,5 +198,7 @@ if (isset($_POST['tipe'])) {
         echo manage();
     else if ($_POST['tipe'] == 'postManage')
         echo postManage();
+    else if ($_POST['tipe'] == 'setResultsToLeagueExtrasColumn')
+        echo setResultsToLeagueExtrasColumn();
 } else
     echo index();

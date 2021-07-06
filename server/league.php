@@ -644,6 +644,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body">
                           <div class="bracketGenerated"></div>
+
+                          <div class="row">
+                            <div id="dataOutput" class=""></div>
+                          </div>
                         </div>
                         <!-- /.card-body -->
                       </div>
@@ -934,33 +938,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Page specific script -->
   <script>
-    var saveData = {
-      teams: [
-        ["Team 1", "Team 2"],
-        ["Team 3", null],
-        ["Team 4", null],
-        ["Team 5", null]
-      ],
-      results: [
-        [
-          [
-            [1, 0],
-            [null, null],
-            [null, null],
-            [null, null]
-          ],
-          [
-            [null, null],
-            [1, 4]
-          ],
-          [
-            [null, null],
-            [null, null]
-          ]
-        ]
-      ]
-    };
-
     /* Called whenever bracket is modified
      *
      * data:     changed bracket object in format given to init
@@ -972,37 +949,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
       /* You probably want to do something like this */
       $.ajax({
         type: "post",
-        url: "rest/" + userData,
-        data: json,
+        url: "/api/league.php",
+        data: {
+          'json': json,
+          'tipe': 'setResultsToLeagueExtrasColumn',
+          'id': findGetParameter('id'),
+        },
         dataType: "json",
-        success: function (response) {
-          
+        success: function(response) {
+
         }
       });
-      // jQuery.ajax("rest/" + userData, {
-      //   contentType: 'application/json',
-      //   dataType: 'json',
-      //   type: 'post',
-      //   data: json
-      // })
     }
 
     $(function() {
 
-      // For Bracket
-      var container = $('.bracketGenerated')
-      container.bracket({
-        init: saveData,
-        save: saveFn,
-        userData: "http://myapi"
-      })
+      if (findGetParameter('page') == 'manage') {
 
-      /* You can also inquiry the current data */
-      var data = container.bracket('data')
-      console.log(JSON.stringify(data));
-      $('#dataOutput').text(JSON.stringify(data))
+        var saveData2 = {};
 
-      // End for bracket
+        // Get match by league_id
+        $.ajax({
+          type: "POST",
+          url: "/api/match.php",
+          data: {
+            'tipe': 'getMatchByLeagueId',
+            'id': findGetParameter('id')
+          },
+          success: function(response) {
+            var res = JSON.parse(response)
+
+            var teams = [];
+            res.teams.forEach(function(match) {
+              var id = match[0];
+              var participant = match[1].split(', ');
+              var date = match[2]
+              var time = match[3]
+
+              teams.push(participant);
+
+            })
+
+            saveData2['teams'] = teams;
+            saveData2['results'] = JSON.parse(res.results[0])
+
+            // For Bracket
+            var container = $('.bracketGenerated')
+            container.bracket({
+              init: saveData2,
+              save: saveFn,
+              userData: "http://myapi",
+              disableToolbar: true,
+            })
+
+            /* You can also inquiry the current data */
+            var data = container.bracket('data')
+            // console.log(JSON.stringify(data));
+            // $('#dataOutput').text(JSON.stringify(data))
+
+            // End for bracket
+          }
+        });
+      }
 
       if ($('#example1').length) {
         $("#example1").DataTable({
@@ -1070,13 +1078,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           'Berhasil membuat bracket unggulan',
           'success'
         )
+      else
+        Swal.fire(
+          'Info!',
+          'Tidak ada tim yang terpilih dalam liga ini.',
+          'info'
+        )
 
-    } else
-      Swal.fire(
-        'Info!',
-        'Tidak ada tim yang terpilih dalam liga ini.',
-        'info'
-      )
+    }
 
     function editLeague(id) {
       $.ajax({
@@ -1172,7 +1181,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             if (teams.length > 0) {
               for (i = 0; i < teams.length; i++)
                 exampleTeams[i] = teams[i][1];
-              getBracket(teams.length);
+              // getBracket(teams.length);
             }
           }
           $("select[name=round_one] option[value='" + extras.round_one + "']").attr("selected", "selected");
