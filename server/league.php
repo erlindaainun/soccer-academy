@@ -589,7 +589,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   $row_league = $result_league->fetch_assoc();
                                   $extras = json_decode($row_league['extras']);
 
-                                  $teams_joined_leagues = $extras->teams;
+                                  $teams_joined_leagues = $extras->teams ?? [];
 
                                   // Option
                                   while ($row = $result->fetch_assoc()) {
@@ -633,27 +633,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                       </form>
                     </div>
-                    <div class="col-md-12">
-                      <div class="card">
-                        <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="fas fa-text-width"></i>
-                            Turnamen Bracket
-                          </h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                          <div class="bracketGenerated"></div>
-
-                          <div class="row">
-                            <div id="dataOutput" class=""></div>
-                          </div>
-                        </div>
-                        <!-- /.card-body -->
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="fas fa-text-width"></i>
+                          Turnamen Bracket
+                        </h3>
                       </div>
-                      <!-- /.card -->
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="bracketGenerated"></div>
+
+                        <div class="row">
+                          <div id="dataOutput" class=""></div>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
                     </div>
-                    <!-- ./col -->
+                    <!-- /.card -->
                     <div class="brackets" id="brackets"></div>
                   </div>
                 <?php
