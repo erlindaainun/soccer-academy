@@ -1407,31 +1407,56 @@ section {
 # F.A.Q
 --------------------------------------------------------------*/
 
-.faq .faq-item {
-  margin: 20px 0;
-  padding: 20px 0;
+.faq .faq-header {
+  margin: 5px 0;
+  padding: 25px 0px 0px 5px;
   border-bottom: 1px solid #eeeeee;
+  text-align: center;
+  position: relative;
+  font: 15px 'Open Sans', sans-serif;
+  font-weight: 700;
+
+}
+.faq .faq-item {
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #eeeeee;
+  text-align: center;
+  position: relative;
 }
 
-.faq .faq-item i {
-  color: #8bc4ea;
-  font-size: 24px;
-  float: left;
-  line-height: 0;
-  padding: 13px 0 0 0;
-  margin: 0;
-}
-
-.faq .faq-item h4 {
+.faq .faq-item a {
+  padding: 10px 0;
+  text-align: center;
   font-size: 16px;
-  line-height: 26px;
-  font-weight: 500;
-  margin: 0 0 10px 32px;
+
   font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: #4aa3df;
 }
 
 .faq .faq-item p {
-  font-size: 15px;
+  font: 15px 'Open Sans', sans-serif;
+  padding: .4em 0;
+}
+
+.faq .faq-item h5 {
+  font: 12px 'Open Sans', sans-serif;
+  padding: 10px 0px 0px 5px;
+}
+
+.faq .faq-item .h5 img{
+  margin: 0px 0px 0px 10px; ;
+  padding: 0px 0px 0px 10px;
+}
+
+.faq .faq-item h3 {
+  color: #fff;
+  display: inline-block;
+  background-color: #3498db;
+  padding: 1em 1.6em;
+  font: 12px 'Open Sans', sans-serif;
+  font-weight: 700;
 }
 
 /*--------------------------------------------------------------
