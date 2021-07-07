@@ -131,6 +131,25 @@ function index()
     return json_encode(['data' => $data]);
 }
 
+function getTeamAsParticipant()
+{
+    include '../connection.php';
+
+    $participant = $_POST['participant'];
+
+    $participant_team_name = [];
+    foreach($participant as $team_id){
+        $sql = 'SELECT * FROM `teams` WHERE id = ' . $team_id;
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        // var_dump($row['name']);
+        $participant_team_name[] = $row['name'];
+    }
+
+    // print_r($participant_team_name);
+    return json_encode($participant_team_name);
+}
+
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'checkRegistrationNumber')
         echo checkRegistrationNumber();
@@ -140,5 +159,7 @@ if (isset($_POST['tipe'])) {
         echo submitTeam();
     else if ($_POST['tipe'] == 'deleteTeam')
         echo deleteTeam();
+    else if ($_POST['tipe'] == 'getTeamAsParticipant')
+        echo getTeamAsParticipant();
 } else
     echo index();

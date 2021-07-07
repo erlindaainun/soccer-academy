@@ -976,24 +976,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
           success: function(response) {
             var res = JSON.parse(response)
 
-            var teams = [];
+            var teams = []
+            var participant_teams = []
             res.teams.forEach(function(match) {
               var id = match[0];
               var participant = match[1].split(', ');
               var date = match[2]
               var time = match[3]
-
+              var participant_name = []
+              $.ajax({
+                async: false,
+                type: "POST",
+                url: "/api/team.php",
+                data: {
+                  'tipe': 'getTeamAsParticipant',
+                  'participant': participant,
+                },
+                success: function(response) {
+                  // console.log('api/team.php')
+                  // console.log(response)
+                  // return tmp = 'test'
+                  // console.log(response)
+                  participant_name = JSON.parse(response)
+                }
+              });
+            
+              participant_teams.push(participant_name)
               teams.push(participant);
 
             })
 
-            saveData2['teams'] = teams;
+            saveData2['teams'] = participant_teams;
             saveData2['results'] = JSON.parse(res.results[0])
 
             // For Bracket
             if(teams.length > 0){
               var container = $('.bracketGenerated')
               container.bracket({
+                teamWidth: 150, // Lebar bracket tim
                 init: saveData2,
                 save: saveFn,
                 userData: "http://myapi",
