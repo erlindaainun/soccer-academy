@@ -608,7 +608,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   <option selected disabled value="">Choose...</option>
                                   <option value="Acak">Acak</option>
                                   <option value="Unggulan">Unggulan</option>
-                                  <option value="Manual">Manual</option>
                                 </select>
                               </div>
                               <!-- /.form-group -->
@@ -1009,11 +1008,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
             saveData2['teams'] = participant_teams;
             saveData2['results'] = JSON.parse(res.results[0])
 
+            // Ajax to get third winner
+            $.ajax({
+              type: "POST",
+              url: "/api/league.php",
+              async: false,
+              data: {
+                'tipe': 'show',
+                'id': findGetParameter('id'),
+              },
+              success: function (response) {
+                var res = JSON.parse(response)
+                var extras = JSON.parse(res['extras']);
+                extras.third_place_winner == "Tidak" ? third_place_winner_status = true : third_place_winner_status = false;  
+              }
+            });
+
             // For Bracket
             if(teams.length > 0){
               var container = $('.bracketGenerated')
               container.bracket({
-                teamWidth: 150, // Lebar bracket tim
+                teamWidth: 350, // Lebar bracket tim
+                matchMargin: 50,
+                skipConsolationRound: third_place_winner_status,
                 init: saveData2,
                 save: saveFn,
                 userData: "http://myapi",
@@ -1092,6 +1109,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         Swal.fire(
           'Berhasil!',
           'Berhasil membuat bracket unggulan',
+          'success'
+        )
+      else if (generate == "acak")
+        Swal.fire(
+          'Berhasil!',
+          'Berhasil membuat bracket acak',
           'success'
         )
       else

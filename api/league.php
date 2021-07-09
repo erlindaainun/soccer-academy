@@ -122,7 +122,7 @@ function postManage()
     $conn->query($sql); // Execute update extras
 
     // Cek jika team yang di update ada
-    if ($teams != []){
+    if ($teams != []) {
         if ($round_one == "Unggulan") {
             $team = implode(',', $teams);
             $count_team = count($teams);
@@ -157,11 +157,42 @@ function postManage()
                 // echo 'ganjil';
             }
             $round_one_generate = "unggulan";
-        } else if ($round_one == "Manual") {
-            // 
-            $round_one_generate = "manual";
         } else if ($round_one == "Acak") {
-            // 
+
+            $team = implode(',', $teams);
+            $count_team = count($teams);
+            $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $team . ')';
+            $result = $conn->query($sql);
+
+            $row = $result->fetch_all();
+            $match_count = $count_team / 2;
+
+            // Jika jumlah team genap, membuat match sesuai dengan tipe round one "Acak"
+            if ($count_team % 2 == 0) {
+                // Delete if exist match has league_id (because form has been submited again)
+                $sql_delete = 'DELETE FROM `matches` WHERE `league_id` = ' . $_POST['id'];
+                $conn->query($sql_delete);
+
+                $team_id_arr = [];
+                foreach ($row as $id => $team)
+                    array_push($team_id_arr, $team[0]);
+
+                for ($i = 0; $i < $match_count; $i++) {
+                    shuffle($team_id_arr);
+                    $team_one = array_pop($team_id_arr);
+                    shuffle($team_id_arr);
+                    $team_two = array_pop($team_id_arr);
+                    // return json_encode($team_id_arr);
+                    // $team_one = !in_array($test = rand(0, $match_count * 2), $team_id_arr) ? $test : array_push($team_id_arr, $test);
+                    // $team_two = !in_array($test2 = rand(0, $match_count * 2), $team_id_arr) ? $test2 : array_push($team_id_arr, $test2);
+                    $participant = $team_one . ', ' . $team_two;
+                    $sql = 'INSERT INTO `matches` (`participant`, `league_id`, `created_at`, `updated_at`) VALUES (' .
+                        json_encode($participant) . ', ' .
+                        '"' . $_POST['id'] . '", ' .
+                        'NOW(), NOW());';
+                    $conn->query($sql);
+                }
+            }
             $round_one_generate = "acak";
         }
     } else {
@@ -172,6 +203,7 @@ function postManage()
 
     return header("Location:/server/league.php?page=manage&id=" . $_POST['id'] . '&generate=' . $round_one_generate);
 }
+
 
 function setResultsToLeagueExtrasColumn()
 {
@@ -189,6 +221,15 @@ function setResultsToLeagueExtrasColumn()
     return json_encode($results);
 }
 
+function show(){
+    include '../connection.php';
+
+    $sql = 'SELECT * FROM `leagues` WHERE `id`="' . $_POST['id'] . '"';
+    $result = $conn->query($sql);
+
+    return json_encode($result->fetch_assoc());
+}
+
 
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'store')
@@ -199,6 +240,8 @@ if (isset($_POST['tipe'])) {
         echo update();
     else if ($_POST['tipe'] == 'delete')
         echo delete();
+    else if ($_POST['tipe'] == 'show')
+        echo show();
     else if ($_POST['tipe'] == 'manage')
         echo manage();
     else if ($_POST['tipe'] == 'postManage')

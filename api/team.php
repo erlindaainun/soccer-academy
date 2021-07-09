@@ -57,7 +57,7 @@ function store()
     $manager_id = $conn->insert_id;
 
     $reg_number = generate_registration_number();
-    $sql = 'INSERT INTO `teams` (`name`, `address`, `manager_id`, `licenses`, `email`, `telp`, `photo`, `registration_number`, `created_at`, `updated_at`) VALUES (' .
+    $sql = 'INSERT INTO `teams` (`name`, `address`, `manager_id`, `licenses`, `email`, `telp`, `photo`, `registration_number`, `type`, `created_at`, `updated_at`) VALUES (' .
         '"' . $_POST['name'] . '",' .
         '"' . $_POST['address'] . '",' .
         '"' . $manager_id . '",' .
@@ -66,6 +66,7 @@ function store()
         '"' . $_POST['phone_number'] . '",' .
         '"' . $_POST['photo'] . '",' .
         '"' . $reg_number . '",' .
+        '"' . $_POST['team_type'] . '",' .
         'NOW(), NOW());';
 
     $result = $conn->query($sql);

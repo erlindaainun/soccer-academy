@@ -69,7 +69,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <ol>
             <li><a href="/">Beranda</a></li>
-            <li>Registrasi Anggota</li>
+            <li>Registrasi Tim</li>
           </ol>
         </div>
 
@@ -81,7 +81,19 @@
       <div class="container">
 
         <div class="section-title" data-aos="fade-up">
-          <h2>Registrasi Tim</h2>
+          <?php 
+            if($noreg = $_GET['nomorRegistrasi'] ?? false){
+              $sql = 'SELECT * FROM `teams` WHERE `registration_number`="' . $noreg . '"';
+              $result = $conn->query($sql);
+              $row = $result->fetch_assoc();
+            }
+            $registration_type = $_GET['tipe'] ?? $row['type'];
+
+            if($registration_type == 'liga')
+              echo '<h2>Registrasi Tim Liga</h2>';
+            else if($registration_type == 'turnamen')
+              echo '<h2>Registrasi Tim Turnamen</h2>'
+          ?>
         </div>
 
         <div class="row" data-aos="fade-up">
@@ -118,6 +130,7 @@
                     <h5><i class="icon fas fa-exclamation-triangle"></i> Info Penting!</h5>
                     Setelah mengisi form "Data Ofisial Tim", anda akan mendapatkan No. Registrasi yang berguna untuk pengisian form selanjutnya. Jika sudah memiliki No. Registrasi sebelumnya silahkan klik <a class="text-primary" data-toggle="modal" data-target="#modal-no-reg" href="#">disini</a> untuk lanjut mengisi form.
                   </div>
+                  <input type="hidden" name="team-type" value="<?php echo $_GET['tipe'] ?>">
                   <div class="form-group">
                     <label for="agamapemain">Liga</label>
                     <select name="league" class="custom-select">
@@ -925,6 +938,9 @@
         var email = $('input[name=email]').val()
         var phone_number = $('input[name=phone-number]').val()
         var photo = $('input[name=photo]').val()
+        var team_type = $('input[name=team-type]').val()
+
+        console.log(team_type);
 
         // manager
         var manager_name = $('input[name=manager-name]').val();
@@ -946,6 +962,7 @@
               'email': email,
               'phone_number': phone_number,
               'photo': photo,
+              'team_type': team_type,
               'manager_name': manager_name,
               'manager_phone_number': manager_phone_number,
               'manager_photo': manager_photo,
