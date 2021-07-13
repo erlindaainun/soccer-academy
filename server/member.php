@@ -827,9 +827,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           "targets": 5,
           "data": 5,
           "render": function(data, type, full, meta) {
-            return '<a class="btn btn-primary btn-sm" href="/server/member.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a>' +
-              '<a class="btn btn-info btn-sm" href="/server/member.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a>' +
-              '<a class="btn btn-danger btn-sm" onclick="deleteMember(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
+            return '<a class="btn btn-primary btn-sm" href="/server/member.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
+              '<a class="btn btn-info btn-sm" href="/server/member.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
+              '<a class="btn btn-danger btn-sm" onclick="deleteMember(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a> ';
 
           }
         }]

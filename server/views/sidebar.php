@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
         <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Admin SSB</span>
     </a>
 
     <!-- Sidebar -->
@@ -40,7 +40,7 @@
                         <p>Dasbor</p>
                     </a>
                 </li>
-                <li class="nav-header">MANAJEMEN DATA</li>
+                <li class="nav-header">MENU UTAMA</li>
                 <li class="nav-item">
                     <a href="/server/member.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/member.php") echo "active" ?>">
                         <i class="nav-icon fas fa-user"></i>
@@ -53,38 +53,20 @@
                         <p>Tim</p>
                     </a>
                 </li>
+                <li class="nav-header">MENU PENGADAAN</li>
                 <li class="nav-item">
                     <a href="/server/tournament.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/tournament.php") echo "active" ?>">
                         <i class="nav-icon fas fa-futbol"></i>
                         <p>Turnamen</p>
                     </a>
                 </li>
-                <li class="nav-item <?php if (
-                                        $_SERVER['SCRIPT_NAME'] == "/server/league.php"
-                                        || $_SERVER['SCRIPT_NAME'] == "/server/match.php"
-                                    ) echo "menu-open" ?>">
-                    <a href="#" class="nav-link <?php if (
-                                                    $_SERVER['SCRIPT_NAME'] == "/server/league.php"
-                                                    || $_SERVER['SCRIPT_NAME'] == "/server/match.php"
-                                                ) echo "active" ?>">
-                        <i class="nav-icon fas fa-futbol"></i>
-                        <p>Turnamen<i class="right fas fa-angle-left"></i></p>
+                <li class="nav-item">
+                    <a href="/server/league.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/league.php") echo "active" ?>">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>Liga</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/server/league.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/league.php") echo "active" ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Liga</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/server/match.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/match.php") echo "active" ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Pertandingan</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
+                <li class="nav-header">MENU HALAMAN</li>
                 <li class="nav-item">
                     <a href="/server/news.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/news.php") echo "active" ?>">
                         <i class="nav-icon fas fa-newspaper"></i>
@@ -105,7 +87,7 @@
                                                     $_SERVER['SCRIPT_NAME'] == "/server/structure.php"
                                                     || $_SERVER['SCRIPT_NAME'] == "/server/achievement.php"
                                                 ) echo "active" ?>">
-                        <i class="nav-icon fas fa-futbol"></i>
+                        <i class="nav-icon fas fa-address-card"></i>
                         <p>Profil<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -123,11 +105,11 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">MANAJEMEN PENGGUNA</li>
+                <li class="nav-header">MENU PENGGUNA</li>
                 <li class="nav-item">
                     <a href="/server/setting.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/setting.php") echo "active" ?>">
                         <i class="nav-icon fas fa-users-cog"></i>
-                        <p>Pengaturan</p>
+                        <p>Pengguna</p>
                     </a>
                 </li>
             </ul>
