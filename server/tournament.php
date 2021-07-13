@@ -323,12 +323,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Liga</h1>
+              <h1 class="m-0">Turnamen</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Liga</li>
+                <li class="breadcrumb-item active">Turnamen</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -352,7 +352,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               if ($page == 'edit' && isset($_GET['id'])) {
                 // Check apakah `id` ada didatabase
                 $id = $_GET['id'];
-                $sql = 'SELECT * FROM `leagues` WHERE id = ' . $id;
+                $sql = 'SELECT * FROM `tournaments` WHERE id = ' . $id;
                 $result = $conn->query($sql);
 
                 $num_rows = $result ? $result->num_rows : 0;
@@ -362,10 +362,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-8">
                     <div class="card">
                       <div class="card-header">
-                        <h3 class="card-title">Ubah Liga</h3>
+                        <h3 class="card-title">Ubah Turnamen</h3>
                       </div>
                       <!-- /.card-header -->
-                      <form name="form1" method="post" action="/api/league.php">
+                      <form name="form1" method="post" action="/api/tournament.php">
                         <input type="hidden" name="tipe" value="update">
                         <input type="hidden" name="id" value="">
                         <div class="card-body">
@@ -444,10 +444,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="col-8">
                   <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">Tambah Liga</h3>
+                      <h3 class="card-title">Tambah Turnamen</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form name="form1" method="post" action="/api/league.php">
+                    <form name="form1" method="post" action="/api/tournament.php">
                       <input type="hidden" name="tipe" value="store">
                       <div class="card-body">
                         <div class="row">
@@ -523,7 +523,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>';
               } else {
                 //  Checking id in database
-                $sql = 'SELECT * FROM `leagues` WHERE id=' . $id . ' AND `status`="Buka"';
+                $sql = 'SELECT * FROM `tournaments` WHERE id=' . $id . ' AND `status`="Buka"';
                 $result = $conn->query($sql);
 
                 // Jika ada 
@@ -532,11 +532,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-12">
                     <div class="card card-default">
                       <div class="card-header">
-                        <h3 class="card-title">Kelola Liga</h3>
+                        <h3 class="card-title">Kelola Turnamen</h3>
                       </div>
                       <!-- /.card-header -->
 
-                      <form name="formManage" method="post" action="/api/league.php">
+                      <form name="formManage" method="post" action="/api/tournament.php">
                         <input type="hidden" name="tipe" value="postManage">
                         <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
                         <div class="card-body">
@@ -546,7 +546,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="col-12 col-sm-4">
                                   <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                      <span class="info-box-text text-center text-muted">Nama Liga</span>
+                                      <span class="info-box-text text-center text-muted">Nama Turnamen</span>
                                       <span class="info-box-number text-center text-muted mb-0"><?php echo $row['name'] ?></span>
                                     </div>
                                   </div>
@@ -574,17 +574,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   <?php
                                   // Select many to many using from this link https://stackoverflow.com/a/3395372
                                   $sql = 'SELECT t.* FROM teams t 
-                                          JOIN team_has_leagues tl ON t.id = tl.team_id 
-                                          JOIN leagues l ON tl.league_id = l.id 
+                                          JOIN team_has_tournaments tl ON t.id = tl.team_id 
+                                          JOIN tournaments l ON tl.tournament_id = l.id 
                                           WHERE t.id IN (
-                                            SELECT team_id FROM team_has_leagues tl 
-                                            JOIN leagues l ON tl.league_id = l.id 
+                                            SELECT team_id FROM team_has_tournaments tl 
+                                            JOIN tournaments l ON tl.tournament_id = l.id 
                                             WHERE l.id = ' . $row['id'] . '
                                           )';
                                   $result = $conn->query($sql);
 
-                                  // Checking who joined to the leagues
-                                  $sql_league = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
+                                  // Checking who joined to the tournaments
+                                  $sql_league = 'SELECT * FROM `tournaments` WHERE `id` = ' . $id;
                                   $result_league = $conn->query($sql_league);
                                   $row_league = $result_league->fetch_assoc();
                                   $extras = json_decode($row_league['extras']);
@@ -653,7 +653,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="brackets" id="brackets"></div>
                   </div>
                 <?php
-                  // Load data manage league
+                  // Load data manage tournament
                   echo '<script>document.addEventListener("DOMContentLoaded", function() {manageLeague(' . $id . ')})</script>';
                 } else { // Jika tidak ada didatabase
                   echo '<div class="error-page">
@@ -673,7 +673,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               }
             } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
               if (!empty($id = $_GET['id'])) {
-                $sql = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
+                $sql = 'SELECT * FROM `tournaments` WHERE `id` = ' . $id;
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc();
 
@@ -683,13 +683,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 if ($num_rows > 0 && $id != "") {
 
                 ?>
-                  <!-- Lihat Liga -->
+                  <!-- Lihat Turnamen -->
                   <div class="col-md-8">
                     <div class="card">
                       <div class="card-header">
                         <h3 class="card-title">
                           <i class="fas fa-eye"></i>
-                          Lihat Liga
+                          Lihat Turnamen
                         </h3>
                       </div>
                       <!-- /.card-header -->
@@ -743,14 +743,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">List Liga</h3>
+                    <h3 class="card-title">List Turnamen</h3>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                     <div style="margin-bottom: 10px;" class="row">
                       <div class="col-lg-12">
-                        <a class="btn btn-success" href="league.php?page=create">
-                          <i class="fa fa-plus"></i>&nbsp; Tambah Liga
+                        <a class="btn btn-success" href="tournament.php?page=create">
+                          <i class="fa fa-plus"></i>&nbsp; Tambah Turnamen
                         </a>
                       </div>
                     </div>
@@ -945,7 +945,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       /* You probably want to do something like this */
       $.ajax({
         type: "post",
-        url: "/api/league.php",
+        url: "/api/tournament.php",
         data: {
           'json': json,
           'tipe': 'setResultsToLeagueExtrasColumn',
@@ -964,7 +964,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         var saveData2 = {};
 
-        // Get match by league_id
+        // Get match by tournament_id
         $.ajax({
           type: "POST",
           url: "/api/match.php",
@@ -1011,7 +1011,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // Ajax to get third winner
             $.ajax({
               type: "POST",
-              url: "/api/league.php",
+              url: "/api/tournament.php",
               async: false,
               data: {
                 'tipe': 'show',
@@ -1051,18 +1051,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
           "lengthChange": false,
           "autoWidth": false,
           "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-          "ajax": '/api/league.php',
+          "ajax": '/api/tournament.php',
           "columnDefs": [{
             "targets": 4,
             "data": 4,
             "render": function(data, type, full, meta) {
               console.log(full['3']);
 
-              var manage_button = full['3'] == "Buka" ? '<a class="btn btn-primary btn-sm" href="/server/league.php?page=manage&id=' + data + '"><i class="far fa-edit"></i> Kelola</a> ' : '';
+              var manage_button = full['3'] == "Buka" ? '<a class="btn btn-primary btn-sm" href="/server/tournament.php?page=manage&id=' + data + '"><i class="far fa-edit"></i> Kelola</a> ' : '';
               return '' +
                 manage_button +
-                '<a class="btn btn-primary btn-sm" href="/server/league.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
-                '<a class="btn btn-info btn-sm" href="/server/league.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
+                '<a class="btn btn-primary btn-sm" href="/server/tournament.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
+                '<a class="btn btn-info btn-sm" href="/server/tournament.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
                 '<a class="btn btn-danger btn-sm" onclick="deleteLeague(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a>';
 
             }
@@ -1092,13 +1092,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       if (status == 'stored')
         Swal.fire(
           'Berhasil!',
-          'Berhasil menambahkan liga!',
+          'Berhasil menambahkan turnamen!',
           'success'
         )
       else if (status == 'updated')
         Swal.fire(
           'Berhasil!',
-          'Berhasil mengubah liga!',
+          'Berhasil mengubah turnamen!',
           'success'
         )
     }
@@ -1120,7 +1120,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       else
         Swal.fire(
           'Info!',
-          'Tidak ada tim yang terpilih dalam liga ini.',
+          'Tidak ada tim yang terpilih dalam turnamen ini.',
           'info'
         )
 
@@ -1129,7 +1129,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     function editLeague(id) {
       $.ajax({
         type: "POST",
-        url: "/api/league.php",
+        url: "/api/tournament.php",
         data: {
           'tipe': 'edit',
           'id': id
@@ -1157,7 +1157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     function deleteLeague(id) {
       Swal.fire({
-        title: 'Apakah anda yakin hapus liga ini?',
+        title: 'Apakah anda yakin hapus turnamen ini?',
         text: "Anda tidak akan dapat mengembalikan ini!",
         icon: 'warning',
         showCancelButton: true,
@@ -1169,7 +1169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         if (result.isConfirmed) {
           $.ajax({
             type: "POST",
-            url: "/api/league.php",
+            url: "/api/tournament.php",
             data: {
               'tipe': 'delete',
               'id': id
@@ -1180,13 +1180,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               if (res.status)
                 Swal.fire(
                   'Dihapus!',
-                  'Liga berhasil dihapus.',
+                  'Turnamen berhasil dihapus.',
                   'success'
                 )
               else
                 Swal.fire(
                   'Gagal!',
-                  'Gagal menghapus liga.',
+                  'Gagal menghapus turnamen.',
                   'error'
                 )
             },
@@ -1205,7 +1205,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     function manageLeague(id) {
       $.ajax({
         type: "POST",
-        url: "/api/league.php",
+        url: "/api/tournament.php",
         data: {
           'tipe': 'manage',
           'id': id

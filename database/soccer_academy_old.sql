@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2021 at 05:51 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Jul 06, 2021 at 06:41 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -101,13 +101,6 @@ CREATE TABLE `leagues` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `leagues`
---
-
-INSERT INTO `leagues` (`id`, `name`, `date`, `location`, `image_path`, `status`, `results`, `extras`, `created_at`, `updated_at`) VALUES
-(2, 'Praesentium et solut', NULL, 'Dolor expedita non e', NULL, 'Buka', NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -123,29 +116,6 @@ CREATE TABLE `managers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `managers`
---
-
-INSERT INTO `managers` (`id`, `name`, `image_path`, `phone_number`, `created_at`, `updated_at`) VALUES
-(1, 'Illana Tillman', 'test/file.img', '+1 (409) 283-2068', '2021-07-07 01:04:31', '2021-07-07 01:04:31'),
-(2, 'Christine Cooper', 'test/file.img', '+1 (219) 373-5871', '2021-07-07 01:04:53', '2021-07-07 01:04:53'),
-(3, 'Sasha Fernandez', 'test/file.img', '+1 (396) 343-8618', '2021-07-07 01:05:04', '2021-07-07 01:05:04'),
-(4, 'Kellie Johns', 'test/file.img', '+1 (515) 815-7714', '2021-07-07 01:05:10', '2021-07-07 01:05:10'),
-(5, 'Chava Stephenson', 'test/file.img', '+1 (572) 693-6915', '2021-07-07 01:05:17', '2021-07-07 01:05:17'),
-(6, 'Quintessa Hendricks', 'test/file.img', '+1 (652) 862-2744', '2021-07-07 01:05:34', '2021-07-07 01:05:34'),
-(7, 'Hannah Klein', 'test/file.img', '+1 (618) 924-5305', '2021-07-07 01:05:44', '2021-07-07 01:05:44'),
-(8, 'Robert Adams', 'test/file.img', '+1 (169) 664-1032', '2021-07-07 01:06:00', '2021-07-07 01:06:00'),
-(9, 'Jameson Knowles', 'test/file.img', '+1 (734) 145-5166', '2021-07-09 13:24:55', '2021-07-09 13:24:55'),
-(10, 'Henry David', 'test/file.img', '+1 (799) 966-7196', '2021-07-09 13:26:44', '2021-07-09 13:26:44'),
-(11, 'Richard Hawkins', 'test/file.img', '+1 (132) 727-5335', '2021-07-09 13:31:20', '2021-07-09 13:31:20'),
-(12, 'Lila Roth', 'test/file.img', '+1 (181) 506-4679', '2021-07-13 15:18:58', '2021-07-13 15:18:58'),
-(13, 'Octavia Dotson', 'test/file.img', '+1 (321) 189-6716', '2021-07-13 15:19:50', '2021-07-13 15:19:50'),
-(14, 'Nadine Lowery', 'test/file.img', '+1 (975) 303-4145', '2021-07-13 15:19:55', '2021-07-13 15:19:55'),
-(15, 'Jared Mcknight', 'test/file.img', '+1 (327) 403-8119', '2021-07-13 15:26:05', '2021-07-13 15:26:05'),
-(16, 'Wayne Kirkland', 'test/file.img', '+1 (144) 604-6141', '2021-07-13 15:26:11', '2021-07-13 15:26:11'),
-(17, 'Macey Lamb', 'test/file.img', '+1 (445) 256-7224', '2021-07-13 15:34:41', '2021-07-13 15:34:41');
-
 -- --------------------------------------------------------
 
 --
@@ -157,19 +127,11 @@ CREATE TABLE `matches` (
   `participant` varchar(45) NOT NULL,
   `date` date DEFAULT NULL,
   `time` varchar(45) DEFAULT NULL,
-  `tournament_id` int(11) NOT NULL,
+  `league_id` int(11) NOT NULL,
   `extras` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `matches`
---
-
-INSERT INTO `matches` (`id`, `participant`, `date`, `time`, `tournament_id`, `extras`, `created_at`, `updated_at`) VALUES
-(133, '14, 13', NULL, NULL, 1, NULL, '2021-07-13 15:26:21', '2021-07-13 15:26:21'),
-(134, '15, 16', NULL, NULL, 1, NULL, '2021-07-13 15:26:21', '2021-07-13 15:26:21');
 
 -- --------------------------------------------------------
 
@@ -245,26 +207,6 @@ CREATE TABLE `players` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `schedules`
---
-
-CREATE TABLE `schedules` (
-  `id` int(10) NOT NULL,
-  `team_id1` int(10) DEFAULT NULL,
-  `score_team_id1` int(10) DEFAULT NULL,
-  `score_team_id2` int(10) DEFAULT NULL,
-  `team_id2` int(10) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `league_id` int(10) DEFAULT NULL,
-  `extras` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `scores`
 --
 
@@ -307,80 +249,20 @@ CREATE TABLE `teams` (
   `photo` text DEFAULT NULL,
   `registration_number` varchar(255) DEFAULT NULL,
   `status` varchar(32) NOT NULL DEFAULT 'draft',
-  `type` varchar(255) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL,
   `updated_at` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `teams`
---
-
-INSERT INTO `teams` (`id`, `name`, `address`, `manager_id`, `licenses`, `email`, `telp`, `photo`, `registration_number`, `status`, `type`, `created_at`, `updated_at`) VALUES
-(1, 'Davis Wiggins', 'Voluptates mollitia ', '1', 'Facilis consectetur', 'mubahiwu@mailinator.com', '226', '', '97c37', 'draft', NULL, '2021-07-07 08:04:31', '2021-07-07 08:04:31'),
-(2, 'Perry Newman', 'Duis consequatur Il', '2', 'Perspiciatis doloru', 'qokykoma@mailinator.com', '726', '', '7ee72', 'draft', NULL, '2021-07-07 08:04:53', '2021-07-07 08:04:53'),
-(3, 'Orli Small', 'Ad velit maxime assu', '3', 'Voluptas voluptatem', 'munudakuqo@mailinator.com', '472', '', '0b37d', 'draft', NULL, '2021-07-07 08:05:04', '2021-07-07 08:05:04'),
-(4, 'Charissa Dominguez', 'Nostrud quaerat nesc', '4', 'Reiciendis commodi v', 'hucyw@mailinator.com', '310', '', '34872', 'draft', NULL, '2021-07-07 08:05:10', '2021-07-07 08:05:10'),
-(5, 'Austin Jacobson', 'Modi dolores officia', '5', 'Sunt ut dolor conseq', 'leqygyn@mailinator.com', '468', '', 'a9484', 'draft', NULL, '2021-07-07 08:05:17', '2021-07-07 08:05:17'),
-(6, 'Deborah Noble', 'Commodo aliquip poss', '6', 'Praesentium hic volu', 'qapi@mailinator.com', '886', '', '01fed', 'draft', NULL, '2021-07-07 08:05:34', '2021-07-07 08:05:34'),
-(7, 'Lenore Lawrence', 'Sit officiis modi ve', '7', 'Est qui consequat D', 'ravi@mailinator.com', '251', '', '3b828', 'draft', NULL, '2021-07-07 08:05:44', '2021-07-07 08:05:44'),
-(8, 'Nell Wiggins', 'Sint et est qui vol', '8', 'Sed minima reprehend', 'wicu@mailinator.com', '924', '', '5f8d2', 'draft', NULL, '2021-07-07 08:06:00', '2021-07-07 08:06:00'),
-(9, 'Yardley Lara', 'Nisi sint omnis sunt', '9', 'Voluptas dolores lor', 'nymyd@mailinator.com', '474', '', '4dc63', 'draft', '', '2021-07-09 20:24:55', '2021-07-09 20:24:55'),
-(10, 'Graham Whitehead', 'Numquam eum id accu', '10', 'Enim eum quo deserun', 'xafugujew@mailinator.com', '167', '', '493e3', 'draft', 'turnamen', '2021-07-09 20:26:44', '2021-07-09 20:26:44'),
-(11, 'Erin Moses', 'Obcaecati quo fugiat', '11', 'Quia pariatur Adipi', 'miliryno@mailinator.com', '282', '', '6be1e', 'draft', 'liga', '2021-07-09 20:31:20', '2021-07-09 20:31:20'),
-(12, 'Linda Rocha', 'Fugit nihil laborum', '12', 'Voluptas laudantium', 'soriq@mailinator.com', '839', '', 'a806c', 'draft', 'turnamen', '2021-07-13 22:18:58', '2021-07-13 22:18:58'),
-(13, 'Gay Lawson', 'Est nulla debitis q', '13', 'Libero sed laudantiu', 'pypugivogi@mailinator.com', '222', '', '9b4f1', 'draft', 'turnamen', '2021-07-13 22:19:50', '2021-07-13 22:19:50'),
-(14, 'Yasir Glover', 'Duis mollit beatae c', '14', 'Velit unde ducimus ', 'xawaver@mailinator.com', '710', '', 'a7e2b', 'draft', 'turnamen', '2021-07-13 22:19:55', '2021-07-13 22:19:55'),
-(15, 'Lucy Avila', 'Sequi est id molest', '15', 'Voluptatem Nemo qui', 'fuwon@mailinator.com', '670', '', 'a2b98', 'draft', 'turnamen', '2021-07-13 22:26:05', '2021-07-13 22:26:05'),
-(16, 'Amena Castaneda', 'Sequi sed cupidatat ', '16', 'Dolore ipsam omnis a', 'cafywebera@mailinator.com', '148', '', '3031f', 'draft', 'turnamen', '2021-07-13 22:26:11', '2021-07-13 22:26:11'),
-(17, 'Gregory Sanford', 'Voluptas minus at eo', '17', 'Est consectetur har', 'deny@mailinator.com', '535', '', '61982', 'draft', 'liga', '2021-07-13 22:34:41', '2021-07-13 22:34:41');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `team_has_tournaments`
+-- Table structure for table `team_has_leagues`
 --
 
-CREATE TABLE `team_has_tournaments` (
+CREATE TABLE `team_has_leagues` (
   `team_id` int(10) UNSIGNED NOT NULL,
-  `tournament_id` int(10) UNSIGNED NOT NULL
+  `league_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `team_has_tournaments`
---
-
-INSERT INTO `team_has_tournaments` (`team_id`, `tournament_id`) VALUES
-(13, 1),
-(14, 1),
-(15, 1),
-(16, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tournaments`
---
-
-CREATE TABLE `tournaments` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `image_path` varchar(45) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `results` text DEFAULT NULL,
-  `extras` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tournaments`
---
-
-INSERT INTO `tournaments` (`id`, `name`, `date`, `location`, `image_path`, `status`, `results`, `extras`, `created_at`, `updated_at`) VALUES
-(1, 'Wilma Brock', '2010-06-14', 'Incididunt anim rati', '', 'Buka', '[[[[1,2],[3,4]],[[2,5]]]]', '{\"round_one\":\"Acak\",\"teams\":[\"13\",\"14\",\"15\",\"16\"],\"third_place_winner\":\"Tidak\"}', '2021-07-07 01:03:35', '2021-07-13 15:32:18');
 
 -- --------------------------------------------------------
 
@@ -466,12 +348,6 @@ ALTER TABLE `players`
   ADD KEY `fk_players_gender1_idx` (`gender_id`);
 
 --
--- Indexes for table `schedules`
---
-ALTER TABLE `schedules`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `scores`
 --
 ALTER TABLE `scores`
@@ -493,18 +369,12 @@ ALTER TABLE `teams`
   ADD UNIQUE KEY `registration_number` (`registration_number`);
 
 --
--- Indexes for table `team_has_tournaments`
+-- Indexes for table `team_has_leagues`
 --
-ALTER TABLE `team_has_tournaments`
-  ADD PRIMARY KEY (`team_id`,`tournament_id`),
-  ADD KEY `fk_teams_has_leagues_leagues1_idx` (`tournament_id`),
+ALTER TABLE `team_has_leagues`
+  ADD PRIMARY KEY (`team_id`,`league_id`),
+  ADD KEY `fk_teams_has_leagues_leagues1_idx` (`league_id`),
   ADD KEY `fk_teams_has_leagues_teams1_idx` (`team_id`);
-
---
--- Indexes for table `tournaments`
---
-ALTER TABLE `tournaments`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -544,19 +414,19 @@ ALTER TABLE `genders`
 -- AUTO_INCREMENT for table `leagues`
 --
 ALTER TABLE `leagues`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `matches`
 --
 ALTER TABLE `matches`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `members`
@@ -577,12 +447,6 @@ ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `schedules`
---
-ALTER TABLE `schedules`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `scores`
 --
 ALTER TABLE `scores`
@@ -598,13 +462,7 @@ ALTER TABLE `structures`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `tournaments`
---
-ALTER TABLE `tournaments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -643,11 +501,11 @@ ALTER TABLE `scores`
   ADD CONSTRAINT `fk_scores_teams1` FOREIGN KEY (`teams_id`) REFERENCES `teams` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `team_has_tournaments`
+-- Constraints for table `team_has_leagues`
 --
-ALTER TABLE `team_has_tournaments`
-  ADD CONSTRAINT `fk_teams_has_tournaments_teams1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_teams_has_tournaments_tournament1` FOREIGN KEY (`tournament_id`) REFERENCES `tournaments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `team_has_leagues`
+  ADD CONSTRAINT `fk_teams_has_leagues_leagues1` FOREIGN KEY (`league_id`) REFERENCES `leagues` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_teams_has_leagues_teams1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

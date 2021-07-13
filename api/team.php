@@ -74,9 +74,9 @@ function store()
     // Jika team berhasil dibuat
     if ($result) {
         // Insert into team_has_league
-        $sql = 'INSERT INTO `team_has_leagues` (`team_id`, `league_id`) VALUES (' .
+        $sql = 'INSERT INTO `team_has_tournaments` (`team_id`, `tournament_id`) VALUES (' .
             '"' . $conn->insert_id . '",' .
-            '"' . $_POST['league_id'] . '")';
+            '"' . $_POST['tournament_id'] . '")';
         $conn->query($sql); // Execute sql
 
         return json_encode([

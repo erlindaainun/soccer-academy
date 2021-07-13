@@ -47,26 +47,30 @@
                         <p>Anggota</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/server/team.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/team.php") echo "active" ?>">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Tim</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/server/tournament.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/tournament.php") echo "active" ?>">
+                        <i class="nav-icon fas fa-futbol"></i>
+                        <p>Turnamen</p>
+                    </a>
+                </li>
                 <li class="nav-item <?php if (
-                                        $_SERVER['SCRIPT_NAME'] == "/server/team.php"
-                                        || $_SERVER['SCRIPT_NAME'] == "/server/league.php"
+                                        $_SERVER['SCRIPT_NAME'] == "/server/league.php"
                                         || $_SERVER['SCRIPT_NAME'] == "/server/match.php"
                                     ) echo "menu-open" ?>">
                     <a href="#" class="nav-link <?php if (
-                                                    $_SERVER['SCRIPT_NAME'] == "/server/team.php"
-                                                    || $_SERVER['SCRIPT_NAME'] == "/server/league.php"
+                                                    $_SERVER['SCRIPT_NAME'] == "/server/league.php"
                                                     || $_SERVER['SCRIPT_NAME'] == "/server/match.php"
                                                 ) echo "active" ?>">
                         <i class="nav-icon fas fa-futbol"></i>
                         <p>Turnamen<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/server/team.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/team.php") echo "active" ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Daftar Tim</p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="/server/league.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/league.php") echo "active" ?>">
                                 <i class="far fa-circle nav-icon"></i>

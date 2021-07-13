@@ -81,18 +81,18 @@
       <div class="container">
 
         <div class="section-title" data-aos="fade-up">
-          <?php 
-            if($noreg = $_GET['nomorRegistrasi'] ?? false){
-              $sql = 'SELECT * FROM `teams` WHERE `registration_number`="' . $noreg . '"';
-              $result = $conn->query($sql);
-              $row = $result->fetch_assoc();
-            }
-            $registration_type = $_GET['tipe'] ?? $row['type'];
+          <?php
+          if ($noreg = $_GET['nomorRegistrasi'] ?? false) {
+            $sql = 'SELECT * FROM `teams` WHERE `registration_number`="' . $noreg . '"';
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+          }
+          $registration_type = $_GET['tipe'] ?? $row['type'];
 
-            if($registration_type == 'liga')
-              echo '<h2>Registrasi Tim Liga</h2>';
-            else if($registration_type == 'turnamen')
-              echo '<h2>Registrasi Tim Turnamen</h2>'
+          if ($registration_type == 'liga')
+            echo '<h2>Registrasi Tim Liga</h2>';
+          else if ($registration_type == 'turnamen')
+            echo '<h2>Registrasi Tim Turnamen</h2>'
           ?>
         </div>
 
@@ -132,19 +132,47 @@
                   </div>
                   <input type="hidden" name="team-type" value="<?php echo $_GET['tipe'] ?>">
                   <div class="form-group">
-                    <label for="agamapemain">Liga</label>
-                    <select name="league" class="custom-select">
-                      <option selected disabled value="">Pilih liga...</option>
-                      <?php
+                    <?php
+                    $registration_type = $_GET['tipe'] ?? $row['type'];
 
-                      $sql = "SELECT * FROM `leagues`";
-                      $result = $conn->query($sql);
+                    if ($registration_type == 'liga') {
+                    ?>
+                      <label for="agamapemain">Liga</label>
+                      <select name="league" class="custom-select">
+                        <option selected disabled value="">Pilih liga...</option>
+                        <?php
 
-                      while ($row = $result->fetch_assoc()) {
-                      ?>
-                        <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
-                      <?php } ?>
-                    </select>
+                        $sql = "SELECT * FROM `leagues`";
+                        $result = $conn->query($sql);
+
+                        while ($row = $result->fetch_assoc()) {
+                        ?>
+                          <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
+                        <?php
+                        }
+                        ?>
+                      </select>
+                    <?php
+                    } else if ($registration_type == 'turnamen') {
+                    ?>
+                      <label for="agamapemain">Turnamen</label>
+                      <select name="league" class="custom-select">
+                        <option selected disabled value="">Pilih turnamen...</option>
+                        <?php
+
+                        $sql = "SELECT * FROM `tournaments`";
+                        $result = $conn->query($sql);
+
+                        while ($row = $result->fetch_assoc()) {
+                        ?>
+                          <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
+                        <?php
+                        }
+                        ?>
+                      </select>
+                    <?php
+                    }
+                    ?>
                   </div>
                   <div class="form-group">
                     <label for="namaklub">Nama Klub</label>
@@ -948,7 +976,7 @@
         var manager_photo = $('input[name=manager-photo]').val();
 
         // Team has league
-        var league_id = $('select[name=league]').val();
+        var tournament_id = $('select[name=league]').val();
 
         if (result.isConfirmed) {
           $.ajax({
@@ -966,7 +994,7 @@
               'manager_name': manager_name,
               'manager_phone_number': manager_phone_number,
               'manager_photo': manager_photo,
-              'league_id': league_id,
+              'tournament_id': tournament_id,
             },
             success: function(response) {
               var res = JSON.parse(response)

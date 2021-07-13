@@ -18,11 +18,11 @@ function getMatchByLeagueId()
 
     $id = $_POST['id'];
 
-    $sql = 'SELECT * FROM `matches` WHERE `league_id` = ' . $id;
+    $sql = 'SELECT * FROM `matches` WHERE `tournament_id` = ' . $id;
     $result = $conn->query($sql);
 
-    // Get results from league_id
-    $sql_league = 'SELECT `results` FROM `leagues` WHERE `id` = ' . $id;
+    // Get results from tournament_id
+    $sql_league = 'SELECT `results` FROM `tournaments` WHERE `id` = ' . $id;
     $result_league = $conn->query($sql_league);
 
     // print_r($result_league->fetch_all());

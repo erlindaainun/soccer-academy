@@ -4,7 +4,7 @@ function index()
 {
     include '../connection.php';
 
-    $sql = 'SELECT `name`, `date`, `location`, `status`, `id` FROM `leagues`';
+    $sql = 'SELECT `name`, `date`, `location`, `status`, `id` FROM `tournaments`';
     $result = $conn->query($sql);
 
     $data = $result->fetch_all();
@@ -16,7 +16,7 @@ function store()
 {
     include '../connection.php';
 
-    $sql = 'INSERT INTO `leagues` (`name`, `date`, `location`, `image_path`, `status`, `created_at`, `updated_at`) VALUES (' .
+    $sql = 'INSERT INTO `tournaments` (`name`, `date`, `location`, `image_path`, `status`, `created_at`, `updated_at`) VALUES (' .
         '"' . $_POST['name'] . '", ' .
         '"' . $_POST['date'] . '", ' .
         '"' . $_POST['location'] . '", ' .
@@ -27,7 +27,7 @@ function store()
     $result = $conn->query($sql);
 
     if ($result)
-        return header("Location:/server/league.php?status=stored");
+        return header("Location:/server/tournament.php?status=stored");
     else
         return json_encode(['status' => false, 'msg' => 'Gagal']);
 }
@@ -36,7 +36,7 @@ function edit()
 {
     include '../connection.php';
 
-    $sql = 'SELECT * FROM `leagues` WHERE id = ' . $_POST['id'];
+    $sql = 'SELECT * FROM `tournaments` WHERE id = ' . $_POST['id'];
     $result = $conn->query($sql);
 
     $row = $result->fetch_assoc();
@@ -51,7 +51,7 @@ function update()
 {
     include '../connection.php';
 
-    $sql = 'UPDATE `leagues` SET ' .
+    $sql = 'UPDATE `tournaments` SET ' .
         'name = "' . $_POST['name'] . '",' .
         'date = "' . $_POST['date'] . '",' .
         'location = "' . $_POST['location'] . '",' .
@@ -62,7 +62,7 @@ function update()
     $result = $conn->query($sql);
 
     if ($result)
-        return header("Location:/server/league.php?status=updated");
+        return header("Location:/server/tournament.php?status=updated");
     else
         return json_encode(['status' => false, 'msg' => 'Gagal']);
 }
@@ -71,7 +71,7 @@ function delete()
 {
     include '../connection.php';
 
-    $sql = 'DELETE FROM `leagues` WHERE id = ' . $_POST['id'];
+    $sql = 'DELETE FROM `tournaments` WHERE id = ' . $_POST['id'];
     $result = $conn->query($sql);
 
     if ($result)
@@ -84,7 +84,7 @@ function manage()
 {
     include '../connection.php';
 
-    $sql = 'SELECT * FROM `leagues` WHERE id = ' . $_POST['id'];
+    $sql = 'SELECT * FROM `tournaments` WHERE id = ' . $_POST['id'];
     $result = $conn->query($sql);
 
     $row = $result->fetch_assoc();
@@ -116,7 +116,7 @@ function postManage()
     $round_one_generate = "";
 
     $extras = json_encode(['round_one' => $round_one, 'teams' => $teams, 'third_place_winner' => $third_place_winner]);
-    $sql = 'UPDATE `leagues` SET ' .
+    $sql = 'UPDATE `tournaments` SET ' .
         'extras = \'' . $extras . '\',' .
         'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
     $conn->query($sql); // Execute update extras
@@ -138,8 +138,8 @@ function postManage()
                 $sql_delete = 'DELETE FROM `matches` WHERE `tournament_id` = ' . $_POST['id'];
                 $conn->query($sql_delete);
 
-                // reset results value if any edit to manage league
-                $sql_reset_results = 'UPDATE `leagues` SET ' .
+                // reset results value if any edit to manage tournament
+                $sql_reset_results = 'UPDATE `tournaments` SET ' .
                     'results = "[]",' .
                     'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
                 $conn->query($sql_reset_results);
@@ -201,7 +201,7 @@ function postManage()
         $conn->query($sql_delete);
     }
 
-    return header("Location:/server/league.php?page=manage&id=" . $_POST['id'] . '&generate=' . $round_one_generate);
+    return header("Location:/server/tournament.php?page=manage&id=" . $_POST['id'] . '&generate=' . $round_one_generate);
 }
 
 
@@ -212,7 +212,7 @@ function setResultsToLeagueExtrasColumn()
     $json = json_decode($_POST['json']);
     $results = $json->results;
 
-    $sql = 'UPDATE `leagues` SET ' .
+    $sql = 'UPDATE `tournaments` SET ' .
         'results = \'' . json_encode($results) . '\',' .
         'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
     echo ($sql);
@@ -224,7 +224,7 @@ function setResultsToLeagueExtrasColumn()
 function show(){
     include '../connection.php';
 
-    $sql = 'SELECT * FROM `leagues` WHERE `id`="' . $_POST['id'] . '"';
+    $sql = 'SELECT * FROM `tournaments` WHERE `id`="' . $_POST['id'] . '"';
     $result = $conn->query($sql);
 
     return json_encode($result->fetch_assoc());
