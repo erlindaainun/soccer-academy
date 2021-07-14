@@ -73,17 +73,31 @@ function store()
 
     // Jika team berhasil dibuat
     if ($result) {
-        // Insert into team_has_league
-        $sql = 'INSERT INTO `team_has_tournaments` (`team_id`, `tournament_id`) VALUES (' .
-            '"' . $conn->insert_id . '",' .
-            '"' . $_POST['tournament_id'] . '")';
-        $conn->query($sql); // Execute sql
+        if ($_POST['team_type'] == 'turnamen') {
+            // Insert into team_has_league
+            $sql = 'INSERT INTO `team_has_tournaments` (`team_id`, `tournament_id`) VALUES (' .
+                '"' . $conn->insert_id . '",' .
+                '"' . $_POST['tournament_id'] . '")';
+            $conn->query($sql); // Execute sql
 
-        return json_encode([
-            'status' => true,
-            'msg' => 'Nama tim: xxx berhasil dibuat!',
-            'noreg' => $reg_number,
-        ]);
+            return json_encode([
+                'status' => true,
+                'msg' => 'Nama tim: xxx berhasil dibuat!',
+                'noreg' => $reg_number,
+            ]);
+        } else if ($_POST['team_type'] == 'liga') {
+            // Insert into team_has_league
+            $sql = 'INSERT INTO `team_has_leagues` (`team_id`, `league_id`) VALUES (' .
+                '"' . $conn->insert_id . '",' .
+                '"' . $_POST['tournament_id'] . '")';
+            $conn->query($sql); // Execute sql
+
+            return json_encode([
+                'status' => true,
+                'msg' => 'Nama tim: xxx berhasil dibuat!',
+                'noreg' => $reg_number,
+            ]);
+        }
     } else {
         return json_encode([
             'status' => false,
@@ -139,7 +153,7 @@ function getTeamAsParticipant()
     $participant = $_POST['participant'];
 
     $participant_team_name = [];
-    foreach($participant as $team_id){
+    foreach ($participant as $team_id) {
         $sql = 'SELECT * FROM `teams` WHERE id = ' . $team_id;
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
