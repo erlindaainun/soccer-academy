@@ -667,26 +667,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $sql = 'SELECT * FROM `schedules` WHERE `league_id`="' . $_GET['id'] . '"';
                         $result = $conn->query($sql);
 
+                        $game_count = 1;
                         foreach ($result->fetch_all() as $key => $schedule) {
                           $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
                           $result = $conn->query($sql);
                           $teams = $result->fetch_all();
 
-                          // echo $teams[0][1] . ' vs ' . $teams[1][1] . '<br>';
+                          $hari = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+                          $date_format = new DateTime($schedule[5]);
+                          $time_format = new DateTime($schedule[6]);
+
+                          $date =     $schedule[5] ? $hari[$date_format->format('N')] . ', ' . $date_format->format('d-m-Y') : '';
+                          $time =     $schedule[6] ? $time_format->format('G:i') : '';
+                          $location = $schedule[7] ?? '';
                         ?>
                           <div class="card">
+                            <div class="card-header">
+                              <h5><?php echo $date . ' - ' . $time . ' - ' . $location; ?></h5>
+                            </div>
                             <div class="card-body" style="padding-bottom: 5px;">
-                              <a href="#"><b> <?php echo $teams[0][1]; ?></b></a><br>
-                              <a href="#"><b> <?php echo $teams[1][1]; ?></b></a>
+                              <a href="#"><b> <?php echo '(' . $schedule[2] . ') ' . $teams[0][1]; ?></b></a><br>
+                              <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a>
                               <ul class="list-inline">
-                                <li class="list-inline-item">Game 1</li>
-                                <li class="list-inline-item"><a href="#"> Ubah</a></li>
-                                <li class="list-inline-item"><a href="#"> Skor</a></li>
+                                <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item">Game <?php echo $game_count; ?></li>
+                                <li class="list-inline-item"><a onclick="editSchedule(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" data-id="<?php echo $schedule[0] ?>"> Ubah</a></li>
+                                <li class="list-inline-item"><a href="javascript:void(0)"> Skor</a></li>
                               </ul>
                             </div>
                           </div>
 
                         <?php
+                          $game_count++;
                         }
                         ?>
                       </div>
@@ -838,79 +849,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Ubah Hasil</h4>
+            <h4 id="schedule-game-title" class="modal-title">Ubah Game</h4>
             <button type="button" id="player-modal" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="col-12">
-              <div class="card card-primary card-outline card-outline-tabs">
-                <div class="card-header p-0 border-bottom-0">
-                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="false">Jadwal</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="true">Ubah Hasil</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Ubah stat pemain</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="card-body">
-                  <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade active show" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-                      <div class="form-group">
-                        <label>Tanggal</label>
-                        <input name="match_date" type="date" class="form-control" placeholder="Enter ...">
-                      </div>
-                      <div class="form-group">
-                        <label>Jam</label>
-                        <input name="match_time" type="time" class="form-control" placeholder="Enter ...">
-                      </div>
-                    </div>
-                    <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-                      <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th style="width: 400px">Tim</th>
-                            <th>Skor</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Tim #1</td>
-                            <td>
-                              <div class="col-3">
-                                <input type="text" class="form-control" placeholder="">
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Tim #2</td>
-                            <td>
-                              <div class="col-3">
-                                <input type="text" class="form-control" placeholder="">
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                      Tampilkan table team serta input
-                    </div>
-                  </div>
-                </div>
-                <!-- /.card -->
-              </div>
+            <input type="hidden" name="schedule-id">
+            <div class="form-group">
+              <label>Tanggal</label>
+              <input name="match-date" type="date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Jam</label>
+              <input name="match-time" type="time" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Lokasi</label>
+              <input name="location" type="text" class="form-control" placeholder="Masukkan lokasi">
             </div>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button onclick="submitPemain()" type="button" class="btn btn-primary">Tambah</button>
+            <button onclick="updateSchedule()" type="button" class="btn btn-primary">Tambah</button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -1118,6 +1079,52 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $('[data-toggle="tooltip"]').tooltip()
     });
 
+    function editSchedule(button) {
+      var id = $(button).data('id')
+      var game_name = $('#game-id-' + id).html();
+
+      $('#schedule-game-title').html('Ubah ' + game_name);
+      $('input[name=schedule-id]').val(id);
+    }
+
+    function updateSchedule() {
+      var match_date = $('input[name=match-date]').val()
+      var match_time = $('input[name=match-time]').val()
+      var location = $('input[name=location]').val()
+      var id = $('input[name=schedule-id]').val()
+
+      $.ajax({
+        type: "POST",
+        url: "/api/schedule.php",
+        data: {
+          'tipe': 'update',
+          'date': match_date,
+          'time': match_time,
+          'location': location,
+          'id': id,
+        },
+        success: function(response) {
+          var res = JSON.parse(response);
+
+          if (res.status)
+            Swal.fire({
+              title: 'Berhasil',
+              text: res.msg,
+              icon: 'success',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload();
+              }
+            })
+          else
+            Swal.fire('Gagal', res.msg, 'danger');
+
+          // dismiss modal
+          $('#modal-default').modal('toggle')
+        }
+      });
+    }
+
     function findGetParameter(parameterName) {
       var result = null,
         tmp = [];
@@ -1279,33 +1286,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 '<td><i class="fas fa-check-circle text-success"></i><i class="fas fa-minus-circle text-secondary"></i><i class="fas fa-times-circle text-danger"></i><i class="far fa-circle"></i><i class="far fa-circle"></i></td>' +
                 '</tr>'
               )
-
-              // for (j = (i + 1); j < teams.length; j++) {
-              //   schedules.push(teams[i][0] + ',0,0,' + teams[j][0] + ',"","",' + id)
-              // }
-              
             }
           }
 
         }
       });
-
-      // $('form[name=formManage]').submit(function() {
-      //   var teams = $('select[name')
-
-      //   $.ajax({
-      //     type: "POST",
-      //     url: "/api/schedule.php",
-      //     data: {
-      //       'tipe': 'store',
-      //       'id': findGetParameter('id'),
-      //       'data': schedules
-      //     },
-      //     success: function(response) {
-
-      //     }
-      //   });
-      // })
     }
   </script>
 </body>

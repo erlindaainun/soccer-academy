@@ -126,7 +126,7 @@ function postManage()
         $team = $teams[$i];
 
         for ($j = ($i + 1); $j < count($team2); $j++) {
-            $schedules[] = $team2[$i][0] . ',0,0,' . $team2[$j][0] . ',"","",' . $_POST['id'];
+            $schedules[] = $team2[$i][0] . ',0,0,' . $team2[$j][0] . ',NULL,NULL,' . $_POST['id'];
         }
     }
 

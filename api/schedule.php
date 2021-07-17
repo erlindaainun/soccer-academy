@@ -45,8 +45,28 @@ function store()
         return json_encode(['status' => false, 'msg' => 'Gagal']);
 }
 
+function update()
+{
+    include '../connection.php';
+
+    $sql = 'UPDATE `schedules` SET ' .
+        '`date` = "' . $_POST['date'] . '", ' .
+        '`time` = "' . $_POST['time'] . '", ' .
+        '`location` = "' . $_POST['location'] . '", ' .
+        '`updated_at` = NOW() WHERE `id` = "' . $_POST['id'] . '"';
+    // return $sql;
+    $result = $conn->query($sql);
+
+    if ($result)
+        return json_encode(['status' => true, 'msg' => 'Berhasil mengubah jadwal']);
+    else
+        return json_encode(['status' => false, 'msg' => 'Gagal mengubah jadwal']);
+}
+
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'store')
         echo store();
+    else if ($_POST['tipe'] == 'update')
+        echo update();
 } else
     echo index();
