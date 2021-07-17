@@ -667,37 +667,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $sql = 'SELECT * FROM `schedules` WHERE `league_id`="' . $_GET['id'] . '"';
                         $result = $conn->query($sql);
 
-                        $game_count = 1;
-                        foreach ($result->fetch_all() as $key => $schedule) {
-                          $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
-                          $result = $conn->query($sql);
-                          $teams = $result->fetch_all();
+                        if ($row = $result->fetch_all()) {
+                          $game_count = 1;
+                          foreach ($row as $key => $schedule) {
+                            $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
+                            $result = $conn->query($sql);
+                            $teams = $result->fetch_all();
 
-                          $hari = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-                          $date_format = new DateTime($schedule[5]);
-                          $time_format = new DateTime($schedule[6]);
+                            $hari = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+                            $date_format = new DateTime($schedule[5]);
+                            $time_format = new DateTime($schedule[6]);
 
-                          $date =     $schedule[5] ? $hari[$date_format->format('N')] . ', ' . $date_format->format('d-m-Y') : '';
-                          $time =     $schedule[6] ? $time_format->format('G:i') : '';
-                          $location = $schedule[7] ?? '';
+                            $date =     $schedule[5] ? $hari[$date_format->format('N')] . ', ' . $date_format->format('d-m-Y') : '';
+                            $time =     $schedule[6] ? $time_format->format('G:i') : '';
+                            $location = $schedule[7] ?? '';
                         ?>
-                          <div class="card">
-                            <div class="card-header">
-                              <h5><?php echo $date . ' - ' . $time . ' - ' . $location; ?></h5>
+                            <div class="card">
+                              <div class="card-header">
+                                <h5><?php echo $date . ' - ' . $time . ' - ' . $location; ?></h5>
+                              </div>
+                              <div class="card-body" style="padding-bottom: 5px;">
+                                <a href="#"><b> <?php echo '(' . $schedule[2] . ') ' . $teams[0][1]; ?></b></a><br>
+                                <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a>
+                                <ul class="list-inline">
+                                  <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item">Game <?php echo $game_count; ?></li>
+                                  <li class="list-inline-item"><a onclick="editSchedule(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" data-id="<?php echo $schedule[0] ?>"> Ubah</a></li>
+                                  <li class="list-inline-item"><a href="javascript:void(0)"> Skor</a></li>
+                                </ul>
+                              </div>
                             </div>
-                            <div class="card-body" style="padding-bottom: 5px;">
-                              <a href="#"><b> <?php echo '(' . $schedule[2] . ') ' . $teams[0][1]; ?></b></a><br>
-                              <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a>
-                              <ul class="list-inline">
-                                <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item">Game <?php echo $game_count; ?></li>
-                                <li class="list-inline-item"><a onclick="editSchedule(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" data-id="<?php echo $schedule[0] ?>"> Ubah</a></li>
-                                <li class="list-inline-item"><a href="javascript:void(0)"> Skor</a></li>
-                              </ul>
-                            </div>
-                          </div>
 
                         <?php
-                          $game_count++;
+                            $game_count++;
+                          }
+                        } else {
+                          echo ('Belum ada jadwal');
                         }
                         ?>
                       </div>

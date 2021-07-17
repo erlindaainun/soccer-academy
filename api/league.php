@@ -122,13 +122,19 @@ function postManage()
     $team2 = json_decode($manage->data)->teams;
 
     $schedules = [];
-    for ($i = 0; $i < count($team2); $i++) {
-        $team = $teams[$i];
+    if (count($team2) >= 2) {
+        for ($i = 0; $i < count($team2); $i++) {
+            $team = $teams[$i];
 
-        for ($j = ($i + 1); $j < count($team2); $j++) {
-            $schedules[] = $team2[$i][0] . ',0,0,' . $team2[$j][0] . ',NULL,NULL,' . $_POST['id'];
+            for ($j = ($i + 1); $j < count($team2); $j++) {
+                $schedules[] = $team2[$i][0] . ',0,0,' . $team2[$j][0] . ',NULL,NULL,' . $_POST['id'];
+            }
         }
+    } else {
+        $sql = 'DELETE FROM `schedules` WHERE `league_id`=' . $_POST['id'];
+        $conn->query($sql);
     }
+
 
     if ($schedules != []) {
         // Check if liga id tersebut sudah ada maka reset semua yang berhubungan dengan liga id tsb
