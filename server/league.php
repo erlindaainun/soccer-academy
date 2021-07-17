@@ -663,11 +663,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <div class="bracketGenerated"></div>
+                        <?php
+                        $sql = 'SELECT * FROM `schedules` WHERE `league_id`="' . $_GET['id'] . '"';
+                        $result = $conn->query($sql);
 
-                        <div class="row">
-                          <div id="dataOutput" class=""></div>
-                        </div>
+                        foreach ($result->fetch_all() as $key => $schedule) {
+                          $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
+                          $result = $conn->query($sql);
+                          $teams = $result->fetch_all();
+
+                          // echo $teams[0][1] . ' vs ' . $teams[1][1] . '<br>';
+                        ?>
+                          <div class="card">
+                            <div class="card-body" style="padding-bottom: 5px;">
+                              <a href="#"><b> <?php echo $teams[0][1]; ?></b></a><br>
+                              <a href="#"><b> <?php echo $teams[1][1]; ?></b></a>
+                              <ul class="list-inline">
+                                <li class="list-inline-item">Game 1</li>
+                                <li class="list-inline-item"><a href="#"> Ubah</a></li>
+                                <li class="list-inline-item"><a href="#"> Skor</a></li>
+                              </ul>
+                            </div>
+                          </div>
+
+                        <?php
+                        }
+                        ?>
                       </div>
                       <!-- /.card-body -->
                     </div>
@@ -1259,29 +1280,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 '</tr>'
               )
 
-              for (j = (i + 1); j < teams.length; j++) {
-                schedules.push(teams[i][0] + ',0,0,' + teams[j][0] + ',"","",' + id)
-              }
+              // for (j = (i + 1); j < teams.length; j++) {
+              //   schedules.push(teams[i][0] + ',0,0,' + teams[j][0] + ',"","",' + id)
+              // }
+              
             }
           }
 
         }
       });
 
-      $('form[name=formManage]').submit(function() {
-        $.ajax({
-          type: "POST",
-          url: "/api/schedule.php",
-          data: {
-            'tipe': 'store',
-            'id': findGetParameter('id'),
-            'data': schedules
-          },
-          success: function(response) {
+      // $('form[name=formManage]').submit(function() {
+      //   var teams = $('select[name')
 
-          }
-        });
-      })
+      //   $.ajax({
+      //     type: "POST",
+      //     url: "/api/schedule.php",
+      //     data: {
+      //       'tipe': 'store',
+      //       'id': findGetParameter('id'),
+      //       'data': schedules
+      //     },
+      //     success: function(response) {
+
+      //     }
+      //   });
+      // })
     }
   </script>
 </body>

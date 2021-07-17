@@ -80,11 +80,11 @@ function delete()
         return json_encode(['status' => false, 'msg' => 'Tim tidak dapat dihapus!']);
 }
 
-function manage()
+function manage($id = null)
 {
     include '../connection.php';
 
-    $sql = 'SELECT * FROM `leagues` WHERE id = ' . $_POST['id'];
+    $sql = 'SELECT * FROM `leagues` WHERE id = ' . $_POST['id'] ?? $id;
     $result = $conn->query($sql);
 
     $row = $result->fetch_assoc();
@@ -100,7 +100,7 @@ function manage()
     // echo json_encode($extras);
 
     if ($result) {
-        return json_encode(['status' => true, 'msg' => 'Berhasil', 'data' => json_encode($extras)]);
+        return json_encode(['data' => json_encode($extras)]);
     } else {
         return json_encode(['status' => false, 'msg' => 'Data Team tidak ada', 'data' => json_encode($extras)]);
     }
@@ -117,6 +117,42 @@ function postManage()
         'extras = \'' . $extras . '\',' .
         'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
     $conn->query($sql); // Execute update extras
+
+    $manage = json_decode(manage($_POST['id']));
+    $team2 = json_decode($manage->data)->teams;
+
+    $schedules = [];
+    for ($i = 0; $i < count($team2); $i++) {
+        $team = $teams[$i];
+
+        for ($j = ($i + 1); $j < count($team2); $j++) {
+            $schedules[] = $team2[$i][0] . ',0,0,' . $team2[$j][0] . ',"","",' . $_POST['id'];
+        }
+    }
+
+    if ($schedules != []) {
+        // Check if liga id tersebut sudah ada maka reset semua yang berhubungan dengan liga id tsb
+        $sql = 'SELECT * FROM `schedules` WHERE `league_id`=' . $_POST['id'];
+        $result = $conn->query($sql);
+        if ($result) {
+            $sql = 'DELETE FROM `schedules` WHERE `league_id`=' . $_POST['id'];
+            $conn->query($sql);
+        }
+
+        // $schedules = $_POST['data'];
+        $fail_status = false;
+        foreach ($schedules as $key => $schedule) {
+            $sql = 'INSERT INTO `schedules` (`team_id1`, `score_team_id1`, `score_team_id2`, `team_id2`, `date`, `location`, `league_id`, `created_at`, `updated_at`) VALUES (' .
+                $schedule . ', ' .
+                'NOW(), NOW()' .
+                ')';
+            // return ($sql . '<br>');
+            $result = $conn->query($sql);
+
+            if (!$result)
+                $fail_status = true;
+        }
+    }
 
     return header("Location:/server/league.php?page=manage&id=" . $_POST['id'] . '&generate=' . $round_one_generate);
 }
@@ -138,7 +174,8 @@ function setResultsToLeagueExtrasColumn()
     return json_encode($results);
 }
 
-function show(){
+function show()
+{
     include '../connection.php';
 
     $sql = 'SELECT * FROM `leagues` WHERE `id`="' . $_POST['id'] . '"';
