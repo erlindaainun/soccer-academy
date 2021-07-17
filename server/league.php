@@ -1271,6 +1271,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           if (data) {
             var extras = JSON.parse(data);
             var teams = extras.teams;
+
+            // Show no data info if team is null
+            if(teams.length == 0)
+              $("#standings tbody").append('<tr><td colspan="11" style="text-align: center;">Belum ada tim</td></tr>')
+            console.log(teams.length)
             // Klasemen
             for (i = 0; i < teams.length; i++) {
               var team = teams[i];
