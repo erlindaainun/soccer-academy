@@ -65,9 +65,25 @@ function storePlayer()
     }
 }
 
+function getPlayerByTeamId()
+{
+
+    include '../connection.php';
+
+    $team_id = $_POST['id'];
+
+    $sql = 'SELECT * FROM `players` WHERE `team_id` = "' . $team_id . '"';
+    $result = $conn->query($sql);
+
+    if ($result)
+        return json_encode($result->fetch_all());
+}
+
 if (isset($_POST['tipe'])) {
     if ($_POST['tipe'] == 'callFuncDelete')
         echo deletePlayer($_POST['id']);
     else if ($_POST['tipe'] == 'callFuncStore')
         echo storePlayer();
+    else if ($_POST['tipe'] == 'getPlayerByTeamId')
+        echo getPlayerByTeamId();
 }

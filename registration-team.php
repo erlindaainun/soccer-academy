@@ -816,7 +816,8 @@
 
     function cariNomorRegistrasi() {
       var no_registrasi = $('#no-reg').val();
-      window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi;
+      var tipe = findGetParameter('tipe');
+      window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi + "&tipe=" + tipe;
     }
 
     function deletePlayer(player_id) {

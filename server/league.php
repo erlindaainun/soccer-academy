@@ -688,11 +688,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>
                               <div class="card-body" style="padding-bottom: 5px;">
                                 <a href="#"><b> <?php echo '(' . $schedule[2] . ') ' . $teams[0][1]; ?></b></a><br>
+                                <?php
+                                $extras = $schedule[9];
+                                if ($extras != null) {
+                                  $goal_scorer_team1 = json_decode($extras)->goal_scorer_team1;
+
+                                  foreach ($goal_scorer_team1 as $key => $player_id) {
+                                    $sql = 'SELECT `full_name` FROM `players` WHERE `id` = ' . $player_id;
+                                    // echo '<script>alert("' . $sql . '");</script>';
+                                    $result = $conn->query($sql);
+                                    $row = $result->fetch_assoc();
+
+                                    echo $row['full_name'] . '<br>';
+                                  }
+                                }
+                                ?>
                                 <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a>
                                 <ul class="list-inline">
                                   <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item">Game <?php echo $game_count; ?></li>
                                   <li class="list-inline-item"><a onclick="editSchedule(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" data-id="<?php echo $schedule[0] ?>"> Ubah</a></li>
-                                  <li class="list-inline-item"><a href="javascript:void(0)"> Skor</a></li>
+                                  <li class="list-inline-item">
+                                    <a onclick="editScheduleScore(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-score" data-id="<?php echo $schedule[0] ?>" data-team-one="<?php echo $teams[0][1]; ?>" data-team-one-id="<?php echo $teams[0][0]; ?>" data-team-two="<?php echo $teams[1][1]; ?>" data-team-two-id="<?php echo $teams[1][0]; ?>"> Skor</a>
+                                  </li>
                                 </ul>
                               </div>
                             </div>
@@ -848,6 +865,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- /.content-wrapper -->
 
+    <!-- Modal Edit Schedule -->
     <!-- Modal editing matches -->
     <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -876,6 +894,93 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
             <button onclick="updateSchedule()" type="button" class="btn btn-primary">Ubah</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+    <!-- Modal Edit Schedule Score -->
+    <!-- Modal editing matches -->
+    <div class="modal fade" id="modal-edit-score" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="schedule-game-title2" class="modal-title">Ubah Score Game</h4>
+            <button type="button" id="player-modal" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="schedule-id">
+            <div class="row">
+              <div class="col-6">
+                <label id="team-name-1" class="col-form-label float-right"> Team 1</label>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <input name="score-team-1" type="text" class="form-control col-2" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div id="scorer-team1" class="col-12 text-center">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-10">
+                  <select class="form-control" name="goal-scorer" id="goal-scorer-team1">
+                  </select>
+                </div>
+                <div class="col-2">
+                  <a onclick="addGoalScorerTeam1()" href="javascript:void(0)" class="btn btn-block btn-success" title="Tambah pencetak skor team 1">
+                    <i class="fa fa-plus"></i>
+                    Tambah
+                  </a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-6">
+                <label id="team-name-2" class="col-form-label float-right"> Team 2</label>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <input name="score-team-2" type="text" class="form-control col-2" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-center">
+                <div class="d-flex">
+                  <ul class="list-inline mx-auto justify-content-center">
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-10">
+                  <select class="form-control" name="goal-scorer" id="goal-scorer-team2">
+                  </select>
+                </div>
+                <div class="col-2">
+                  <a href="javascript:void(0)" class="btn btn-block btn-success" title="Tambah pencetak skor">
+                    <i class="fa fa-plus"></i>
+                    Tambah
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            <button onclick="updateScheduleScore()" type="button" class="btn btn-primary">Ubah</button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -1091,6 +1196,97 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $('input[name=schedule-id]').val(id);
     }
 
+    function editScheduleScore(button) {
+      var id = $(button).data('id')
+      var game_name = $('#game-id-' + id).html();
+      var team_one_id = $(button).data('team-one-id')
+      var team_two_id = $(button).data('team-two-id')
+      var team_one_name = $(button).data('team-one');
+      var team_two_name = $(button).data('team-two');
+
+      $('#team-name-1').html(team_one_name);
+      $('#team-name-2').html(team_two_name);
+
+      // Show old value of scorer
+      $.ajax({
+        type: "POST",
+        url: "/api/schedule.php",
+        data: {
+          'id': id,
+          'tipe': 'getScorerTeam1'
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+
+          for (i = 0; i < res.length; i++) {
+            $('#scorer-team1').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team1-id[]" type="hidden" value="' + res[i]['id'] + '"><input name="scorer-team1[]" class="form-control" type="text" readonly value="' + res[i]['full_name'] + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
+          }
+          
+          // Append count scorer
+          var score = $('input[name="scorer-team1[]"]')
+          $('input[name=score-team-1]').val(score.length)
+        }
+      });
+
+      // Assign team's player
+      $.ajax({
+        type: "POST",
+        url: "/api/player.php",
+        data: {
+          'id': team_one_id,
+          'tipe': 'getPlayerByTeamId',
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+
+          $('#goal-scorer-team1 option').remove()
+          $('#goal-scorer-team1').append('<option value="" disabled selected>Pilih pencetak</option>')
+          for (i = 0; i < res.length; i++) {
+            $('#goal-scorer-team1').append('<option value="' + res[i][0] + '">' + res[i][1] + '</option>')
+          }
+        }
+      });
+
+      // Assign team's player
+      $.ajax({
+        type: "POST",
+        url: "/api/player.php",
+        data: {
+          'id': team_two_id,
+          'tipe': 'getPlayerByTeamId',
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+
+          $('#goal-scorer-team2 option').remove()
+          $('#goal-scorer-team2').append('<option value="" disabled selected>Pilih pencetak</option>')
+          for (i = 0; i < res.length; i++) {
+            $('#goal-scorer-team2').append('<option value="' + res[i][0] + '">' + res[i][1] + '</option>')
+          }
+        }
+      });
+
+      $('#schedule-game-title2').html('Ubah Skor ' + game_name);
+      $('input[name=schedule-id]').val(id);
+    }
+
+    function addGoalScorerTeam1() {
+      var player_id = $('#goal-scorer-team1').find(":selected").val();
+      var player_name = $('#goal-scorer-team1').find(":selected").text();
+
+      $('#scorer-team1').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team1-id[]" type="hidden" value="' + player_id + '"><input name="scorer-team1[]" class="form-control" type="text" readonly value="' + player_name + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
+      var score = $('input[name="scorer-team1[]"]')
+      $('input[name=score-team-1]').val(score.length)
+
+      // console.log(player_id);
+    }
+
+    function removeScorerRow(button) {
+      $(button).parent().parent().remove();
+      var score = $('input[name="scorer-team1[]"]')
+      $('input[name=score-team-1]').val(score.length)
+    }
+
     function updateSchedule() {
       var match_date = $('input[name=match-date]').val()
       var match_time = $('input[name=match-time]').val()
@@ -1127,6 +1323,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
           $('#modal-default').modal('toggle')
         }
       });
+    }
+
+    function updateScheduleScore() {
+      var id = $('input[name=schedule-id]').val()
+      var player_ids = [];
+      $('input[name="scorer-team1-id[]"]').each(function() {
+        player_ids.push(this.value)
+      })
+
+      console.log(player_ids);
+
+      $.ajax({
+        type: "POST",
+        url: "/api/schedule.php",
+        data: {
+          'tipe': 'updateScore',
+          'id': id,
+          'goal_scorer_team1': player_ids,
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+
+          if (res.status)
+            Swal.fire({
+              title: 'Berhasil',
+              text: res.msg,
+              icon: 'success',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload();
+              }
+            })
+          else
+            Swal.fire('Gagal', res.msg, 'danger');
+        }
+      });
+
+      console.log(id)
     }
 
     function findGetParameter(parameterName) {
@@ -1272,12 +1506,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             var extras = JSON.parse(data);
             var teams = extras.teams;
 
-            console.log(teams);
-
             // Show no data info if team is null
-            if(teams.length == 0)
+            if (teams.length == 0)
               $("#standings tbody").append('<tr><td colspan="11" style="text-align: center;">Belum ada tim</td></tr>')
-            console.log(teams.length)
+
             // Klasemen
             for (i = 0; i < teams.length; i++) {
               var team = teams[i];
