@@ -1218,6 +1218,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         success: function(response) {
           var res = JSON.parse(response)
 
+          $('#scorer-team1').children().remove()
           for (i = 0; i < res.length; i++) {
             $('#scorer-team1').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team1-id[]" type="hidden" value="' + res[i]['id'] + '"><input name="scorer-team1[]" class="form-control" type="text" readonly value="' + res[i]['full_name'] + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
           }
