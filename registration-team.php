@@ -425,32 +425,27 @@
                                                                     $i++; ?>" id="vert-tabs-<?php echo $name ?>" role="tabpanel" aria-labelledby="vert-tabs-<?php echo $name ?>-tab">
                                   <!-- Detail player -->
                                   <div class="row">
-                                    <div class="col-8 col-sm-6 col-md-8 d-flex align-items-stretch flex-column">
+                                    <div class="col-12 col-sm-6 col-md-12 d-flex align-items-stretch flex-column">
                                       <div class="card bg-light d-flex flex-fill">
                                         <div class="card-header text-muted border-bottom-0">
-                                          <?php echo $row['position'] ?>
+                                          <?php echo $row['position'] ?> - <?php echo $row['back_name'] ?> - <?php echo $row['back_number'] ?>
                                         </div>
                                         <div class="card-body pt-0">
                                           <div class="row">
-                                            <div class="col-7">
+                                            <div class="col-8">
                                               <h2 class="lead"><b><?php echo $row['full_name'] ?></b></h2>
                                               <p class="text-muted text-sm"><b>No. Identitas: </b> <?php echo $row['identity_number'] ?> </p>
-                                              <p class="text-muted text-sm"><b>TTL: </b> <?php echo $row['birth_place'] . ', ' . $row['birth_date'] ?> </p>
                                               <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
-                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: + 800 - 12 12 23 52</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span> TTL: <?php echo $row['birth_place'] . ', ' . $row['birth_date'] ?></li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-star-and-crescent"></i></span> Agama: <?php echo $row['religion'] ?></li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Alamat: <?php echo $row['address'] ?></li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-ruler"></i></span> Tinggi Badan: <?php echo $row['height'] ?> cm</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-weight"></i></span> Berat Badan: <?php echo $row['weight'] ?> kg</li>
                                               </ul>
                                             </div>
-                                            <div class="col-5 text-center">
+                                            <div class="col-4 text-center">
                                               <img src="/assets/img/team/team-1.jpg" alt="user-avatar" class="img-circle img-fluid">
                                             </div>
-                                          </div>
-                                        </div>
-                                        <div class="card-footer">
-                                          <div class="text-right">
-                                            <a href="#" class="btn btn-sm btn-primary">
-                                              <i class="fas fa-user"></i> Detail
-                                            </a>
                                           </div>
                                         </div>
                                       </div>
