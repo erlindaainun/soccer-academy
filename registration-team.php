@@ -993,7 +993,7 @@
             },
             success: function(response) {
               var res = JSON.parse(response)
-              window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg;
+              window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg + "&tipe=" + team_type;
             }
           });
 

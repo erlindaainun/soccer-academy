@@ -16,14 +16,15 @@ function store()
 {
     include '../connection.php';
 
-    $sql = 'INSERT INTO `leagues` (`name`, `date`, `location`, `image_path`, `status`, `created_at`, `updated_at`) VALUES (' .
+    $image_path = isset($_POST['image_path']) ? $_POST['image_path'] : 'NULL';
+    $sql = 'INSERT INTO `leagues` (`name`, `date`, `location`, `image_path`, `status`, `extras`, `created_at`, `updated_at`) VALUES (' .
         '"' . $_POST['name'] . '", ' .
         '"' . $_POST['date'] . '", ' .
         '"' . $_POST['location'] . '", ' .
-        '"' . $_POST['image_path'] . '", ' .
+        '"' . $image_path . '", ' .
         '"' . $_POST['status'] . '", ' .
+        '"{\"teams\":[]}", ' . 
         'NOW(), NOW())';
-
     $result = $conn->query($sql);
 
     if ($result)

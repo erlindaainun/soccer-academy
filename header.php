@@ -38,7 +38,7 @@
                 </li>
                 <li class="dropdown">
                     <a class="<?php if (
-                                    ($_SERVER['SCRIPT_NAME'] == "/registration-team.php" && $_GET['tipe'] == 'liga')
+                                    ($_SERVER['SCRIPT_NAME'] == "/registration-team.php" && $_GET['tipe'] ?? '' == 'liga')
                                     || $_SERVER['SCRIPT_NAME'] == "/schedule.php"
                                     || $_SERVER['SCRIPT_NAME'] == "/standing.php"
                                 ) echo "active" ?>" href="#"><span>Liga</span> <i class="bi bi-chevron-down"></i>
