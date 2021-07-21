@@ -1328,22 +1328,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var player_id = $('#goal-scorer-team1').find(":selected").val();
       var player_name = $('#goal-scorer-team1').find(":selected").text();
 
-      $('#scorer-team1').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team1-id[]" type="hidden" value="' + player_id + '"><input name="scorer-team1[]" class="form-control" type="text" readonly value="' + player_name + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
-      var score = $('input[name="scorer-team1[]"]')
-      $('input[name=score-team-1]').val(score.length)
-
-      // console.log(player_id);
+      if (player_id != '') {
+        $('#scorer-team1').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team1-id[]" type="hidden" value="' + player_id + '"><input name="scorer-team1[]" class="form-control" type="text" readonly value="' + player_name + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
+        var score = $('input[name="scorer-team1[]"]')
+        $('input[name=score-team-1]').val(score.length)
+      }
     }
 
     function addGoalScorerTeam2() {
       var player_id = $('#goal-scorer-team2').find(":selected").val();
       var player_name = $('#goal-scorer-team2').find(":selected").text();
 
-      $('#scorer-team2').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team2-id[]" type="hidden" value="' + player_id + '"><input name="scorer-team2[]" class="form-control" type="text" readonly value="' + player_name + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
-      var score = $('input[name="scorer-team2[]"]')
-      $('input[name=score-team-2]').val(score.length)
-
-      // console.log(player_id);
+      if (player_id != '') {
+        $('#scorer-team2').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team2-id[]" type="hidden" value="' + player_id + '"><input name="scorer-team2[]" class="form-control" type="text" readonly value="' + player_name + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
+        var score = $('input[name="scorer-team2[]"]')
+        $('input[name=score-team-2]').val(score.length)
+      }
     }
 
     function removeScorerRow(button) {
@@ -1620,6 +1620,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     // Jumlahkan semua gol kebobolan tim 1
                     goal_away = goal_away + score_team2
+
+                    last_five_match.pop()
+                    if (score_team1 > score_team2)
+                      last_five_match.unshift('win')
+                    else if (score_team1 < score_team2)
+                      last_five_match.unshift('lose')
+                    else if (score_team1 == score_team2)
+                      last_five_match.unshift('draw')
+                    else
+                      last_five_match.push(0)
                   }
 
                   // Jika skor tim 1 lebih besar dari tim 2, tambah jumlah menang tim 1
@@ -1629,14 +1639,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   // Jika skor tim 1 lebih kecil dari tim 2, tambah jumlah kalah tim 1
                   if (score_team1 < score_team2)
                     match_lose = match_lose + 1;
-
-                  last_five_match.pop()
-                  if (score_team1 > score_team2)
-                    last_five_match.unshift('win')
-                  else if (score_team1 < score_team2)
-                    last_five_match.unshift('lose')
-                  else if (score_team1 == score_team2)
-                    last_five_match.unshift('draw')
                 }
 
                 // Checking from team_id2 side
@@ -1653,6 +1655,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     // Jumlahkan semua gol kebobolan tim 2
                     goal_away = goal_away + score_team1
+
+                    last_five_match.pop()
+                    if (score_team1 < score_team2)
+                      last_five_match.unshift('win')
+                    else if (score_team1 > score_team2)
+                      last_five_match.unshift('lose')
+                    else if (score_team1 == score_team2)
+                      last_five_match.unshift('draw')
+                    else
+                      last_five_match.push(0)
                   }
 
                   // Jika skor tim 2 lebih besar dari tim 1, tambah jumlah menang tim 2
@@ -1662,16 +1674,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   // Jika skor tim 2 lebih kecil dari tim 1, tambah jumlah kalah tim 2
                   if (score_team1 > score_team2)
                     match_lose = match_lose + 1;
-
-                  last_five_match.pop()
-                  if (score_team1 > score_team2)
-                    last_five_match.unshift('win')
-                  else if (score_team1 < score_team2)
-                    last_five_match.unshift('lose')
-                  else if (score_team1 == score_team2)
-                    last_five_match.unshift('draw')
                 }
               }
+              console.log(last_five_match)
 
               var last_five_match_result = [];
               for (k = 0; k < last_five_match.length; k++) {
@@ -1684,7 +1689,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 else
                   last_five_match_result.push('<i class="far fa-circle"></i>')
               }
-              
+              goal_maker = isNaN(goal_maker) ? parseInt(0) : goal_maker;
+              goal_away = isNaN(goal_away) ? parseInt(0) : goal_away;
+
               $("#standings tbody").append(
                 '<tr>' +
                 '<td>' + (i + 1) + '</td>' +
