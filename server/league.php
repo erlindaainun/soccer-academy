@@ -703,7 +703,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   }
                                 }
                                 ?>
-                                <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a>
+                                <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a><br>
+                                <?php
+                                $extras = $schedule[9];
+                                if ($extras != null) {
+                                  $goal_scorer_team2 = json_decode($extras)->goal_scorer_team2;
+
+                                  foreach ($goal_scorer_team2 as $key => $player_id) {
+                                    $sql = 'SELECT `full_name` FROM `players` WHERE `id` = ' . $player_id;
+                                    // echo '<script>alert("' . $sql . '");</script>';
+                                    $result = $conn->query($sql);
+                                    $row = $result->fetch_assoc();
+
+                                    echo $row['full_name'] . '<br>';
+                                  }
+                                }
+                                ?>
                                 <ul class="list-inline">
                                   <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item">Game <?php echo $game_count; ?></li>
                                   <li class="list-inline-item"><a onclick="editSchedule(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" data-id="<?php echo $schedule[0] ?>"> Ubah</a></li>
@@ -954,13 +969,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
             </div>
             <div class="row">
-              <div class="col-12 text-center">
-                <div class="d-flex">
-                  <ul class="list-inline mx-auto justify-content-center">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                  </ul>
-                </div>
+              <div id="scorer-team2" class="col-12 text-center">
               </div>
             </div>
             <div class="form-group">
@@ -970,7 +979,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </select>
                 </div>
                 <div class="col-2">
-                  <a href="javascript:void(0)" class="btn btn-block btn-success" title="Tambah pencetak skor">
+                  <a onclick="addGoalScorerTeam2()" href="javascript:void(0)" class="btn btn-block btn-success" title="Tambah pencetak skor team 2">
                     <i class="fa fa-plus"></i>
                     Tambah
                   </a>
@@ -1222,10 +1231,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
           for (i = 0; i < res.length; i++) {
             $('#scorer-team1').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team1-id[]" type="hidden" value="' + res[i]['id'] + '"><input name="scorer-team1[]" class="form-control" type="text" readonly value="' + res[i]['full_name'] + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
           }
-          
+
           // Append count scorer
           var score = $('input[name="scorer-team1[]"]')
           $('input[name=score-team-1]').val(score.length)
+        }
+      });
+
+      $.ajax({
+        type: "POST",
+        url: "/api/schedule.php",
+        data: {
+          'id': id,
+          'tipe': 'getScorerTeam2'
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+
+          $('#scorer-team2').children().remove()
+          for (i = 0; i < res.length; i++) {
+            $('#scorer-team2').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team2-id[]" type="hidden" value="' + res[i]['id'] + '"><input name="scorer-team2[]" class="form-control" type="text" readonly value="' + res[i]['full_name'] + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
+          }
+
+          // Append count scorer
+          var score = $('input[name="scorer-team2[]"]')
+          $('input[name=score-team-2]').val(score.length)
         }
       });
 
@@ -1282,10 +1312,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
       // console.log(player_id);
     }
 
+    function addGoalScorerTeam2() {
+      var player_id = $('#goal-scorer-team2').find(":selected").val();
+      var player_name = $('#goal-scorer-team2').find(":selected").text();
+
+      $('#scorer-team2').append('<div class="form-group"><div class="row"><div class="col-10"><input name="scorer-team2-id[]" type="hidden" value="' + player_id + '"><input name="scorer-team2[]" class="form-control" type="text" readonly value="' + player_name + '"></div><div class="col-2"><a class="btn btn-block btn-danger" onclick="removeScorerRow(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a></div></div></div>')
+      var score = $('input[name="scorer-team2[]"]')
+      $('input[name=score-team-2]').val(score.length)
+
+      // console.log(player_id);
+    }
+
     function removeScorerRow(button) {
       $(button).parent().parent().remove();
       var score = $('input[name="scorer-team1[]"]')
       $('input[name=score-team-1]').val(score.length)
+    }
+
+    function removeScorerRow(button) {
+      $(button).parent().parent().remove();
+      var score = $('input[name="scorer-team2[]"]')
+      $('input[name=score-team-2]').val(score.length)
     }
 
     function updateSchedule() {
@@ -1328,12 +1375,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     function updateScheduleScore() {
       var id = $('input[name=schedule-id]').val()
-      var player_ids = [];
+      var player_ids1 = [];
       $('input[name="scorer-team1-id[]"]').each(function() {
-        player_ids.push(this.value)
+        player_ids1.push(this.value)
       })
 
-      console.log(player_ids);
+      var player_ids2 = [];
+      $('input[name="scorer-team2-id[]"]').each(function() {
+        player_ids2.push(this.value)
+      })
+
+      // console.log(player_ids);
 
       $.ajax({
         type: "POST",
@@ -1341,7 +1393,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         data: {
           'tipe': 'updateScore',
           'id': id,
-          'goal_scorer_team1': player_ids,
+          'goal_scorer_team1': player_ids1,
+          'goal_scorer_team2': player_ids2,
         },
         success: function(response) {
           var res = JSON.parse(response)

@@ -68,12 +68,13 @@ function updateScore()
     include '../connection.php';
 
     $goal_scorer_team1 = $_POST['goal_scorer_team1'];
-    // $goal_scorer_team2 = $_POST['goal_scorer_team2'];
+    $goal_scorer_team2 = $_POST['goal_scorer_team2'];
 
     $extras = json_encode(['goal_scorer_team1' => $goal_scorer_team1 ?? [], 'goal_scorer_team2' => $goal_scorer_team2 ?? []]);
 
     $sql = 'UPDATE `schedules` SET ' .
         '`score_team_id1` =\'' . count($goal_scorer_team1) . '\', ' .
+        '`score_team_id2` =\'' . count($goal_scorer_team2) . '\', ' .
         '`extras` = \'' . $extras . '\', ' .
         '`updated_at` = NOW() WHERE `id` = "' . $_POST['id'] . '"';
     $result = $conn->query($sql);
@@ -96,9 +97,31 @@ function getScorerTeam1()
     $goal_scorer_team1 = json_decode($extras)->goal_scorer_team1;
 
     $scorer = [];
-    foreach($goal_scorer_team1 as $key => $player_id){
+    foreach ($goal_scorer_team1 as $key => $player_id) {
         $sql = 'SELECT * FROM `players` WHERE `id` = ' . $player_id;
-        $result = $conn->query($sql); 
+        $result = $conn->query($sql);
+
+        $scorer[] = $result->fetch_assoc();
+    }
+
+    return json_encode($scorer);
+}
+
+function getScorerTeam2()
+{
+    include '../connection.php';
+
+    $sql = 'SELECT * FROM `schedules` WHERE `id` = ' . $_POST['id'];
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+
+    $extras = $row['extras'];
+    $goal_scorer_team2 = json_decode($extras)->goal_scorer_team2;
+
+    $scorer = [];
+    foreach ($goal_scorer_team2 as $key => $player_id) {
+        $sql = 'SELECT * FROM `players` WHERE `id` = ' . $player_id;
+        $result = $conn->query($sql);
 
         $scorer[] = $result->fetch_assoc();
     }
@@ -113,6 +136,8 @@ if (isset($_POST['tipe'])) {
         echo update();
     else if ($_POST['tipe'] == 'getScorerTeam1')
         echo getScorerTeam1();
+    else if ($_POST['tipe'] == 'getScorerTeam2')
+        echo getScorerTeam2();
     else if ($_POST['tipe'] == 'updateScore')
         echo updateScore();
 } else
