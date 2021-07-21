@@ -734,7 +734,8 @@
     })
 
     function backToStepOne() {
-      window.location.href = 'registration-team.php'
+      var tipe = findGetParameter('tipe');
+      window.location.href = 'registration-team.php?tipe=' + tipe
     }
 
     // back to step 2
@@ -747,7 +748,8 @@
     // Step 3
     function goToStepThree() {
       var no_registrasi = $('input[name=registration-number]').val();
-      window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi + "&step=3";
+      var tipe = findGetParameter('tipe');
+      window.location.href = "registration-team.php?nomorRegistrasi=" + no_registrasi + "&step=3&tipe=" + tipe;
     }
 
     // Finish and submit team
@@ -773,7 +775,8 @@
             success: function(response) {
               var res = JSON.parse(response);
               if (res.status) {
-                window.location.href = "registration-team.php?submitTeam=success"
+                var tipe = findGetParameter('tipe');
+                window.location.href = "registration-team.php?submitTeam=success&tipe=" + tipe
                 // Swal.fire(
                 //   'Terkirim!',
                 //   res.msg,

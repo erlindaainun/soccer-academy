@@ -67,10 +67,10 @@ function updateScore()
 {
     include '../connection.php';
 
-    $goal_scorer_team1 = $_POST['goal_scorer_team1'];
-    $goal_scorer_team2 = $_POST['goal_scorer_team2'];
+    $goal_scorer_team1 = $_POST['goal_scorer_team1'] ?? [];
+    $goal_scorer_team2 = $_POST['goal_scorer_team2'] ?? [];
 
-    $extras = json_encode(['goal_scorer_team1' => $goal_scorer_team1 ?? [], 'goal_scorer_team2' => $goal_scorer_team2 ?? []]);
+    $extras = json_encode(['goal_scorer_team1' => $goal_scorer_team1, 'goal_scorer_team2' => $goal_scorer_team2]);
 
     $sql = 'UPDATE `schedules` SET ' .
         '`score_team_id1` =\'' . count($goal_scorer_team1) . '\', ' .
@@ -94,7 +94,7 @@ function getScorerTeam1()
     $row = $result->fetch_assoc();
 
     $extras = $row['extras'];
-    $goal_scorer_team1 = json_decode($extras)->goal_scorer_team1;
+    $goal_scorer_team1 = json_decode($extras) ? json_decode($extras)->goal_scorer_team1 : [];
 
     $scorer = [];
     foreach ($goal_scorer_team1 as $key => $player_id) {
@@ -116,7 +116,7 @@ function getScorerTeam2()
     $row = $result->fetch_assoc();
 
     $extras = $row['extras'];
-    $goal_scorer_team2 = json_decode($extras)->goal_scorer_team2;
+    $goal_scorer_team2 = json_decode($extras) ? json_decode($extras)->goal_scorer_team2 : [];
 
     $scorer = [];
     foreach ($goal_scorer_team2 as $key => $player_id) {
@@ -127,6 +127,20 @@ function getScorerTeam2()
     }
 
     return json_encode($scorer);
+}
+
+function getInfoSchedule()
+{
+    include '../connection.php';
+
+    $sql = 'SELECT * FROM `schedules` WHERE `id` = ' . $_POST['id'];
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+
+    if ($row['date'] != null)
+        return 1;
+
+    return 0;
 }
 
 if (isset($_POST['tipe'])) {
@@ -140,5 +154,7 @@ if (isset($_POST['tipe'])) {
         echo getScorerTeam2();
     else if ($_POST['tipe'] == 'updateScore')
         echo updateScore();
+    else if ($_POST['tipe'] == 'getInfoSchedule')
+        echo getInfoSchedule();
 } else
     echo index();

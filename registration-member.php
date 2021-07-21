@@ -66,7 +66,8 @@
         </div>
 
         <form class="row g-3 needs-validation" novalidate data-aos="fade-up" method="post" action="/api/member.php" enctype="multipart/form-data">
-        <input type="hidden" name="tipe" value="store">
+          <input type="hidden" name="tipe" value="store">
+          <input type="hidden" name="_previousUrl" value="/registration-member.php">
           <div class="col-md-12">
             <?php if ($error_msg = $_GET['errorMsg'] ?? false)
               if ($error_msg == 'already_exist')
@@ -100,7 +101,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>NISN / NIK</strong></label>
-            <input name="nisn" type="number" class="form-control" required>
+            <input name="identity_number" type="number" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Nama Lengkap</strong></label>
@@ -108,7 +109,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Kelas</strong></label>
-            <select name="class" class="form-select" required>
+            <select name="class_type" class="form-select" required>
               <option selected disabled value="">Choose...</option>
               <option value="U6-U8">U6-U8</option>
               <option value="U9-U11">U9-U11</option>
@@ -118,15 +119,15 @@
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Tempat Lahir</strong></label>
-            <input name="birth-place" type="text" class="form-control" required>
+            <input name="birth_place" type="text" class="form-control" required>
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Tanggal Lahir</strong></label>
-            <input name="birth-date" type="date" class="form-control" required>
+            <input name="birth_date" type="date" class="form-control" required>
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Jenis Kelamin</strong></label>
-            <select name="gender" class="form-select" required>
+            <select name="gender_id" class="form-select" required>
               <option selected disabled value="">Choose...</option>
               <option value="Laki-Laki">Laki-Laki</option>
               <option value="Perempuan">Perempuan</option>
@@ -134,7 +135,7 @@
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Agama</strong></label>
-            <select class="form-select" required>
+            <select name="religion" class="form-select" required>
               <option selected disabled value="">Choose...</option>
               <option value="Islam">Islam</option>
               <option value="Protestan">Protestan</option>
@@ -150,7 +151,7 @@
           </div>
           <div class="col-md-2">
             <label class="form-label"><strong>No Telfon</strong></label>
-            <input name="phone-number" type="number" class="form-control" required>
+            <input name="phone_number" type="number" class="form-control" required>
           </div>
           <div class="col-md-2">
             <label class="form-label"><strong>Berat Badan</strong></label>

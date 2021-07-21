@@ -720,10 +720,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 }
                                 ?>
                                 <ul class="list-inline">
-                                  <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item">Game <?php echo $game_count; ?></li>
+                                  <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item"><b>Game <?php echo $game_count; ?></b></li>
                                   <li class="list-inline-item"><a onclick="editSchedule(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" data-id="<?php echo $schedule[0] ?>"> Ubah</a></li>
                                   <li class="list-inline-item">
-                                    <a onclick="editScheduleScore(this)" href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-score" data-id="<?php echo $schedule[0] ?>" data-team-one="<?php echo $teams[0][1]; ?>" data-team-one-id="<?php echo $teams[0][0]; ?>" data-team-two="<?php echo $teams[1][1]; ?>" data-team-two-id="<?php echo $teams[1][0]; ?>"> Skor</a>
+                                    <a onclick="editScheduleScore(this)" href="javascript:void(0)" data-id="<?php echo $schedule[0] ?>" data-team-one="<?php echo $teams[0][1]; ?>" data-team-one-id="<?php echo $teams[0][0]; ?>" data-team-two="<?php echo $teams[1][1]; ?>" data-team-two-id="<?php echo $teams[1][0]; ?>"> Skor</a>
                                   </li>
                                 </ul>
                               </div>
@@ -1207,6 +1207,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     function editScheduleScore(button) {
       var id = $(button).data('id')
+      var isSetSchedule = true
+      // Cek jika schedule belum di set tempat, tanggal waktu main
+      $.ajax({
+        type: "POST",
+        url: "/api/schedule.php",
+        async: false,
+        data: {
+          'id': id,
+          'tipe': 'getInfoSchedule',
+        },
+        success: function(response) {
+          if (response == 0) {
+            Swal.fire('Info', 'Tidak dapat mengubah skor, lakukan pengaturan jadwal terlebih dahulu', 'info')
+            isSetSchedule = false
+          }
+        }
+      });
+
+      if (isSetSchedule)
+        $("#modal-edit-score").modal();
+      else
+        return false
+
       var game_name = $('#game-id-' + id).html();
       var team_one_id = $(button).data('team-one-id')
       var team_two_id = $(button).data('team-two-id')
@@ -1413,8 +1436,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             Swal.fire('Gagal', res.msg, 'danger');
         }
       });
-
-      console.log(id)
     }
 
     function findGetParameter(parameterName) {
@@ -1556,6 +1577,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         success: function(response) {
           var res = JSON.parse(response)
           var data = res.data
+          var standings = JSON.parse(res.standings)
+
           if (data) {
             var extras = JSON.parse(data);
             var teams = extras.teams;
@@ -1566,21 +1589,122 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             // Klasemen
             for (i = 0; i < teams.length; i++) {
-              var team = teams[i];
+              var team = teams[i]
+              var match_count = 0
+              var match_win = 0
+              var match_draw = 0
+              var match_lose = 0
+              var goal_maker = 0
+              var goal_away = 0
 
+              // 5 Pertandingan terakhir
+              var last_five_match = [0, 0, 0, 0, 0];
+
+              for (j = 0; j < standings.length; j++) {
+
+                var score_team1 = parseInt(standings[j][2]);
+                var score_team2 = parseInt(standings[j][3]);
+
+                // Checking from team_id1 side
+                if (standings[j][1] == team[0]) {
+
+                  if (score_team1 != null || score_team2 != null) {
+                    match_count = match_count + 1;
+
+                    // Jika skore tim 1 sama dengan tim 2, tambah jumlah seri tim 1
+                    if (score_team1 == score_team2)
+                      match_draw = match_draw + 1;
+
+                    // Jumlahkan semua gol masuk tim 1
+                    goal_maker = goal_maker + score_team1
+
+                    // Jumlahkan semua gol kebobolan tim 1
+                    goal_away = goal_away + score_team2
+                  }
+
+                  // Jika skor tim 1 lebih besar dari tim 2, tambah jumlah menang tim 1
+                  if (score_team1 > score_team2)
+                    match_win = match_win + 1;
+
+                  // Jika skor tim 1 lebih kecil dari tim 2, tambah jumlah kalah tim 1
+                  if (score_team1 < score_team2)
+                    match_lose = match_lose + 1;
+
+                  last_five_match.pop()
+                  if (score_team1 > score_team2)
+                    last_five_match.unshift('win')
+                  else if (score_team1 < score_team2)
+                    last_five_match.unshift('lose')
+                  else if (score_team1 == score_team2)
+                    last_five_match.unshift('draw')
+                }
+
+                // Checking from team_id2 side
+                if (standings[j][4] == team[0]) {
+                  if (score_team1 != null || score_team2 != null) {
+                    match_count = match_count + 1;
+
+                    // Jika skore tim 2 sama dengan tim 1, tambah jumlah seri tim 2
+                    if (score_team1 == score_team2)
+                      match_draw = match_draw + 1;
+
+                    // Jumlahkan semua gol masuk tim 2
+                    goal_maker = goal_maker + score_team2
+
+                    // Jumlahkan semua gol kebobolan tim 2
+                    goal_away = goal_away + score_team1
+                  }
+
+                  // Jika skor tim 2 lebih besar dari tim 1, tambah jumlah menang tim 2
+                  if (score_team1 < score_team2)
+                    match_win = match_win + 1;
+
+                  // Jika skor tim 2 lebih kecil dari tim 1, tambah jumlah kalah tim 2
+                  if (score_team1 > score_team2)
+                    match_lose = match_lose + 1;
+
+                  last_five_match.pop()
+                  if (score_team1 > score_team2)
+                    last_five_match.unshift('win')
+                  else if (score_team1 < score_team2)
+                    last_five_match.unshift('lose')
+                  else if (score_team1 == score_team2)
+                    last_five_match.unshift('draw')
+                }
+              }
+
+              var last_five_match_result = [];
+              for (k = 0; k < last_five_match.length; k++) {
+                if (last_five_match[k] == 'win')
+                  last_five_match_result.push('<i class="fas fa-check-circle text-success"></i>')
+                else if (last_five_match[k] == 'lose')
+                  last_five_match_result.push('<i class="fas fa-times-circle text-danger"></i>')
+                else if (last_five_match[k] == 'draw')
+                  last_five_match_result.push('<i class="fas fa-minus-circle text-secondary"></i>')
+                else
+                  last_five_match_result.push('<i class="far fa-circle"></i>')
+              }
+              
               $("#standings tbody").append(
                 '<tr>' +
                 '<td>' + (i + 1) + '</td>' +
                 '<td>' + team[1] + '</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td>0</td>' +
-                '<td><i class="fas fa-check-circle text-success"></i><i class="fas fa-minus-circle text-secondary"></i><i class="fas fa-times-circle text-danger"></i><i class="far fa-circle"></i><i class="far fa-circle"></i></td>' +
+                '<td>' + match_count + '</td>' +
+                '<td>' + match_win + '</td>' +
+                '<td>' + match_draw + '</td>' +
+                '<td>' + match_lose + '</td>' +
+                '<td>' + goal_maker + '</td>' +
+                '<td>' + goal_away + '</td>' +
+                '<td>' + (goal_maker - goal_away) + '</td>' +
+                '<td>' + ((match_win * 3) + match_draw) + '</td>' +
+                '<td>' + last_five_match_result.join("") + '</td>' +
+                // '<td>' +
+                // '<i class="fas fa-check-circle text-success"></i>' +
+                // '<i class="fas fa-minus-circle text-secondary"></i>' +
+                // '<i class="fas fa-times-circle text-danger"></i>' +
+                // '<i class="far fa-circle"></i>' +
+                // '<i class="far fa-circle"></i>' +
+                // '</td>' +
                 '</tr>'
               )
             }

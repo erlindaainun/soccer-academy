@@ -51,7 +51,7 @@ function store()
     // Allow certain file formats
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
         // $message['file_format'] = "Sorry, only JPG, JPEG & PNG files are allowed.";
-        header("Location:/server/member.php?page=create&errorMsg=file_format");
+        $_POST['_previousUrl'] ? header('Location:' . $_POST['_previousUrl'] . "?page=create&errorMsg=file_format") : header("Location:/server/member.php?page=create&errorMsg=file_format");
         $uploadOk = 0;
     }
 

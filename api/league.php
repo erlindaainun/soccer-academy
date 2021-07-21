@@ -23,7 +23,7 @@ function store()
         '"' . $_POST['location'] . '", ' .
         '"' . $image_path . '", ' .
         '"' . $_POST['status'] . '", ' .
-        '"{\"teams\":[]}", ' . 
+        '"{\"teams\":[]}", ' .
         'NOW(), NOW())';
     $result = $conn->query($sql);
 
@@ -101,7 +101,12 @@ function manage($id = null)
     // echo json_encode($extras);
 
     if ($result) {
-        return json_encode(['data' => json_encode($extras)]);
+        $sql = 'SELECT * FROM `schedules` WHERE `league_id` = ' . $_POST['id'];
+        $result = $conn->query($sql);
+
+        $standings = $result->fetch_all();
+
+        return json_encode(['data' => json_encode($extras), 'standings' => json_encode($standings)]);
     } else {
         return json_encode(['status' => false, 'msg' => 'Data Team tidak ada', 'data' => json_encode($extras)]);
     }
@@ -128,7 +133,7 @@ function postManage()
             $team = $teams[$i];
 
             for ($j = ($i + 1); $j < count($team2); $j++) {
-                $schedules[] = $team2[$i][0] . ',0,0,' . $team2[$j][0] . ',NULL,NULL,' . $_POST['id'];
+                $schedules[] = $team2[$i][0] . ',NULL,NULL,' . $team2[$j][0] . ',NULL,NULL,' . $_POST['id'];
             }
         }
     } else {
