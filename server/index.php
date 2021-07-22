@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 
 <head>
-  <title>AdminLTE 3 | Starter</title>
+  <title>Admin SSB | Dasbor</title>
   <?php
   include 'session.php';
   include 'views/meta.php';

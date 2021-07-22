@@ -17,7 +17,12 @@ function store()
     include '../connection.php';
 
     $target_dir = "../server/uploads/news/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+    // Buat nama file unik 
+    $date = DateTime::createFromFormat('U.u', microtime(TRUE));
+    $filename = md5($date->format('Y-m-d H:i:s:u'));
+
+    $target_file = $target_dir . basename($filename . '_' . $_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $message = [];
@@ -102,11 +107,15 @@ function update()
     include '../connection.php';
 
     $check_file_to_upload = $_FILES["fileToUpload"] ?? 0;
-    // echo $_POST['images'];
-    // return $check_file_to_upload;
-    if ($check_file_to_upload != 0) {
+
+    if ($check_file_to_upload['name'] != null) {
         $target_dir = "../server/uploads/news/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+        // Buat nama file unik 
+        $date = DateTime::createFromFormat('U.u', microtime(TRUE));
+        $filename = md5($date->format('Y-m-d H:i:s:u'));
+
+        $target_file = $target_dir . basename($filename . '_' . $_FILES["fileToUpload"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $message = [];
@@ -152,6 +161,16 @@ function update()
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                 echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
 
+                // Hapus filenya sebelumnya, sebelum update di images di database
+                $sql = 'SELECT * FROM `news` WHERE `id` = ' . $_POST['id'];
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+
+                // Jika file ada maka hapus
+                if (file_exists($row['images']))
+                    unlink($row['images']);
+
+                // Update nama file yang baru di database
                 $sql = 'UPDATE `news` SET ' .
                     'name = "' . $_POST['title'] . '",' .
                     'description = "' . $_POST['description'] . '",' .
@@ -188,6 +207,15 @@ function update()
 function delete()
 {
     include '../connection.php';
+
+    // Hapus filenya juga jika query dihapus
+    $sql = 'SELECT * FROM `news` WHERE `id` = ' . $_POST['id'];
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+
+    // Jika file ada maka hapus
+    if (file_exists($row['images']))
+        unlink($row['images']);
 
     $sql = 'DELETE FROM `news` WHERE id = ' . $_POST['id'];
     $result = $conn->query($sql);

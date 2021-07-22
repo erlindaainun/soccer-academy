@@ -8,8 +8,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Starter</title>
+  <title>Admin SSB | Member</title>
 
+  <?php
+  include 'session.php';
+  include 'views/meta.php';
+  ?>
   <?php include '../connection.php' ?>
 
   <!-- Google Font: Source Sans Pro -->
@@ -39,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </ul>
 
       <!-- Right navbar links -->
-      
+
     </nav>
     <!-- /.navbar -->
 
@@ -85,6 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $id = $_GET['id'];
                 $sql = 'SELECT * FROM `members` WHERE id = ' . $id;
                 $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
 
                 $num_rows = $result ? $result->num_rows : 0;
 
@@ -250,7 +255,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <div class="col-md-12">
                               <div class="form-group">
-                                <label for="fileToUpload">Upload Gambar</label>
+                                <label for="fileToUpload">Upload Gambar</label><br>
+
+                                <?php
+                                // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                                $image_path = str_replace('..', '', $row['image_path']);
+                                $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                                // $file_name = '';
+                                echo '<img src="' . $src . '" alt="image" width="300px" style="padding-bottom: 20px;">'
+                                ?>
                                 <div class="custom-file">
                                   <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
                                   <label class="custom-file-label" for="fileToUpload">Choose file</label>
@@ -352,14 +366,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>Nama</label>
-                              <input name="name" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="name" type="text" class="form-control" placeholder="Enter name">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>NISN / NIK</label>
-                              <input name="identity_number" type="number" class="form-control" placeholder="Enter ...">
+                              <input name="identity_number" type="number" class="form-control" placeholder="Enter identity number">
                             </div>
                           </div>
                           <div class="col-sm-12">
@@ -368,14 +382,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!-- text input -->
                                 <div class="form-group">
                                   <label>Tempat Lahir</label>
-                                  <input name="birth_place" type="text" class="form-control" placeholder="Enter ...">
+                                  <input name="birth_place" type="text" class="form-control" placeholder="Enter birth place">
                                 </div>
                               </div>
                               <div class="col-sm-6">
                                 <!-- text input -->
                                 <div class="form-group">
                                   <label>Tanggal Lahir</label>
-                                  <input name="birth_date" type="date" class="form-control" placeholder="Enter ...">
+                                  <input name="birth_date" type="date" class="form-control" placeholder="Enter birth date">
                                 </div>
                               </div>
                             </div>
@@ -385,7 +399,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group">
                               <label>Kelas</label>
                               <select name="class_type" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
+                                <option selected disabled value="">Choose..</option>
                                 <option value="U6-U8">U6-U8</option>
                                 <option value="U9-U11">U9-U11</option>
                                 <option value="U12-U15">U12-U15</option>
@@ -398,7 +412,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group">
                               <label>Jenis Kelamin</label>
                               <select name="gender_id" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
+                                <option selected disabled value="">Choose..</option>
                                 <option value="1">Laki-Laki</option>
                                 <option value="2">Perempuan</option>
                               </select>
@@ -409,7 +423,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group">
                               <label>Agama</label>
                               <select name="religion" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
+                                <option selected disabled value="">Choose..</option>
                                 <option value="Islam">Islam</option>
                                 <option value="Protestan">Protestan</option>
                                 <option value="Katolik">Katolik</option>
@@ -423,7 +437,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>Alamat</label>
-                              <textarea name="address" rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                              <textarea name="address" rows="2" class="form-control" placeholder="Enter address"></textarea>
                             </div>
                           </div>
                           <div class="col-sm-12">
@@ -432,14 +446,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!-- text input -->
                                 <div class="form-group">
                                   <label>Berat Badan</label>
-                                  <input name="weight" type="number" class="form-control" placeholder="Enter ...">
+                                  <input name="weight" type="number" class="form-control" placeholder="Enter weight">
                                 </div>
                               </div>
                               <div class="col-sm-6">
                                 <!-- text input -->
                                 <div class="form-group">
                                   <label>Tinggi Badan</label>
-                                  <input name="height" type="number" class="form-control" placeholder="Enter ...">
+                                  <input name="height" type="number" class="form-control" placeholder="Enter height">
                                 </div>
                               </div>
                             </div>
@@ -448,21 +462,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>No Telfon</label>
-                              <input name="phone_number" type="number" class="form-control" placeholder="Enter ...">
+                              <input name="phone_number" type="number" class="form-control" placeholder="Enter phone number">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Alasan Ingin Bergabung</label>
-                              <textarea name="reason" rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                              <textarea name="reason" rows="2" class="form-control" placeholder="Enter reason"></textarea>
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Posisi</label>
-                              <input name="position" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="position" type="text" class="form-control" placeholder="Enter position">
                             </div>
                           </div>
                           <div class="col-md-12">
@@ -479,7 +493,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>Catatan</label>
-                              <textarea name="notes" rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                              <textarea name="notes" rows="2" class="form-control" placeholder="Enter notes"></textarea>
                             </div>
                           </div>
                         </div>
@@ -824,6 +838,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       })
     }
   </script>
+
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
 </body>
 
 </html>
