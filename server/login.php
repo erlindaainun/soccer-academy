@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin SSB Tunas Jaya Duriangkang | Log in</title>
+
+  <?php
+  session_start();
+  // include 'session .php';
+
+  if (isset($_SESSION['login_user']))
+    header("location:index.php");
+
+  ?>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,53 +24,60 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
+
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href=""><img src="/assets/img/logo_ssb.png" width="35%"> </a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <h2 class="login-box-msg"><strong>Login</strong></h2>
-
-      <form action="" method="post">
-        <div class="input-group mb-3">
-          <input name="username" type="text" class="form-control" placeholder="Username">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input name="password" type="password" class="form-control" placeholder="Password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-      </form>
-      <div class="social-auth-links text-center mb-3">
-        <a href="#" class="btn btn-block btn-primary">
-          Submit
-        </a>
-      </div>
-      <div class="social-auth-links text-center mb-3">
-        <small>Copyright © 2021 SSB Tunas Jaya Duriangkang</small>
-      </div>
+  <div class="login-box">
+    <div class="login-logo">
+      <a href=""><img src="/assets/img/logo_ssb.png" width="35%"> </a>
     </div>
-    <!-- /.login-card-body -->
-  </div>
-</div>
-<!-- /.login-box -->
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <h2 class="login-box-msg"><strong>Login</strong></h2>
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+        <form action="action-login.php" method="post">
+          <div class="input-group mb-3">
+            <input name="username" type="text" class="form-control <?php !empty($_SESSION['error']) ? print 'is-invalid' : ''; ?>" placeholder="Username" value="admin">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+            <?php
+            if (!empty($_SESSION['error'])) {
+              echo '<span class="error invalid-feedback">' . $_SESSION['error'] . '</span>';
+              unset($_SESSION['error']); //clear the message once it's been output.
+            }
+            ?>
+          </div>
+          <div class="input-group mb-3">
+            <input name="password" type="password" class="form-control" placeholder="Password" value="password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="social-auth-links text-center mb-3">
+            <button class="btn btn-block btn-primary" type="submit"> Masuk</button>
+          </div>
+        </form>
+
+        <div class="social-auth-links text-center mb-3">
+          <small>Copyright © 2021 SSB Tunas Jaya Duriangkang</small>
+        </div>
+      </div>
+      <!-- /.login-card-body -->
+    </div>
+  </div>
+  <!-- /.login-box -->
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="dist/js/adminlte.min.js"></script>
 </body>
+
 </html>

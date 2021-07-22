@@ -13,7 +13,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block"><?php echo $login_session ?? "Alexander Pierce" ?></a>
             </div>
         </div>
 
@@ -110,6 +110,12 @@
                     <a href="/server/setting.php" class="nav-link <?php if ($_SERVER['SCRIPT_NAME'] == "/server/setting.php") echo "active" ?>">
                         <i class="nav-icon fas fa-users-cog"></i>
                         <p>Pengguna</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/server/logout.php" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Keluar</p>
                     </a>
                 </li>
             </ul>
