@@ -263,21 +263,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>Judul</label>
-                              <input name="title" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="title" type="text" class="form-control" placeholder="Enter title">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Deskripsi</label>
-                              <textarea name="description" rows="10" class="form-control" placeholder="Enter ..."></textarea>
+                              <textarea name="description" rows="10" class="form-control" placeholder="Enter description"></textarea>
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Tanggal</label>
-                              <input name="date" type="date" class="form-control" placeholder="Enter ...">
+                              <input name="date" type="date" class="form-control" placeholder="Enter date">
                             </div>
                           </div>
                           <div class="col-md-12">

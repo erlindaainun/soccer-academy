@@ -189,7 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </ul>
 
       <!-- Right navbar links -->
-      
+
     </nav>
     <!-- /.navbar -->
 
@@ -234,6 +234,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $id = $_GET['id'];
                 $sql = 'SELECT * FROM `tournaments` WHERE id = ' . $id;
                 $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
 
                 $num_rows = $result ? $result->num_rows : 0;
 
@@ -245,10 +246,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 class="card-title">Ubah Turnamen</h3>
                       </div>
                       <!-- /.card-header -->
-                      <form name="form1" method="post" action="/api/tournament.php">
+                      <form name="form1" method="post" action="/api/tournament.php" enctype="multipart/form-data">
                         <input type="hidden" name="tipe" value="update">
                         <input type="hidden" name="id" value="">
                         <div class="card-body">
+                          <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                            if ($error_msg == 'already_exist')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                            else if ($error_msg == 'file_size')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                            else if ($error_msg == 'file_format')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                            else
+                              echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                          ?>
                           <div class="row">
                             <div class="col-sm-12">
                               <!-- text input -->
@@ -282,12 +313,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </select>
                               </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-sm-12">
                               <div class="form-group">
-                                <label for="customFile">Upload Logo</label>
+                                <label for="fileToUpload">Upload Logo</label><br>
+                                <?php
+                                // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                                $image_path = str_replace('..', '', $row['image_path']);
+                                $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                                // $file_name = '';
+                                echo '<img src="' . $src . '" alt="image" width="300px" style="padding-bottom: 20px;">'
+                                ?>
                                 <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label" for="customFile">Choose file</label>
+                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
@@ -327,29 +366,59 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <h3 class="card-title">Tambah Turnamen</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form name="form1" method="post" action="/api/tournament.php">
+                    <form name="form1" method="post" action="/api/tournament.php" enctype="multipart/form-data">
                       <input type="hidden" name="tipe" value="store">
                       <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          if ($error_msg == 'already_exist')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                          else if ($error_msg == 'file_size')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                          else if ($error_msg == 'file_format')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                          else
+                            echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                        ?>
                         <div class="row">
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Nama</label>
-                              <input name="name" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="name" type="text" class="form-control" placeholder="Enter name">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Tanggal</label>
-                              <input name="date" type="date" class="form-control" placeholder="Enter ...">
+                              <input name="date" type="date" class="form-control" placeholder="Enter date">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Lokasi</label>
-                              <input name="location" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="location" type="text" class="form-control" placeholder="Enter location">
                             </div>
                           </div>
                           <div class="col-sm-12">
@@ -357,7 +426,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group">
                               <label>Status</label>
                               <select name="status" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
+                                <option selected disabled value="">Choose..</option>
                                 <option value="Buka">Buka</option>
                                 <option value="Tutup">Tutup</option>
                               </select>
@@ -365,10 +434,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="customFile">Upload Logo</label>
+                              <label for="fileToUpload">Upload Logo</label>
                               <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
@@ -552,6 +621,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
               }
             } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
+
               if (!empty($id = $_GET['id'])) {
                 $sql = 'SELECT * FROM `tournaments` WHERE `id` = ' . $id;
                 $result = $conn->query($sql);
@@ -813,6 +883,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="http://underscorejs.org/underscore-min.js"></script>
 
   <!-- Page specific script -->
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
   <script>
     /* Called whenever bracket is modified
      *
@@ -879,7 +957,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   participant_name = JSON.parse(response)
                 }
               });
-            
+
               participant_teams.push(participant_name)
               teams.push(participant);
 
@@ -897,15 +975,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 'tipe': 'show',
                 'id': findGetParameter('id'),
               },
-              success: function (response) {
+              success: function(response) {
                 var res = JSON.parse(response)
                 var extras = JSON.parse(res['extras']);
-                extras.third_place_winner == "Tidak" ? third_place_winner_status = true : third_place_winner_status = false;  
+                extras.third_place_winner == "Tidak" ? third_place_winner_status = true : third_place_winner_status = false;
               }
             });
 
             // For Bracket
-            if(teams.length > 0){
+            if (teams.length > 0) {
               var container = $('.bracketGenerated')
               container.bracket({
                 teamWidth: 350, // Lebar bracket tim

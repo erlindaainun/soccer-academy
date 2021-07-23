@@ -33,147 +33,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link rel="stylesheet" type="text/css" href="dist/css/jquery.bracket.min.css" />
 
-  <style type="text/css">
-    .metroBtn {
-      background-color: #2E7BCC;
-      color: #fff;
-      font-size: 1.1em;
-      padding: 10px;
-      display: inline-block;
-      margin-bottom: 30px;
-      cursor: pointer;
-    }
-
-    .brackets>div {
-      vertical-align: top;
-      clear: both;
-    }
-
-    .brackets>div>div {
-      float: left;
-      height: 100%;
-    }
-
-    .brackets>div>div>div {
-      margin: 50px 0;
-    }
-
-    .brackets div.bracketbox {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-top: 1px solid #555;
-      border-right: 1px solid #555;
-      border-bottom: 1px solid #555;
-    }
-
-    .brackets div.bracketbox>span.info {
-      position: absolute;
-      top: 25%;
-      left: 25%;
-      font-size: 0.8em;
-      color: #BBB;
-    }
-
-    .brackets div.bracketbox>span {
-      position: absolute;
-      left: 5px;
-      font-size: 0.85em;
-    }
-
-    .brackets div.bracketbox>span.teama {
-      top: -20px;
-    }
-
-    .brackets div.bracketbox>span.teamb {
-      bottom: -20px;
-    }
-
-    .brackets div.bracketbox>span.teamc {
-      bottom: 1px;
-    }
-
-    .brackets>.group2 {
-      height: 260px;
-    }
-
-    .brackets>.group2>div {
-      width: 49%;
-    }
-
-    .brackets>.group3 {
-      height: 320px;
-    }
-
-    .brackets>.group3>div {
-      width: 32.7%;
-    }
-
-    .brackets>.group4>div {
-      width: 24.5%;
-    }
-
-    .brackets>.group5>div {
-      width: 19.6%;
-    }
-
-    .brackets>.group6 {
-      height: 2000px;
-    }
-
-    .brackets>.group6>div {
-      width: 16.3%;
-    }
-
-    .brackets>div>.r1>div {
-      height: 60px;
-    }
-
-    .brackets>div>.r2>div {
-      margin: 80px 0 110px 0;
-      height: 110px;
-    }
-
-    .brackets>div>.r3>div {
-      margin: 135px 0 220px 0;
-      height: 220px;
-    }
-
-    .brackets>div>.r4>div {
-      margin: 250px 0 445px 0;
-      height: 445px;
-    }
-
-    .brackets>div>.r5>div {
-      margin: 460px 0 0 0;
-      height: 900px;
-    }
-
-    .brackets>div>.r6>div {
-      margin: 900px 0 0 0;
-    }
-
-    .brackets div.final>div.bracketbox {
-      border-top: 0px;
-      border-right: 0px;
-      height: 0px;
-    }
-
-    .brackets>div>.r4>div.drop {
-      height: 180px;
-      margin-bottom: 0px;
-    }
-
-    .brackets>div>.r5>div.final.drop {
-      margin-top: 345px;
-      margin-bottom: 0px;
-      height: 1px;
-    }
-
-    .brackets>div>div>div:last-of-type {
-      margin-bottom: 0px;
-    }
-  </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -189,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </ul>
 
       <!-- Right navbar links -->
-      
+
     </nav>
     <!-- /.navbar -->
 
@@ -234,6 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $id = $_GET['id'];
                 $sql = 'SELECT * FROM `leagues` WHERE id = ' . $id;
                 $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
 
                 $num_rows = $result ? $result->num_rows : 0;
 
@@ -245,10 +105,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 class="card-title">Ubah Liga</h3>
                       </div>
                       <!-- /.card-header -->
-                      <form name="form1" method="post" action="/api/league.php">
+                      <form name="form1" method="post" action="/api/league.php" enctype="multipart/form-data">
                         <input type="hidden" name="tipe" value="update">
                         <input type="hidden" name="id" value="">
                         <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                            if ($error_msg == 'already_exist')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                            else if ($error_msg == 'file_size')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                            else if ($error_msg == 'file_format')
+                              echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                            else
+                              echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                          ?>
                           <div class="row">
                             <div class="col-sm-12">
                               <!-- text input -->
@@ -282,12 +172,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </select>
                               </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-sm-12">
                               <div class="form-group">
-                                <label for="customFile">Upload Logo</label>
+                                <label for="fileToUpload">Upload Logo</label><br>
+                                <?php
+                                // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                                $image_path = str_replace('..', '', $row['image_path']);
+                                $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                                // $file_name = '';
+                                echo '<img src="' . $src . '" alt="image" width="300px" style="padding-bottom: 20px;">'
+                                ?>
                                 <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label" for="customFile">Choose file</label>
+                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
@@ -327,29 +225,59 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <h3 class="card-title">Tambah Liga</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form name="form1" method="post" action="/api/league.php">
+                    <form name="form1" method="post" action="/api/league.php" enctype="multipart/form-data">
                       <input type="hidden" name="tipe" value="store">
                       <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          if ($error_msg == 'already_exist')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                          else if ($error_msg == 'file_size')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                          else if ($error_msg == 'file_format')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                          else
+                            echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                        ?>
                         <div class="row">
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Nama</label>
-                              <input name="name" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="name" type="text" class="form-control" placeholder="Enter name">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Tanggal</label>
-                              <input name="date" type="date" class="form-control" placeholder="Enter ...">
+                              <input name="date" type="date" class="form-control" placeholder="Enter date">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Lokasi</label>
-                              <input name="location" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="location" type="text" class="form-control" placeholder="Enter location">
                             </div>
                           </div>
                           <div class="col-sm-12">
@@ -357,7 +285,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group">
                               <label>Status</label>
                               <select name="status" class="custom-select">
-                                <option selected disabled value="">Choose...</option>
+                                <option selected disabled value="">Choose..</option>
                                 <option value="Buka">Buka</option>
                                 <option value="Tutup">Tutup</option>
                               </select>
@@ -365,10 +293,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="customFile">Upload Logo</label>
+                              <label for="fileToUpload">Upload Logo</label>
                               <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
                                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
@@ -933,6 +861,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="http://underscorejs.org/underscore-min.js"></script>
 
   <!-- Page specific script -->
+
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
   <script>
     /* Called whenever bracket is modified
      *

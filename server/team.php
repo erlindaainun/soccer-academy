@@ -43,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </ul>
 
       <!-- Right navbar links -->
-      
+
     </nav>
     <!-- /.navbar -->
 
@@ -74,60 +74,119 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <section class="content">
         <div class="container-fluid">
           <div class="row">
-            <!-- FORM CREATE MEMBER -->
+            <!-- FORM CREATE TIM -->
             <?php if (!empty($_GET['page']) == 'create') { ?>
-              <div class="col-sm-6">
+              <div class="col-sm-8">
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">Tambah Data Official Tim</h3>
+                    <h3 class="card-title">Tambah Data Tim</h3>
                   </div>
                   <!-- /.card-header -->
                   <form>
                     <div class="card-body">
+                      <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                        if ($error_msg == 'already_exist')
+                          echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                        else if ($error_msg == 'file_size')
+                          echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                        else if ($error_msg == 'file_format')
+                          echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                        else
+                          echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                      ?>
                       <div class="row">
                         <div class="col-sm-12">
                           <!-- text input -->
                           <div class="form-group">
+                            <label for="namaklub">Pilih Liga / Turnamen</label>
+                            <select name="league" class="custom-select">
+                              <option selected disabled value="">Choose..</option>
+                              <?php
+                              $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
+                              $result = $conn->query($sql);
+
+                              while ($row = $result->fetch_assoc()) {
+                              ?>
+                                <option value="<?php echo $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
+                              <?php
+                              }
+                              ?>
+
+                              <?php
+                              $sql = 'SELECT * FROM `tournaments` WHERE `status`="Buka"';
+                              $result = $conn->query($sql);
+
+                              while ($row = $result->fetch_assoc()) {
+                              ?>
+                                <option value="<?php echo $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
+                              <?php
+                              }
+                              ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <!-- text input -->
+                          <div class="form-group">
                             <label for="namaklub">Nama Klub</label>
-                            <input name="club-name" type="text" class="form-control" placeholder="Enter ...">
+                            <input name="club-name" type="text" class="form-control" placeholder="Enter name">
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <!-- text input -->
                           <div class="form-group">
                             <label for="lisensi">Lisensi</label>
-                            <input name="license" type="text" class="form-control" placeholder="Enter ...">
+                            <input name="license" type="text" class="form-control" placeholder="Enter license">
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <!-- text input -->
                           <div class="form-group">
                             <label for="emailklub">Email</label>
-                            <input name="email" type="email" class="form-control" placeholder="Enter ...">
+                            <input name="email" type="email" class="form-control" placeholder="Enter email">
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <!-- text input -->
                           <div class="form-group">
                             <label for="notelfonklub">No Telfon</label>
-                            <input name="phone-number" type="number" class="form-control" placeholder="Enter ...">
+                            <input name="phone-number" type="number" class="form-control" placeholder="Enter phone number">
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <!-- text input -->
                           <div class="form-group">
                             <label for="alamatklub">Alamat</label>
-                            <textarea name="address" rows="2" class="form-control" placeholder="Enter ..."></textarea>
+                            <textarea name="address" rows="2" class="form-control" placeholder="Enter address"></textarea>
                           </div>
                         </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
+                        <div class="col-md-12">
                           <div class="form-group">
-                            <label for="customFile">Upload Logo Klub</label>
+                            <label for="fileToUpload">Upload Gambar</label>
                             <div class="custom-file">
-                              <input name="photo" type="file" class="custom-file-input" id="customFile">
-                              <label class="custom-file-label" for="customFile">Choose file</label>
-                              <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                              <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                              <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                              <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                             </div>
                           </div>
                         </div>
@@ -135,17 +194,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <div class="form-group row">
                             <div class="col-sm-4">
                               <label for="manager-name">Nama Manajer</label>
-                              <input name="manager-name" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="manager-name" type="text" class="form-control" placeholder="Enter manager name">
                             </div>
                             <div class="col-sm-4">
                               <label for="manager-telp">No Telfon Manajer</label>
-                              <input name="manager-phone" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="manager-phone" type="number" class="form-control" placeholder="Enter manager phone number">
                             </div>
                             <div class="col-sm-4">
-                              <label for="manager-files">Upload Foto Manajer</label>
+                              <label for="fileToUpload">Upload Foto Manajer</label>
                               <div class="custom-file">
-                                <input name="manager-photo" type="file" class="custom-file-input" id="manager-files">
-                                <label class="custom-file-label" for="manager-files">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
                           </div>
@@ -154,86 +214,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <div class="form-group row">
                             <div class="col-sm-6">
                               <label for="pelatihkepala">Nama Pelatih</label>
-                              <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="" required>
+                              <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name">
                             </div>
                             <div class="col-sm-6">
-                              <label for="customFile">Upload Foto Pelatih</label>
+                              <label for="fileToUpload">Upload Foto Pelatih</label>
                               <div class="custom-file">
-                                <input name="photo" type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <!-- /.card-body -->
-                  </form>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Data Individu Pemain</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <form>
-                    <div class="card-body">
-                      <div class="row">
                         <div class="col-sm-12">
-                          <!-- text input -->
                           <div class="form-group">
                             <div class="input-group">
                               <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
-                                <i class="fa fa-plus"></i>&nbsp; Tambah
+                                <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
                               </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div id="players-table" class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
-                          <thead>
-                            <tr>
-                              <th>ID</th>
-                              <th>Nama</th>
-                              <th>TTL</th>
-                              <th>Posisi</th>
-                              <th>No. Punggung</th>
-                              <th>Aksi</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Trident</td>
-                              <td>Internet
-                                Explorer 4.0
-                              </td>
-                              <td>Win 95+</td>
-                              <td> 4</td>
-                              <td>X</td>
-                              <td>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                  <i class="fas fa-trash"></i> Delete
-                                </a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </div>
                     <!-- /.card-body -->
                   </form>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="card">
-                  <form>
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                    <!-- /.card-body -->
-                  </form>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
                 </div>
               </div>
             <?php } else { ?>
@@ -303,28 +311,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="modal-body">
             <div class="form-group">
               <label for="kartu">No.Kartu Identitas</label>
-              <input name=identity-number type="number" class="form-control" id="kartu" placeholder="" required>
+              <input name="identity-number" type="number" class="form-control" id="kartu" placeholder="Enter identity number">
             </div>
             <div class="form-group">
               <label for="namapemain">Nama</label>
-              <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="" required>
+              <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="Enter name">
             </div>
             <div class="form-group">
               <label for="tempatlahir">Tempat Lahir</label>
-              <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="" required>
+              <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="Enter birth place">
             </div>
             <div class="form-group">
               <label for="tanggallahir">Tanggal Lahir</label>
-              <input name="birth-date" type="date" class="form-control" id="tanggallahi" placeholder="" required>
+              <input name="birth-date" type="date" class="form-control" id="tanggallahir" placeholder="Enter birth date">
             </div>
             <div class="form-group">
               <label for="alamatpemain">Alamat</label>
-              <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder=""></textarea>
+              <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder="Enter address"></textarea>
             </div>
             <div class="form-group">
               <label for="agamapemain">Agama</label>
               <select name="religion" class="custom-select">
-                <option selected disabled value="">Choose...</option>
+                <option selected disabled value="">Choose..</option>
                 <option value="Islam">Islam</option>
                 <option value="Protestan">Protestan</option>
                 <option value="Katolik">Katolik</option>
@@ -336,44 +344,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="form-group">
               <label for="agamapemain">Jenis Kelamin</label>
               <select name="gender" class="custom-select">
-                <option selected disabled value="">Choose...</option>
+                <option selected disabled value="">Choose..</option>
                 <option value="1">Laki-Laki</option>
                 <option value="2">Perempuan</option>
               </select>
             </div>
             <div class="form-group">
               <label for="tinggibadanpemain">Tinggi Badan</label>
-              <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="" required>
+              <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="Enter height">
             </div>
             <div class="form-group">
               <label for="beratbadanpemain">Berat Badan</label>
-              <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="" required>
+              <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="Enter weight">
             </div>
             <div class="form-group">
               <label for="posisipemain">Posisi Bermain</label>
-              <input name="position" type="text" class="form-control" id="posisipemain" placeholder="" required>
+              <input name="position" type="text" class="form-control" id="posisipemain" placeholder="Enter weight">
             </div>
             <div class="form-group">
               <label for="nopemain">Nomor Punggung</label>
-              <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="" required>
+              <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="Enter back number">
             </div>
             <div class="form-group">
               <label for="namapunggungpemain">Nama Punggung</label>
-              <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="" required>
+              <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="Enter back name">
             </div>
             <div class="form-group">
-              <label for="photo-file">Upload Foto</label>
+              <label for="fileToUpload">Upload Foto</label>
               <div class="custom-file">
-                <input name="photo" type="file" class="custom-file-input" id="photo-file">
-                <label class="custom-file-label" for="photo-file">Choose file</label>
-                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
               </div>
             </div>
             <div class="form-group">
-              <label for="identity-file">Upload Kartu Identitas</label>
+              <label for="fileToUpload">Upload Kartu Identitas</label>
               <div class="custom-file">
-                <input name="card-identity" type="file" class="custom-file-input" id="identity-file">
-                <label class="custom-file-label" for="identity-file">Choose file</label>
+                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                <label class="custom-file-label" for="fileToUpload">Choose file</label>
                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
               </div>
             </div>
@@ -438,6 +446,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Page specific script -->
+
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
   <script>
     $(function() {
       $("#example1").DataTable({

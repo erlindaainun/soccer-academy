@@ -89,6 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $id = $_GET['id'];
                 $sql = 'SELECT * FROM `achievements` WHERE id = ' . $id;
                 $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
 
                 $num_rows = $result ? $result->num_rows : 0;
 
@@ -132,7 +133,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <h5><i class="icon fas fa-ban"></i> Error!</h5>
                                 Terjadi kesalahan, harap cek kembali form!
                               </div>';
-
                           ?>
                           <div class="row">
                             <div class="col-sm-12">
@@ -151,7 +151,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <div class="col-md-12">
                               <div class="form-group">
-                                <label for="fileToUpload">Upload Gambar</label>
+                                <label for="fileToUpload">Upload Gambar</label><br>
+                                <?php
+                                // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                                $image_path = str_replace('..', '', $row['image_path']);
+                                $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                                // $file_name = '';
+                                echo '<img src="' . $src . '" alt="image" width="300px" style="padding-bottom: 20px;">'
+                                ?>
                                 <div class="custom-file">
                                   <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
                                   <label class="custom-file-label" for="fileToUpload">Choose file</label>
@@ -246,14 +254,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>Nama</label>
-                              <input name="name" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="name" type="text" class="form-control" placeholder="Enter name">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Deskripsi</label>
-                              <input name="description" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="description" type="text" class="form-control" placeholder="Enter description">
                             </div>
                           </div>
                           <div class="col-md-12">
@@ -368,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <thead>
                         <tr>
                           <th>Nama</th>
-                          <th>Jabatan</th>
+                          <th>Deskripsi</th>
                           <th>Gambar</th>
                           <th>Aksi</th>
                         </tr>
@@ -378,7 +386,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <tfoot>
                         <tr>
                           <th>Nama</th>
-                          <th>Jabatan</th>
+                          <th>Deskripsi</th>
                           <th>Gambar</th>
                           <th>Aksi</th>
                         </tr>
@@ -448,6 +456,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Swal2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Page specific script -->
+  <!-- bs-custom-file-input -->
+  <script src="/server/plugins/bs-custom-file-input/bs-custom-file-input.min.js" wfd-invisible="true"></script>
+
+  <script wfd-invisible="true">
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+
   <script>
     $(function() {
       $("#example1").DataTable({
