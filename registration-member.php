@@ -105,7 +105,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Nama Lengkap</strong></label>
-            <input name="fullname" type="text" class="form-control" required>
+            <input name="name" type="text" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Kelas</strong></label>
@@ -164,6 +164,14 @@
           <div class="col-md-6">
             <label class="form-label"><strong>Alasan Ingin Bergabung</strong></label>
             <textarea name="reason" rows="1" class="form-control" required></textarea>
+          </div>
+          <div class="col-md-6" hidden>
+            <label class="form-label"><strong>Catatan</strong></label>
+            <textarea name="notes" rows="1" class="form-control" value="blank"></textarea>
+          </div>
+          <div class="col-md-6" hidden>
+            <label class="form-label"><strong>Posisi</strong></label>
+            <textarea name="position" rows="1" class="form-control" value="blank"></textarea>
           </div>
           <div class="col-md-6">
             <label class="form-label" for="fileToUpload"><strong>Upload Gambar</strong></label>
