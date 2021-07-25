@@ -214,12 +214,15 @@ function deleteTeam()
     $result_manager = $conn->query($sql);
     if (file_exists($manager_photo = $result_manager->fetch_assoc()['image_path']))
         unlink($manager_photo);
+    $conn->query('DELETE FROM `managers` WHERE `id` = ' . $row['manager_id']);
+
 
     // Hapus profil image coach
     $sql = 'SELECT * FROM `coaches` WHERE `id` = ' . $row['coach_id'];
     $result_coach = $conn->query($sql);
     if (file_exists($coach_photo = $result_coach->fetch_assoc()['image_path']))
         unlink($coach_photo);
+    $conn->query('DELETE FROM `coaches` WHERE `id` = ' . $row['coach_id']);
 
     // Hapus semua gambar profil pemain dengan team id ini
     $sql = 'SELECT * FROM `players` WHERE `team_id` = "' . $team_id . '"';
@@ -231,6 +234,8 @@ function deleteTeam()
         if (file_exists($player[12]))
             unlink($player[12]);
     }
+
+    // Hapus 
 
     // Hapus semua pemain dengan team id ini
     $sql = 'DELETE FROM `players` WHERE `team_id` = "' . $team_id . '"';
