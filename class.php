@@ -80,7 +80,7 @@
         <div class="row portfolio-container aos-init" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 891px;">
 
           <?php
-          $sql = 'SELECT * FROM `members`';
+          $sql = 'SELECT * FROM `members` WHERE `status` = "Disetujui" ';
           $result = $conn->query($sql);
 
           while ($row = $result->fetch_assoc()) {

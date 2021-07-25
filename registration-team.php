@@ -54,6 +54,7 @@
   $TEAM_ADDRESS = "";
   $TEAM_LICENSE = "";
   $TEAM_MANAGER_ID = "";
+  $TEAM_COACH_ID = "";
   $REGISTRATION_NUMBER = "";
   $TEAM_ID = "";
 
@@ -137,12 +138,12 @@
 
                     if ($registration_type == 'liga') {
                     ?>
-                      <label for="agamapemain">Liga</label>
+                      <label for="league">Liga</label>
                       <select name="league" class="custom-select">
-                        <option selected disabled value="">Pilih liga...</option>
+                        <option selected disabled value="">Choose..</option>
                         <?php
 
-                        $sql = "SELECT * FROM `leagues`";
+                        $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
                         $result = $conn->query($sql);
 
                         while ($row = $result->fetch_assoc()) {
@@ -155,12 +156,12 @@
                     <?php
                     } else if ($registration_type == 'turnamen') {
                     ?>
-                      <label for="agamapemain">Turnamen</label>
+                      <label for="league">Turnamen</label>
                       <select name="league" class="custom-select">
-                        <option selected disabled value="">Pilih turnamen...</option>
+                        <option selected disabled value="">Choose..</option>
                         <?php
 
-                        $sql = "SELECT * FROM `tournaments`";
+                        $sql = 'SELECT * FROM `tournaments` WHERE `status`="Buka"';
                         $result = $conn->query($sql);
 
                         while ($row = $result->fetch_assoc()) {
@@ -176,61 +177,61 @@
                   </div>
                   <div class="form-group">
                     <label for="namaklub">Nama Klub</label>
-                    <input name="club-name" type="text" class="form-control" id="namaklub" placeholder="" required>
+                    <input name="club-name" type="text" class="form-control" id="namaklub" placeholder="Enter club name" required>
                   </div>
                   <div class="form-group">
                     <label for="lisensi">Lisensi</label>
-                    <input name="license" type="text" class="form-control" id="lisensi" placeholder="" required>
+                    <input name="license" type="text" class="form-control" id="lisensi" placeholder="Enter license" required>
                   </div>
                   <div class="form-group">
                     <label for="emailklub">Email</label>
-                    <input name="email" type="email" class="form-control" id="emailklub" placeholder="" required>
+                    <input name="email" type="email" class="form-control" id="emailklub" placeholder="Enter email" required>
                   </div>
                   <div class="form-group">
                     <label for="notelfonklub">No Telfon</label>
-                    <input name="phone-number" type="number" class="form-control" id="notelfonklub" placeholder="" required>
+                    <input name="phone-number" type="number" class="form-control" id="notelfonklub" placeholder="Enter phone number" required>
                   </div>
                   <div class="form-group">
                     <label for="alamatklub">Alamat</label>
-                    <textarea name="address" rows="2" class="form-control" id="alamatklub" placeholder=""></textarea>
+                    <textarea name="address" rows="2" class="form-control" id="alamatklub" placeholder="Enter address"></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="customFile">Upload Logo Klub</label>
+                    <label class="form-label" for="club_logo"><strong>Upload Logo Klub</strong></label>
                     <div class="custom-file">
-                      <input name="photo" type="file" class="custom-file-input" id="customFile">
-                      <label class="custom-file-label" for="customFile">Choose file</label>
-                      <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                      <input type="file" name="club_logo" class="form-control" id="club_logo" required>
+                      <label class="custom-file-label" for="club_logo">Choose file</label>
+                      <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col-sm-4">
                       <label for="manager-name">Nama Manajer</label>
-                      <input name="manager-name" type="text" class="form-control" id="manager-name" placeholder="" required>
+                      <input name="manager-name" type="text" class="form-control" id="manager-name" placeholder="Enter manager name" required>
                     </div>
                     <div class="col-sm-4">
                       <label for="manager-telp">No Telfon Manajer</label>
-                      <input name="manager-phone" type="text" class="form-control" id="manager-telp" placeholder="" required>
+                      <input name="manager-phone" type="number" class="form-control" id="manager-telp" placeholder="Enter manager phone number" required>
                     </div>
                     <div class="col-sm-4">
-                      <label for="manager-files">Upload Foto Manajer</label>
+                      <label class="form-label" for="manager_photo"><strong>Upload Foto Manajer</strong></label>
                       <div class="custom-file">
-                        <input name="manager-photo" type="file" class="custom-file-input" id="manager-files">
-                        <label class="custom-file-label" for="manager-files">Choose file</label>
-                        <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                        <input type="file" name="manager_photo" class="form-control" id="manager_photo" required>
+                        <label class="custom-file-label" for="manager_photo">Choose file</label>
+                        <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                       </div>
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col-sm-6">
                       <label for="pelatihkepala">Nama Pelatih</label>
-                      <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="" required>
+                      <input name="coach-name" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name" required>
                     </div>
                     <div class="col-sm-6">
-                      <label for="customFile">Upload Foto Pelatih</label>
+                      <label class="form-label" for="coach_photo"><strong>Upload Foto Pelatih</strong></label>
                       <div class="custom-file">
-                        <input name="photo" type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                        <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                        <input type="file" name="coach_photo" class="form-control" id="coach_photo" required>
+                        <label class="custom-file-label" for="coach_photo">Choose file</label>
+                        <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                       </div>
                     </div>
                   </div>
@@ -250,10 +251,12 @@
                   $result = $conn->query($sql);
                   $row = $result->fetch_assoc();
 
+                  $TEAM_LOGO = $row['photo'] ?? '';
                   $TEAM_NAME = $row['name'] ?? '';
                   $TEAM_ADDRESS = $row['address'] ?? '';
                   $TEAM_LICENSE = $row['licenses'] ?? '';
                   $TEAM_MANAGER_ID = $row['manager_id'] ?? '';
+                  $TEAM_COACH_ID = $row['coach_id'] ?? '';
                   $TEAM_ID = $row['id'] ?? '';
 
                   if ($result->num_rows != 0) {
@@ -355,7 +358,13 @@
                       <div class="card">
                         <div class="card-horizontal" style="display:flex; flex: 1 1 auto;">
                           <div class="img-square-wrapper">
-                            <img class="" src="http://via.placeholder.com/220x220" alt="Card image cap">
+                            <?php
+
+                            $image_path = str_replace('..', '', $TEAM_LOGO);
+                            $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+
+                            echo '<img src="' . $src . '" alt="Card image cap" height="220px">'
+                            ?>
                           </div>
                           <div class="card-body">
                             <dl>
@@ -444,7 +453,14 @@
                                               </ul>
                                             </div>
                                             <div class="col-4 text-center">
-                                              <img src="/assets/img/team/team-1.jpg" alt="user-avatar" class="img-circle img-fluid">
+                                              <?php
+                                              // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+                                              $image_path = str_replace('..', '', $row['image_path']);
+                                              $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+
+                                              echo '<img src="' . $src . '" alt="user-avatar" class="img-circle img-fluid" height="300px">'
+                                              ?>
                                             </div>
                                           </div>
                                         </div>
@@ -479,84 +495,86 @@
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="kartu">No.Kartu Identitas</label>
-                <input name=identity-number type="number" class="form-control" id="kartu" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="namapemain">Nama</label>
-                <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="tempatlahir">Tempat Lahir</label>
-                <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="tanggallahir">Tanggal Lahir</label>
-                <input name="birth-date" type="date" class="form-control" id="tanggallahi" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="alamatpemain">Alamat</label>
-                <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder=""></textarea>
-              </div>
-              <div class="form-group">
-                <label for="agamapemain">Agama</label>
-                <select name="religion" class="custom-select">
-                  <option selected disabled value="">Choose...</option>
-                  <option value="Islam">Islam</option>
-                  <option value="Protestan">Protestan</option>
-                  <option value="Katolik">Katolik</option>
-                  <option value="Hindu">Hindu</option>
-                  <option value="Buddha">Buddha</option>
-                  <option value="Khonghucu">Khonghucu</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="agamapemain">Jenis Kelamin</label>
-                <select name="gender" class="custom-select">
-                  <option selected disabled value="">Choose...</option>
-                  <option value="1">Laki-Laki</option>
-                  <option value="2">Perempuan</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="tinggibadanpemain">Tinggi Badan</label>
-                <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="beratbadanpemain">Berat Badan</label>
-                <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="posisipemain">Posisi Bermain</label>
-                <input name="position" type="text" class="form-control" id="posisipemain" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="nopemain">Nomor Punggung</label>
-                <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="namapunggungpemain">Nama Punggung</label>
-                <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="photo-file">Upload Foto</label>
-                <div class="custom-file">
-                  <input name="photo" type="file" class="custom-file-input" id="photo-file">
-                  <label class="custom-file-label" for="photo-file">Choose file</label>
-                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+            <form id="testtt">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="kartu">No.Kartu Identitas</label>
+                  <input name=identity-number type="number" class="form-control" id="kartu" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="namapemain">Nama</label>
+                  <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="tempatlahir">Tempat Lahir</label>
+                  <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="tanggallahir">Tanggal Lahir</label>
+                  <input name="birth-date" type="date" class="form-control" id="tanggallahi" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="alamatpemain">Alamat</label>
+                  <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder=""></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="agamapemain">Agama</label>
+                  <select name="religion" class="custom-select">
+                    <option selected disabled value="">Choose...</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Protestan">Protestan</option>
+                    <option value="Katolik">Katolik</option>
+                    <option value="Hindu">Hindu</option>
+                    <option value="Buddha">Buddha</option>
+                    <option value="Khonghucu">Khonghucu</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="agamapemain">Jenis Kelamin</label>
+                  <select name="gender" class="custom-select">
+                    <option selected disabled value="">Choose...</option>
+                    <option value="1">Laki-Laki</option>
+                    <option value="2">Perempuan</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="tinggibadanpemain">Tinggi Badan</label>
+                  <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="beratbadanpemain">Berat Badan</label>
+                  <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="posisipemain">Posisi Bermain</label>
+                  <input name="position" type="text" class="form-control" id="posisipemain" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="nopemain">Nomor Punggung</label>
+                  <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="namapunggungpemain">Nama Punggung</label>
+                  <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="" required>
+                </div>
+                <div class="form-group">
+                  <label for="player_photo">Upload Foto</label>
+                  <div class="custom-file">
+                    <input name="player_photo" type="file" class="custom-file-input" id="player_photo">
+                    <label class="custom-file-label" for="player_photo">Choose file</label>
+                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="card-identity">Upload Kartu Identitas</label>
+                  <div class="custom-file">
+                    <input name="card-identity" type="file" class="custom-file-input" id="card-identity">
+                    <label class="custom-file-label" for="card-identity">Choose file</label>
+                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="identity-file">Upload Kartu Identitas</label>
-                <div class="custom-file">
-                  <input name="card-identity" type="file" class="custom-file-input" id="identity-file">
-                  <label class="custom-file-label" for="identity-file">Choose file</label>
-                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
-                </div>
-              </div>
-            </div>
+            </form>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
               <button onclick="submitPemain()" type="button" class="btn btn-primary">Tambah</button>
@@ -636,7 +654,7 @@
     // BS-Stepper Init
     document.addEventListener('DOMContentLoaded', function() {
       window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-      console.log(findGetParameter('submitTeam'))
+      // console.log(findGetParameter('submitTeam'))
       if (findGetParameter('submitTeam')) {
         var submit_team_status = findGetParameter('submitTeam');
 
@@ -884,35 +902,36 @@
       var position = $('input[name=position]').val();
       var back_number = $('input[name=back-number]').val();
       var back_name = $('input[name=back-name]').val();
-      var photo = $('#photo-file').prop('files')[0];
-      var card_identity = $('input[name=card-identity]').val();
+      var photo = $('#player_photo')[0].files[0];
+      var card_identity = $('#card-identity')[0].files[0];
+
+      var formData = new FormData();
+      formData.append('tipe', 'callFuncStore');
+      formData.append('registration_number', registration_number);
+      formData.append('full_name', full_name);
+      formData.append('birth_date', birth_date);
+      formData.append('birth_place', birth_place);
+      formData.append('address', address);
+      formData.append('identity_number', identity_number);
+      formData.append('height', height);
+      formData.append('weight', weight);
+      formData.append('position', position);
+      formData.append('back_number', back_number);
+      formData.append('back_name', back_name);
+      formData.append('religion', religion);
+      formData.append('gender_id', gender);
+      formData.append('player_photo', photo);
+      formData.append('card-identity', card_identity);
 
       // Submit all variable to database using ajax
       $.ajax({
         type: "POST",
         url: "api/player.php",
-        // contentType: 'multipart/form-data',
-        data: {
-          'tipe': 'callFuncStore',
-          'registration_number': registration_number,
-
-          'full_name': full_name,
-          'birth_date': birth_date,
-          'birth_place': birth_place,
-          'address': address,
-          'identity_number': identity_number,
-          'height': height,
-          'weight': weight,
-          'position': position,
-          'back_number': back_number,
-          'back_name': back_name,
-          // 'image_path': photo,
-          // 'files': files,
-          'religion': religion,
-          'gender_id': gender,
-          // 'card_identity': card_identity,
-        },
+        data: formData,
+        processData: false, // tell jQuery not to process the data
+        contentType: false, // tell jQuery not to set contentType
         success: function(response) {
+          console.log(response);
           $('#players-table').load(window.location.href + ' #players-table');
           var res = JSON.parse(response);
 
@@ -941,9 +960,10 @@
         .val('')
         .end()
         .find("input[type=checkbox], input[type=radio]")
-        .prop("checked", "")
-        .end();
+        .prop("checked", "");
       // })
+      document.querySelector('form#testtt').reset()
+
     }
 
     // Submit tim official data to database
@@ -958,46 +978,57 @@
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya, lanjut!'
       }).then((result) => {
+
         // team
         var club_name = $('input[name=club-name]').val()
         var address = $('textarea[name=address]').val()
         var licenses = $('input[name=license]').val()
         var email = $('input[name=email]').val()
         var phone_number = $('input[name=phone-number]').val()
-        var photo = $('input[name=photo]').val()
+        var club_logo = $('#club_logo')[0].files[0];
         var team_type = $('input[name=team-type]').val()
-
-        console.log(team_type);
 
         // manager
         var manager_name = $('input[name=manager-name]').val();
         var manager_phone_number = $('input[name=manager-phone]').val();
-        var manager_photo = $('input[name=manager-photo]').val();
+        var manager_photo = $('#manager_photo')[0].files[0];
+
+        // coach
+        var coach_name = $('input[name=coach-name]').val();
+        var coach_photo = $('#coach_photo')[0].files[0];
 
         // Team has league
         var tournament_id = $('select[name=league]').val();
+
+        var formData = new FormData();
+        formData.append('tipe', 'store')
+        formData.append('name', club_name)
+        formData.append('address', address)
+        formData.append('licenses', licenses)
+        formData.append('email', email)
+        formData.append('phone_number', phone_number)
+        formData.append('club_logo', club_logo)
+        formData.append('team_type', team_type)
+        formData.append('manager_name', manager_name)
+        formData.append('manager_phone_number', manager_phone_number)
+        formData.append('manager_photo', manager_photo)
+        formData.append('coach_name', coach_name)
+        formData.append('coach_photo', coach_photo)
+        formData.append('tournament_id', tournament_id)
 
         if (result.isConfirmed) {
           $.ajax({
             type: "POST",
             url: "api/team.php",
-            data: {
-              'tipe': 'store',
-              'name': club_name,
-              'address': address,
-              'licenses': licenses,
-              'email': email,
-              'phone_number': phone_number,
-              'photo': photo,
-              'team_type': team_type,
-              'manager_name': manager_name,
-              'manager_phone_number': manager_phone_number,
-              'manager_photo': manager_photo,
-              'tournament_id': tournament_id,
-            },
+            data: formData,
+            processData: false, // tell jQuery not to process the data
+            contentType: false, // tell jQuery not to set contentType
             success: function(response) {
               var res = JSON.parse(response)
-              window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg + "&tipe=" + team_type;
+              if (res.status == false)
+                Swal.fire('Error', res.msg, 'error');
+              else
+                window.location.href = "registration-team.php?nomorRegistrasi=" + res.noreg + "&tipe=" + team_type;
             }
           });
 

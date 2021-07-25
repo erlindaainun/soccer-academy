@@ -42,14 +42,15 @@ function store()
     // Check if file already exists
     if (file_exists($target_file)) {
         // $message['already_exist'] = "Sorry, file already exists.";
-        header("Location:/server/member.php?page=create&errorMsg=already_exist");
+        // header("Location:/server/member.php?page=create&errorMsg=already_exist");
+        $_POST['_previousUrl'] ? header('Location:' . $_POST['_previousUrl'] . "?page=create&errorMsg=already_exist") : header("Location:/server/member.php?page=create&errorMsg=already_exist");
         $uploadOk = 0;
     }
 
     // Check file size
     if ($_FILES["fileToUpload"]["size"] > 1000000) {
         // $message['file_size'] = "Sorry, your file is too large.";
-        header("Location:/server/member.php?page=create&errorMsg=file_size");
+        $_POST['_previousUrl'] ? header('Location:' . $_POST['_previousUrl'] . "?page=create&errorMsg=file_size") : header("Location:/server/member.php?page=create&errorMsg=file_size");
         $uploadOk = 0;
     }
 
@@ -84,13 +85,14 @@ function store()
                 '"' . $_POST['position'] . '", ' .
                 '"' . $_POST['reason'] . '", ' .
                 '"' . $_POST['notes'] . '", ' .
-                '"' . 'draft' . '", ' .
+                '"' . $_POST['status'] . '", ' .
                 'NOW(), NOW())';
 
             $result = $conn->query($sql);
 
             if ($result)
-                return header("Location:/server/member.php?status=stored");
+                // return header("Location:/server/member.php?status=stored");
+                $_POST['_previousUrl'] ? header('Location:' . $_POST['_previousUrl'] . "?status=stored") : header("Location:/server/member.php?status=stored");
             else
                 return json_encode(['status' => false, 'msg' => 'Gagal']);
         } else {
@@ -190,7 +192,7 @@ function update()
                     'position = "' . $_POST['position'] . '",' .
                     'reason = "' . $_POST['reason'] . '",' .
                     'notes = "' . $_POST['notes'] . '",' .
-                    'status = "' . 'draft' . '",' .
+                    'status = "' . $_POST['status'] . '", ' .
                     'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
 
                 $result = $conn->query($sql);
@@ -219,7 +221,7 @@ function update()
             'position = "' . $_POST['position'] . '",' .
             'reason = "' . $_POST['reason'] . '",' .
             'notes = "' . $_POST['notes'] . '",' .
-            'status = "' . 'draft' . '",' .
+            'status = "' . $_POST['status'] . '", ' .
             'updated_at = NOW() WHERE `id` = ' . $_POST["id"];
 
         $result = $conn->query($sql);

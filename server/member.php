@@ -275,6 +275,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="col-sm-12">
                               <!-- text input -->
                               <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="custom-select">
+                                  <option selected disabled value="">Choose...</option>
+                                  <option value="Disetujui">Disetujui</option>
+                                  <option value="Tertunda">Tertunda</option>
+                                  <option value="Ditolak">Ditolak</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
                                 <label>Catatan</label>
                                 <textarea name="notes" rows="2" class="form-control" placeholder="Enter ..."></textarea>
                               </div>
@@ -490,6 +502,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                           </div>
                           <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="custom-select">
+                                  <option selected disabled value="">Choose...</option>
+                                  <option value="Disetujui">Disetujui</option>
+                                  <option value="Tertunda">Tertunda</option>
+                                  <option value="Ditolak">Ditolak</option>
+                                </select>
+                              </div>
+                            </div>
+                          <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Catatan</label>
@@ -546,9 +570,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <dt class="col-sm-4">Alamat</dt>
                           <dd class="col-sm-8"><?php echo $row['address'] ?></dd>
                           <dt class="col-sm-4">Berat Badan</dt>
-                          <dd class="col-sm-8"><?php echo $row['weight'] ?></dd>
+                          <dd class="col-sm-8"><?php echo $row['weight'] ?> kg</dd>
                           <dt class="col-sm-4">Tinggi Badan</dt>
-                          <dd class="col-sm-8"><?php echo $row['height'] ?></dd>
+                          <dd class="col-sm-8"><?php echo $row['height'] ?> cm</dd>
                           <dt class="col-sm-4">No Telfon</dt>
                           <dd class="col-sm-8"><?php echo $row['phone_number'] ?></dd>
                           <dt class="col-sm-4">Alasan Ingin Bergabung</dt>
@@ -557,6 +581,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <dd class="col-sm-8"><?php echo $row['position'] ?></dd>
                           <dt class="col-sm-4">Catatan</dt>
                           <dd class="col-sm-8"><?php echo $row['notes'] ?></dd>
+                          <dt class="col-sm-4">Status</dt>
+                          <dd class="col-sm-8"><?php echo $row['status'] ?></dd>
                           <dt class="col-sm-4">Gambar</dt>
                           <!-- <dd class="col-sm-8"><?php echo $row['image_path'] ?></dd> -->
                           <?php
@@ -785,6 +811,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           $("input[name=phone_number]").val(data.phone_number);
           $("textarea[name=reason]").val(data.reason);
           $("input[name=position]").val(data.position);
+          $("select[name=status ] option[value='" + data.status + "']").attr("selected", "selected");
           $("textarea[name=notes]").val(data.notes);
 
         }

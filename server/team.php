@@ -74,134 +74,342 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <section class="content">
         <div class="container-fluid">
           <div class="row">
+
             <!-- FORM CREATE TIM -->
-            <?php if (!empty($_GET['page']) == 'create') { ?>
-              <div class="col-sm-8">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Data Tim</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <form>
-                    <div class="card-body">
-                      <?php if ($error_msg = $_GET['errorMsg'] ?? false)
-                        if ($error_msg == 'already_exist')
-                          echo '
+            <?php
+
+            // Ambil parameter page
+            $page = $_GET['page'] ?? '';
+
+            // Jika parameter `page` sama dengan `create` atau `edit`
+            if ($page == 'create' || $page == 'edit') {
+
+              // Jika page sama dengan `edit` dan memiliki `id`
+              if ($page == 'edit' && isset($_GET['id'])) {
+                // Check apakah `id` ada didatabase
+                $id = $_GET['id'];
+                $sql = 'SELECT * FROM `teams` WHERE id = ' . $id;
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+
+                $num_rows = $result ? $result->num_rows : 0;
+
+                // jika result ada maka tampilkan form dengan value yang ada didatabase
+                if ($num_rows > 0 && $id != "") { ?>
+
+                  <div class="col-sm-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Edit Data Tim</h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <form name="form1" method="post" action="/api/team.php" enctype="multipart/form-data">
+                        <input type="hidden" name="tipe" value="update">
+                        <input type="hidden" name="id" value="">
+                        <div class="card-body">
+                          <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                            if ($error_msg == 'already_exist')
+                              echo '
                             <div class="alert alert-danger alert-dismissible">
                               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                               <h5><i class="icon fas fa-ban"></i> Error!</h5>
                               Maaf, file sudah ada.
                             </div>';
-                        else if ($error_msg == 'file_size')
-                          echo '
+                            else if ($error_msg == 'file_size')
+                              echo '
                             <div class="alert alert-danger alert-dismissible">
                               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                               <h5><i class="icon fas fa-ban"></i> Error!</h5>
                               Maksimal ukuran file foto adalah 1 MB.
                             </div>';
-                        else if ($error_msg == 'file_format')
-                          echo '
+                            else if ($error_msg == 'file_format')
+                              echo '
                             <div class="alert alert-danger alert-dismissible">
                               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                               <h5><i class="icon fas fa-ban"></i> Error!</h5>
                               Maaf, hanya terima file JPG, JPEG & PNG.
                             </div>';
-                        else
-                          echo '<div class="alert alert-danger alert-dismissible">
+                            else
+                              echo '<div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <h5><i class="icon fas fa-ban"></i> Error!</h5>
                                 Terjadi kesalahan, harap cek kembali form!
                               </div>';
 
-                      ?>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label for="namaklub">Pilih Liga / Turnamen</label>
-                            <select name="league" class="custom-select">
-                              <option selected disabled value="">Choose..</option>
-                              <?php
-                              $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
-                              $result = $conn->query($sql);
+                          ?>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label for="namaklub">Pilih Liga / Turnamen</label>
+                                <select name="league" class="custom-select">
+                                  <option selected disabled value="">Choose..</option>
+                                  <?php
+                                  $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
+                                  $result = $conn->query($sql);
 
-                              while ($row = $result->fetch_assoc()) {
-                              ?>
-                                <option value="<?php echo $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
-                              <?php
-                              }
-                              ?>
+                                  while ($row = $result->fetch_assoc()) {
+                                  ?>
+                                    <option value="<?php echo $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
+                                  <?php
+                                  }
+                                  ?>
 
-                              <?php
-                              $sql = 'SELECT * FROM `tournaments` WHERE `status`="Buka"';
-                              $result = $conn->query($sql);
+                                  <?php
+                                  $sql = 'SELECT * FROM `tournaments` WHERE `status`="Buka"';
+                                  $result = $conn->query($sql);
 
-                              while ($row = $result->fetch_assoc()) {
-                              ?>
-                                <option value="<?php echo $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
-                              <?php
-                              }
-                              ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label for="namaklub">Nama Klub</label>
-                            <input name="club-name" type="text" class="form-control" placeholder="Enter name">
-                          </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label for="lisensi">Lisensi</label>
-                            <input name="license" type="text" class="form-control" placeholder="Enter license">
-                          </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label for="emailklub">Email</label>
-                            <input name="email" type="email" class="form-control" placeholder="Enter email">
-                          </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label for="notelfonklub">No Telfon</label>
-                            <input name="phone-number" type="number" class="form-control" placeholder="Enter phone number">
-                          </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label for="alamatklub">Alamat</label>
-                            <textarea name="address" rows="2" class="form-control" placeholder="Enter address"></textarea>
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="fileToUpload">Upload Gambar</label>
-                            <div class="custom-file">
-                              <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                              <label class="custom-file-label" for="fileToUpload">Choose file</label>
-                              <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                  while ($row = $result->fetch_assoc()) {
+                                  ?>
+                                    <option value="<?php echo $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
+                                  <?php
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label for="namaklub">Nama Klub</label>
+                                <input name="club-name" type="text" class="form-control" placeholder="Enter name">
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label for="lisensi">Lisensi</label>
+                                <input name="license" type="text" class="form-control" placeholder="Enter license">
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label for="emailklub">Email</label>
+                                <input name="email" type="email" class="form-control" placeholder="Enter email">
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label for="notelfonklub">No Telfon</label>
+                                <input name="phone-number" type="number" class="form-control" placeholder="Enter phone number">
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <!-- text input -->
+                              <div class="form-group">
+                                <label for="alamatklub">Alamat</label>
+                                <textarea name="address" rows="2" class="form-control" placeholder="Enter address"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="fileToUpload">Upload Gambar</label>
+                                <div class="custom-file">
+                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <div class="form-group row">
+                                <div class="col-sm-4">
+                                  <label for="manager-name">Nama Manajer</label>
+                                  <input name="manager-name" type="text" class="form-control" placeholder="Enter manager name">
+                                </div>
+                                <div class="col-sm-4">
+                                  <label for="manager-telp">No Telfon Manajer</label>
+                                  <input name="manager-phone" type="number" class="form-control" placeholder="Enter manager phone number">
+                                </div>
+                                <div class="col-sm-4">
+                                  <label for="fileToUpload">Upload Foto Manajer</label>
+                                  <div class="custom-file">
+                                    <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                    <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <div class="form-group row">
+                                <div class="col-sm-6">
+                                  <label for="pelatihkepala">Nama Pelatih</label>
+                                  <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name">
+                                </div>
+                                <div class="col-sm-6">
+                                  <label for="fileToUpload">Upload Foto Pelatih</label>
+                                  <div class="custom-file">
+                                    <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                    <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                                    <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div class="col-sm-12">
-                          <div class="form-group row">
-                            <div class="col-sm-4">
-                              <label for="manager-name">Nama Manajer</label>
-                              <input name="manager-name" type="text" class="form-control" placeholder="Enter manager name">
+                        <!-- /.card-body -->
+                      </form>
+                      <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                <?php
+                  // get data from ajax request
+                  echo '<script>document.addEventListener("DOMContentLoaded", function() {editTeam(' . $id . ')})</script>';
+                } else { // jika `id` yang diberikan tidak ada di database
+                  echo '<div class="error-page">
+              <h2 class="headline text-warning"> 404</h2>
+      
+              <div class="error-content">
+                <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+      
+                <p>
+                  We could not find the page you were looking for.
+                  Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                </p>
+              </div>
+              <!-- /.error-content -->
+            </div>';
+                }
+              } else if ($page == 'edit' && !isset($_GET['id'])) { // Jika page sama dengan `edit` dan tidak memiliki `id`
+                echo '<div class="error-page">
+              <h2 class="headline text-warning"> 404</h2>
+      
+              <div class="error-content">
+                <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+      
+                <p>
+                  We could not find the page you were looking for.
+                  Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                </p>
+              </div>
+              <!-- /.error-content -->
+            </div>';
+              } else {
+                ?>
+                <div class="col-sm-8">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Tambah Data Tim</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form name="form1" method="post" action="/api/team.php" enctype="multipart/form-data">
+                      <input type="hidden" name="tipe" value="store">
+                      <input type="hidden" name="id" value="">
+                      <div class="card-body">
+                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          if ($error_msg == 'already_exist')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, file sudah ada.
+                            </div>';
+                          else if ($error_msg == 'file_size')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maksimal ukuran file foto adalah 1 MB.
+                            </div>';
+                          else if ($error_msg == 'file_format')
+                            echo '
+                            <div class="alert alert-danger alert-dismissible">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                              Maaf, hanya terima file JPG, JPEG & PNG.
+                            </div>';
+                          else
+                            echo '<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                Terjadi kesalahan, harap cek kembali form!
+                              </div>';
+
+                        ?>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label for="namaklub">Pilih Liga / Turnamen</label>
+                              <select name="league" class="custom-select">
+                                <option selected disabled value="">Choose..</option>
+                                <?php
+                                $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
+                                $result = $conn->query($sql);
+
+                                while ($row = $result->fetch_assoc()) {
+                                ?>
+                                  <option value="<?php echo $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
+                                <?php
+                                }
+                                ?>
+
+                                <?php
+                                $sql = 'SELECT * FROM `tournaments` WHERE `status`="Buka"';
+                                $result = $conn->query($sql);
+
+                                while ($row = $result->fetch_assoc()) {
+                                ?>
+                                  <option value="<?php echo $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
+                                <?php
+                                }
+                                ?>
+                              </select>
                             </div>
-                            <div class="col-sm-4">
-                              <label for="manager-telp">No Telfon Manajer</label>
-                              <input name="manager-phone" type="number" class="form-control" placeholder="Enter manager phone number">
+                          </div>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label for="namaklub">Nama Klub</label>
+                              <input name="club-name" type="text" class="form-control" placeholder="Enter name">
                             </div>
-                            <div class="col-sm-4">
-                              <label for="fileToUpload">Upload Foto Manajer</label>
+                          </div>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label for="lisensi">Lisensi</label>
+                              <input name="license" type="text" class="form-control" placeholder="Enter license">
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label for="emailklub">Email</label>
+                              <input name="email" type="email" class="form-control" placeholder="Enter email">
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label for="notelfonklub">No Telfon</label>
+                              <input name="phone-number" type="number" class="form-control" placeholder="Enter phone number">
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                              <label for="alamatklub">Alamat</label>
+                              <textarea name="address" rows="2" class="form-control" placeholder="Enter address"></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="fileToUpload">Upload Gambar</label>
                               <div class="custom-file">
                                 <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
                                 <label class="custom-file-label" for="fileToUpload">Choose file</label>
@@ -209,42 +417,270 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <div class="form-group row">
-                            <div class="col-sm-6">
-                              <label for="pelatihkepala">Nama Pelatih</label>
-                              <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name">
-                            </div>
-                            <div class="col-sm-6">
-                              <label for="fileToUpload">Upload Foto Pelatih</label>
-                              <div class="custom-file">
-                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
-                                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                          <div class="col-sm-12">
+                            <div class="form-group row">
+                              <div class="col-sm-4">
+                                <label for="manager-name">Nama Manajer</label>
+                                <input name="manager-name" type="text" class="form-control" placeholder="Enter manager name">
+                              </div>
+                              <div class="col-sm-4">
+                                <label for="manager-telp">No Telfon Manajer</label>
+                                <input name="manager-phone" type="number" class="form-control" placeholder="Enter manager phone number">
+                              </div>
+                              <div class="col-sm-4">
+                                <label for="fileToUpload">Upload Foto Manajer</label>
+                                <div class="custom-file">
+                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <div class="form-group">
-                            <div class="input-group">
-                              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
-                                <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
-                              </button>
+                          <div class="col-sm-12">
+                            <div class="form-group row">
+                              <div class="col-sm-6">
+                                <label for="pelatihkepala">Nama Pelatih</label>
+                                <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name">
+                              </div>
+                              <div class="col-sm-6">
+                                <label for="fileToUpload">Upload Foto Pelatih</label>
+                                <div class="custom-file">
+                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
+                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div class="input-group">
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                                  <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <!-- /.card-body -->
+                    </form>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                    <!-- /.card-body -->
-                  </form>
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
-              </div>
-            <?php } else { ?>
+                <?php }
+            } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
+
+              if (!empty($id = $_GET['id'])) {
+                $sql = 'SELECT * FROM `teams` WHERE `id` = ' . $id;
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+
+                $num_rows = $result ? $result->num_rows : 0;
+
+                // jika result ada maka tampilkan form dengan value yang ada didatabase
+                if ($num_rows > 0 && $id != "") {
+
+                  $image_path = str_replace('..', '', $row['photo']);
+                  $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                ?>
+
+                  <div class="col-md-3">
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          Data Oficial Tim
+                        </h3>
+                      </div>
+                      <div class="card-body box-profile">
+                        <div class="text-center">
+                          <img class="profile-user-img img-circle rounded-circle" src="<?php echo $src ?>" alt="" style="height:100px;">
+                        </div>
+                        <h3 class="profile-username text-center"><?php echo $row['name'] ?></h3>
+                      </div>
+                      <!-- /.card-body -->
+                      <div class="card-body">
+                        <strong><i class="fas fa-id-badge mr-1"></i> Lisensi</strong>
+                        <p class="text-muted">
+                          <?php echo $row['licenses'] ?>
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+                        <p class="text-muted">
+                          <?php echo $row['email'] ?>
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-phone mr-1"></i> No Telfon</strong>
+                        <p class="text-muted">
+                          <?php echo $row['telp'] ?>
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
+                        <p class="text-muted">
+                          <?php echo $row['address'] ?>
+                        </p>
+                        <hr>
+
+                        <?php
+                        $TEAM_MANAGER_ID = "";
+                        $TEAM_COACH_ID = "";
+                        $TEAM_ID = "";
+
+                        $sql = 'SELECT * FROM `teams` WHERE `id` = ' . $_GET['id'];
+                        $result = $conn->query($sql);
+                        $row = $result->fetch_assoc();
+
+                        $TEAM_MANAGER_ID = $row['manager_id'] ?? '';
+                        $TEAM_COACH_ID = $row['coach_id'] ?? '';
+                        $TEAM_ID = $row['id'] ?? '';
+
+                        $sql = 'SELECT * FROM `managers` WHERE `id` = ' . $TEAM_MANAGER_ID ?? '';
+                        $result = $conn->query($sql);
+                        $rowmanager = $result->fetch_assoc();
+
+                        $sql = 'SELECT * FROM `coaches` WHERE `id` = ' . $TEAM_COACH_ID ?? '';
+                        $result = $conn->query($sql);
+                        $rowcoach = $result->fetch_assoc();
+
+                        ?>
+                        <strong><i class="fas fa-user-tie mr-1"></i> Nama Manajer</strong>
+                        <p class="text-muted">
+                          <?php echo $rowmanager['name'] ?>
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-phone mr-1"></i> No Telfon Manajer</strong>
+                        <p class="text-muted">
+                          <?php echo $rowmanager['phone_number'] ?>
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-futbol mr-1"></i> Nama Pelatih</strong>
+                        <p class="text-muted">
+                          <?php echo $rowcoach['name'] ?>
+                        </p>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                  <!--  Pemain -->
+                  <div class="col-9">
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          Data Pemain
+                        </h3>
+                      </div>
+                      <div class="card-body">
+                        <!-- <h4>Left Sided</h4> -->
+                        <?php
+                        if ($TEAM_ID != "") {
+                          $sql = 'SELECT * FROM `players` WHERE `team_id` = ' . $TEAM_ID;
+                          $result = $conn->query($sql);
+
+                          // $rows = $result->fetch_assoc();
+                          // foreach ($rows as $key => $value) {
+                          //   echo $key . '  ' . $value;
+                          // }
+                        ?>
+                          <div class="row">
+                            <?php if ($result->num_rows == 0) echo "Belum ada pemain" ?>
+                            <div class="col-5 col-sm-3">
+                              <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                                <?php
+                                $i = 0;
+                                while ($row = $result->fetch_assoc()) {
+                                  $name = str_replace(' ', '-', strtolower($row['full_name']));
+                                ?>
+                                  <a class="nav-link <?php if ($i == 0) echo 'active';
+                                                      $i++; ?>" id="vert-tabs-<?php echo $name ?>-tab" data-toggle="pill" href="#vert-tabs-<?php echo $name ?>" role="tab" aria-controls="vert-tabs-home" aria-selected="true"><?php echo $row['id'] . '. ' . $row['full_name'] ?></a>
+                                <?php } ?>
+                              </div>
+                            </div>
+                            <div class="col-7 col-sm-9">
+                              <div class="tab-content" id="vert-tabs-tabContent">
+                                <?php
+                                $result = $conn->query($sql);
+                                $i = 0;
+                                while ($row = $result->fetch_assoc()) {
+                                  $name = str_replace(' ', '-', strtolower($row['full_name']));
+
+                                  $image_path = str_replace('..', '', $row['image_path']);
+                                  $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                                ?>
+                                  <div class="tab-pane text-left fade <?php if ($i == 0) echo 'active show';
+                                                                      $i++; ?>" id="vert-tabs-<?php echo $name ?>" role="tabpanel" aria-labelledby="vert-tabs-<?php echo $name ?>-tab">
+                                    <!-- Detail player -->
+                                    <div class="row">
+                                      <div class="col-12 col-sm-6 col-md-12 d-flex align-items-stretch flex-column">
+                                        <div class="card bg-light d-flex flex-fill">
+                                          <div class="card-header text-muted border-bottom-0">
+                                            <?php echo $row['position'] ?> - <?php echo $row['back_name'] ?> - <?php echo $row['back_number'] ?>
+                                          </div>
+                                          <div class="card-body pt-0">
+                                            <div class="row">
+                                              <div class="col-8">
+                                                <h2 class="lead"><b><?php echo $row['full_name'] ?></b></h2>
+                                                <p class="text-muted text-sm"><b>No. Identitas: </b> <?php echo $row['identity_number'] ?> </p>
+                                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span> TTL: <?php echo $row['birth_place'] . ', ' . $row['birth_date'] ?></li>
+                                                  <li class="small"><span class="fa-li"><i class="fas fa-star-and-crescent"></i></span> Agama: <?php echo $row['religion'] ?></li>
+                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Alamat: <?php echo $row['address'] ?></li>
+                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-ruler"></i></span> Tinggi Badan: <?php echo $row['height'] ?> cm</li>
+                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-weight"></i></span> Berat Badan: <?php echo $row['weight'] ?> kg</li>
+                                                </ul>
+                                              </div>
+                                              <div class="col-4 text-center">
+                                                <img src="<?php echo $src ?>" alt="user-avatar" class="img-fluid rounded-circle" style="width: 250px; height: 250px; display:flex">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              <?php }
+                              } ?>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                  </div>
+              <?php } else {
+                  echo '<div class="error-page">
+                <h2 class="headline text-warning"> 404</h2>
+
+                <div class="error-content">
+                  <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+
+                  <p>
+                    We could not find the page you were looking for.
+                    Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                  </p>
+                </div>
+                <!-- /.error-content -->
+              </div>';
+                }
+              } else {
+                echo '<div class="error-page">
+                <h2 class="headline text-warning"> 404</h2>
+
+                <div class="error-content">
+                  <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
+
+                  <p>
+                    We could not find the page you were looking for.
+                    Meanwhile, you may <a href="/server/index.php">return to dashboard</a> or try using the search form.
+                  </p>
+                </div>
+                <!-- /.error-content -->
+              </div>';
+              }
+            } else { ?>
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
@@ -468,8 +904,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           "targets": 5,
           "data": 5,
           "render": function(data, type, full, meta) {
-            return '<a class="btn btn-primary btn-sm" href="#"><i class="fas fa-eye"></i> Lihat</a> ' +
-              '<a class="btn btn-info btn-sm" href="#"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
+            return '<a class="btn btn-primary btn-sm" href="/server/team.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
+              '<a class="btn btn-info btn-sm" href="/server/team.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
               '<a class="btn btn-danger btn-sm" onclick="deleteTeam(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a> ';
 
           }

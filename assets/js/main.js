@@ -200,7 +200,7 @@
       });
 
       portfolioIsotope.arrange({
-        filter: '.filter-u6-u8'
+        filter: '.filter-U6-U8'
       });
 
       let portfolioFilters = select('#portfolio-flters li', true);

@@ -71,41 +71,27 @@
           <div class="col-md-12">
             <?php if ($error_msg = $_GET['errorMsg'] ?? false)
               if ($error_msg == 'already_exist')
-                echo '
-                      <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Maaf, file sudah ada.
-                      </div>';
+                echo '<div class="error-message d-block">Maaf, file sudah ada.</div>';
               else if ($error_msg == 'file_size')
-                echo '
-                      <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Maksimal ukuran file foto adalah 1 MB.
-                      </div>';
+                echo '<div class="error-message d-block">Maksimal ukuran file foto adalah 1 MB.</div>';
               else if ($error_msg == 'file_format')
-                echo '
-                      <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Maaf, hanya terima file JPG, JPEG & PNG.
-                      </div>';
+                echo '<div class="error-message d-block">Maaf, hanya terima file JPG, JPEG & PNG.</div>';
               else
-                echo '<div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Terjadi kesalahan, harap cek kembali form!
-                      </div>';
+                echo '<div class="error-message d-block">Terjadi kesalahan, harap cek kembali form!</div>';
+
+            if ($status = $_GET['status'] ?? false) {
+              if ($status == 'stored')
+                echo '<div class="success-message d-block">Member berhasil dibuat!</div>';
+            }
             ?>
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>NISN / NIK</strong></label>
-            <input name="identity_number" type="number" class="form-control" required>
+            <input name="identity_number" type="number" class="form-control" placeholder="Enter identity number" required>
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Nama Lengkap</strong></label>
-            <input name="name" type="text" class="form-control" required>
+            <input name="name" type="text" class="form-control" placeholder="Enter name" required>
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Kelas</strong></label>
@@ -119,18 +105,18 @@
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Tempat Lahir</strong></label>
-            <input name="birth_place" type="text" class="form-control" required>
+            <input name="birth_place" type="text" class="form-control" placeholder="Enter birth place" required>
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Tanggal Lahir</strong></label>
-            <input name="birth_date" type="date" class="form-control" required>
+            <input name="birth_date" type="date" class="form-control" placeholder="Enter birth date" required>
           </div>
           <div class="col-md-3">
             <label class="form-label"><strong>Jenis Kelamin</strong></label>
-            <select name="gender_id" class="form-select" required>
-              <option selected disabled value="">Choose...</option>
-              <option value="Laki-Laki">Laki-Laki</option>
-              <option value="Perempuan">Perempuan</option>
+            <select name="gender_id" class="form-select" require>
+              <option selected disabled value="">Choose..</option>
+              <option value="1">Laki-Laki</option>
+              <option value="2">Perempuan</option>
             </select>
           </div>
           <div class="col-md-3">
@@ -147,31 +133,35 @@
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Alamat</strong></label>
-            <textarea name="address" rows="1" class="form-control" required></textarea>
+            <textarea name="address" rows="1" class="form-control" placeholder="Enter address" required></textarea>
           </div>
           <div class="col-md-2">
             <label class="form-label"><strong>No Telfon</strong></label>
-            <input name="phone_number" type="number" class="form-control" required>
+            <input name="phone_number" type="number" class="form-control" placeholder="Enter phone number" required>
           </div>
           <div class="col-md-2">
             <label class="form-label"><strong>Berat Badan</strong></label>
-            <input name="weight" type="number" class="form-control" required>
+            <input name="weight" type="number" class="form-control" placeholder="Enter weight" required>
           </div>
           <div class="col-md-2">
             <label class="form-label"><strong>Tinggi Badan</strong></label>
-            <input name="height" type="number" class="form-control" required>
+            <input name="height" type="number" class="form-control" placeholder="Enter height" required>
           </div>
           <div class="col-md-6">
             <label class="form-label"><strong>Alasan Ingin Bergabung</strong></label>
-            <textarea name="reason" rows="1" class="form-control" required></textarea>
+            <textarea name="reason" rows="1" class="form-control" placeholder="Enter reason" required></textarea>
           </div>
           <div class="col-md-6" hidden>
             <label class="form-label"><strong>Catatan</strong></label>
-            <textarea name="notes" rows="1" class="form-control" value="blank"></textarea>
+            <input name="notes" type="text" class="form-control" value="-" required>
           </div>
           <div class="col-md-6" hidden>
             <label class="form-label"><strong>Posisi</strong></label>
-            <textarea name="position" rows="1" class="form-control" value="blank"></textarea>
+            <input name="position" type="text" class="form-control" value="-" required>
+          </div>
+          <div class="col-md-6" hidden>
+            <label class="form-label"><strong>Status</strong></label>
+            <input name="status" type="text" class="form-control" value="Tertunda" required>
           </div>
           <div class="col-md-6">
             <label class="form-label" for="fileToUpload"><strong>Upload Gambar</strong></label>

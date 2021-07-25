@@ -1415,8 +1415,8 @@ section {
   position: relative;
   font: 15px 'Open Sans', sans-serif;
   font-weight: 700;
-
 }
+
 .faq .faq-item {
   margin: 10px 0;
   padding: 10px 0;
@@ -1429,7 +1429,6 @@ section {
   padding: 10px 0;
   text-align: center;
   font-size: 16px;
-
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   color: #4aa3df;
@@ -1445,8 +1444,9 @@ section {
   padding: 10px 0px 0px 5px;
 }
 
-.faq .faq-item .h5 img{
-  margin: 0px 0px 0px 10px; ;
+.faq .faq-item .h5 img {
+  margin: 0px 0px 0px 10px;
+  ;
   padding: 0px 0px 0px 10px;
 }
 
@@ -1718,4 +1718,24 @@ section {
 
 .manager {
   text-align: center;
+}
+
+.error-message {
+  display: none;
+  color: #fff;
+  background: #ed3c0d;
+  text-align: left;
+  padding: 15px;
+  font-weight: 600;
+  margin-top: 25px;
+}
+
+.success-message {
+  display: none;
+  color: #fff;
+  background: #28a745;
+  text-align: left;
+  padding: 15px;
+  font-weight: 600;
+  margin-top: 25px;
 }

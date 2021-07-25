@@ -11,6 +11,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   include 'session.php';
   include 'views/meta.php';
   ?>
+
+  <?php include '../connection.php' ?>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -26,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </ul>
 
       <!-- Right navbar links -->
-      
+
     </nav>
     <!-- /.navbar -->
 
@@ -61,9 +64,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>150</h3>
-
-                  <p>Anggota Baru</p>
+                  <?php
+                  $sql = 'SELECT count(*) as total from `members`';
+                  $result_count_members = $conn->query($sql)->fetch_assoc()['total'];
+                  ?>
+                  <h3><?php echo $result_count_members ?></h3>
+                  <p>Anggota</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
@@ -76,9 +82,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                  <p>Registrasi Tim</p>
+                  <?php
+                  $sql = 'SELECT count(*) as total from `teams`';
+                  $result_count_teams = $conn->query($sql)->fetch_assoc()['total'];
+                  ?>
+                  <h3><?php echo $result_count_teams ?></h3>
+                  <p>Tim</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
@@ -91,14 +100,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>44</h3>
-
-                  <p>User Registrations</p>
+                  <?php
+                  $sql = 'SELECT count(*) as total from `tournaments`';
+                  $result_count_tournaments = $conn->query($sql)->fetch_assoc()['total'];
+                  ?>
+                  <h3><?php echo $result_count_tournaments ?></h3>
+                  <p>Turnamen</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -106,14 +118,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>65</h3>
-
-                  <p>Unique Visitors</p>
+                  <?php
+                  $sql = 'SELECT count(*) as total from `leagues`';
+                  $result_count_leagues = $conn->query($sql)->fetch_assoc()['total'];
+                  ?>
+                  <h3><?php echo $result_count_leagues ?></h3>
+                  <p>Liga</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -124,7 +139,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card-header">
                   <h3 class="card-title pt-2 font-weight-bold">Anggota Baru</h3>
                   <div class="card-tools">
-                    <button type="button" class="btn btn-block btn-primary">Lihat Semua</button>
+                    <a href="member.php" class="btn btn-block btn-primary">Lihat Semua</a>
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -138,26 +153,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1.</td>
-                        <td>Update software</td>
-                        <td><span class="badge badge-pill badge-success btn-block">Disetujui</span></td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td>Clean database</td>
-                        <td><span class="badge badge-pill badge-warning btn-block">Tertunda</span></td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td>Cron job running</td>
-                        <td><span class="badge badge-pill badge-warning btn-block">Tertunda</span></td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Fix and squish bugs</td>
-                        <td><span class="badge badge-pill badge-danger btn-block">Ditolak</span></td>
-                      </tr>
+                      <?php
+                      $sql = 'SELECT * FROM `members` ORDER BY `id` DESC LIMIT 5';
+                      $result_member = $conn->query($sql);
+                      $members_arr = $result_member->fetch_all();
+
+                      foreach ($members_arr as $key => $member) {
+                        $status = $member[16];
+                        if ($status == "Disetujui")
+                          $badge_color = 'success';
+                        else if ($status == 'Tertunda')
+                          $badge_color = 'warning';
+                        else if ($status == 'Ditolak')
+                          $badge_color = 'danger';
+                      ?>
+                        <tr>
+                          <td><?php echo $key + 1 ?>.</td>
+                          <td><?php echo $member[1] ?></td>
+                          <td><span class="badge badge-pill badge-<?php echo $badge_color; ?> btn-block"><?php echo $status ?></span></td>
+                        </tr>
+                      <?php
+                      }
+                      ?>
                     </tbody>
                   </table>
                 </div>
@@ -169,7 +186,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card-header">
                   <h3 class="card-title pt-2 font-weight-bold">Tim Terbaru</h3>
                   <div class="card-tools">
-                    <button type="button" class="btn btn-block btn-primary">Lihat Semua</button>
+                    <a href="team.php" class="btn btn-block btn-primary">Lihat Semua</a>
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -183,26 +200,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1.</td>
-                        <td>Update software</td>
-                        <td><span class="badge badge-pill badge-success btn-block">Disetujui</span></td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td>Clean database</td>
-                        <td><span class="badge badge-pill badge-warning btn-block">Tertunda</span></td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td>Cron job running</td>
-                        <td><span class="badge badge-pill badge-warning btn-block">Tertunda</span></td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Fix and squish bugs</td>
-                        <td><span class="badge badge-pill badge-danger btn-block">Ditolak</span></td>
-                      </tr>
+                      <?php
+                      $sql = 'SELECT * FROM `teams` ORDER BY `id` DESC LIMIT 5';
+                      $result_team = $conn->query($sql);
+                      $teams_arr = $result_team->fetch_all();
+
+                      foreach ($teams_arr as $key => $team) {
+                        $status = $team[10];
+                        if ($status == "draft")
+                          $badge_color = 'secondary';
+                        else if ($status == 'pending')
+                          $badge_color = 'warning';
+                        else if ($status == 'approved')
+                          $badge_color = 'success';
+                      ?>
+                        <tr>
+                          <td><?php echo $key + 1 ?>.</td>
+                          <td><?php echo $team[1] ?></td>
+                          <td><span class="badge badge-pill badge-<?php echo $badge_color ?> btn-block"><?php echo ucfirst($status) ?></span></td>
+                        </tr>
+                      <?php
+                      }
+                      ?>
                     </tbody>
                   </table>
                 </div>
