@@ -188,28 +188,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label>Nama</label>
-                              <input name="name" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="name" type="text" class="form-control" placeholder="Enter name">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Username</label>
-                              <input name="username" type="text" class="form-control" placeholder="Enter ...">
+                              <input name="username" type="text" class="form-control" placeholder="Enter username">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Password</label>
-                              <input name="password" type="password" class="form-control" placeholder="Enter ...">
+                              <input name="password" type="password" class="form-control" placeholder="Enter password">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label>Konfirmasi Password</label>
-                              <input name="confirm_password" type="password" class="form-control" placeholder="Enter ...">
+                              <input name="confirm_password" type="password" class="form-control" placeholder="Enter confirm password">
                             </div>
                           </div>
                         </div>

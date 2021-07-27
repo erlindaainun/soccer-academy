@@ -24,6 +24,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+  <!-- Select2 -->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
@@ -139,18 +144,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           ?>
                           <div class="row">
                             <div class="col-sm-12">
-                              <!-- text input -->
                               <div class="form-group">
-                                <label for="namaklub">Pilih Liga / Turnamen</label>
-                                <select name="league" class="custom-select">
-                                  <option selected disabled value="">Choose..</option>
+                                <label>Pilih Liga / Turnamen</label>
+                                <select name="league_tournament[]" class="select2" multiple="multiple" data-placeholder="Pilih liga/turnamen" style="width: 100%;">
                                   <?php
                                   $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
                                   $result = $conn->query($sql);
 
                                   while ($row = $result->fetch_assoc()) {
                                   ?>
-                                    <option value="<?php echo $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
+                                    <option value="<?php echo 'liga_' . $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
                                   <?php
                                   }
                                   ?>
@@ -161,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                   while ($row = $result->fetch_assoc()) {
                                   ?>
-                                    <option value="<?php echo $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
+                                    <option value="<?php echo 'turnamen_' . $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
                                   <?php
                                   }
                                   ?>
@@ -172,14 +175,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- text input -->
                               <div class="form-group">
                                 <label for="namaklub">Nama Klub</label>
-                                <input name="club-name" type="text" class="form-control" placeholder="Enter name">
+                                <input name="name" type="text" class="form-control" placeholder="Enter name">
                               </div>
                             </div>
                             <div class="col-sm-12">
                               <!-- text input -->
                               <div class="form-group">
                                 <label for="lisensi">Lisensi</label>
-                                <input name="license" type="text" class="form-control" placeholder="Enter license">
+                                <input name="licenses" type="text" class="form-control" placeholder="Enter license">
                               </div>
                             </div>
                             <div class="col-sm-12">
@@ -193,7 +196,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- text input -->
                               <div class="form-group">
                                 <label for="notelfonklub">No Telfon</label>
-                                <input name="phone-number" type="number" class="form-control" placeholder="Enter phone number">
+                                <input name="phone_number" type="number" class="form-control" placeholder="Enter phone number">
                               </div>
                             </div>
                             <div class="col-sm-12">
@@ -205,66 +208,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <div class="col-md-12">
                               <div class="form-group">
-                                <label for="fileToUpload">Upload Gambar</label>
+                                <label for="fileToUpload">Upload Logo Klub</label><br>
+                                <img id="club_logo_preview" src="" alt="image" width="300px" style="padding-bottom: 20px;">
                                 <div class="custom-file">
-                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                  <input type="file" name="club_logo" class="form-control" id="club_logo">
+                                  <label class="custom-file-label" for="club_logo">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
                             </div>
                             <div class="col-sm-12">
                               <div class="form-group row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                   <label for="manager-name">Nama Manajer</label>
-                                  <input name="manager-name" type="text" class="form-control" placeholder="Enter manager name">
+                                  <input name="manager_name" type="text" class="form-control" placeholder="Enter manager name">
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                   <label for="manager-telp">No Telfon Manajer</label>
-                                  <input name="manager-phone" type="number" class="form-control" placeholder="Enter manager phone number">
-                                </div>
-                                <div class="col-sm-4">
-                                  <label for="fileToUpload">Upload Foto Manajer</label>
-                                  <div class="custom-file">
-                                    <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                    <label class="custom-file-label" for="fileToUpload">Choose file</label>
-                                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-sm-12">
-                              <div class="form-group row">
-                                <div class="col-sm-6">
-                                  <label for="pelatihkepala">Nama Pelatih</label>
-                                  <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name">
-                                </div>
-                                <div class="col-sm-6">
-                                  <label for="fileToUpload">Upload Foto Pelatih</label>
-                                  <div class="custom-file">
-                                    <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                    <label class="custom-file-label" for="fileToUpload">Choose file</label>
-                                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
-                                  </div>
+                                  <input name="manager_phone_number" type="number" class="form-control" placeholder="Enter manager phone number">
                                 </div>
                               </div>
                             </div>
                             <div class="col-sm-12">
                               <div class="form-group">
-                                <div class="input-group">
-                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
-                                    <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
-                                  </button>
+                                <label for="fileToUpload">Upload Foto Manajer</label><br>
+                                <img id="manager_photo_preview" src="" alt="image" width="300px" style="padding-bottom: 20px;">
+                                <div class="custom-file">
+                                  <input type="file" name="manager_photo" class="form-control" id="manager_photo">
+                                  <label class="custom-file-label" for="manager_photo">Choose file</label>
+                                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <div class="form-group row">
+                                <div class="col-sm-12">
+                                  <label for="pelatihkepala">Nama Pelatih</label>
+                                  <input name="coach_name" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name" required>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <div class="form-group row">
+                                <div class="col-sm-12">
+                                  <label for="fileToUpload">Upload Foto Pelatih</label><br>
+                                  <img id="coach_photo_preview" src="" alt="image" width="300px" style="padding-bottom: 20px;">
+                                  <div class="custom-file">
+                                    <input type="file" name="coach_photo" class="form-control" id="coach_photo">
+                                    <label class="custom-file-label" for="coach_photo">Choose file</label>
+                                    <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <!-- /.card-body -->
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
                       </form>
-                      <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
                     </div>
                   </div>
                 <?php
@@ -343,18 +346,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         ?>
                         <div class="row">
                           <div class="col-sm-12">
-                            <!-- text input -->
                             <div class="form-group">
-                              <label for="namaklub">Pilih Liga / Turnamen</label>
-                              <select name="league" class="custom-select">
-                                <option selected disabled value="">Choose..</option>
+                              <label>Pilih Liga / Turnamen</label>
+                              <select name="league_tournament[]" class="select2" multiple="multiple" data-placeholder="Pilih liga/turnamen" style="width: 100%;">
                                 <?php
                                 $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
                                 $result = $conn->query($sql);
 
                                 while ($row = $result->fetch_assoc()) {
                                 ?>
-                                  <option value="<?php echo $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
+                                  <option value="<?php echo 'liga_' . $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
                                 <?php
                                 }
                                 ?>
@@ -365,25 +366,54 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                 while ($row = $result->fetch_assoc()) {
                                 ?>
-                                  <option value="<?php echo $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
+                                  <option value="<?php echo 'turnamen_' . $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
                                 <?php
                                 }
                                 ?>
                               </select>
                             </div>
+
+                            <!-- Old select -->
+                            <!-- <div class="form-group">
+                              <label for="namaklub">Pilih Liga / Turnamen</label>
+                              <select name="league_tournament" class="custom-select">
+                                <option selected disabled value="">Choose..</option>
+                                <?php
+                                $sql = 'SELECT * FROM `leagues` WHERE `status`="Buka"';
+                                $result = $conn->query($sql);
+
+                                while ($row = $result->fetch_assoc()) {
+                                ?>
+                                  <option value="<?php echo 'liga_' . $row['id'] ?>">(Liga) <?php echo $row['name'] ?></option>
+                                <?php
+                                }
+                                ?>
+
+                                <?php
+                                $sql = 'SELECT * FROM `tournaments` WHERE `status`="Buka"';
+                                $result = $conn->query($sql);
+
+                                while ($row = $result->fetch_assoc()) {
+                                ?>
+                                  <option value="<?php echo 'turnamen_' . $row['id'] ?>">(Turnamen) <?php echo $row['name'] ?></option>
+                                <?php
+                                }
+                                ?>
+                              </select>
+                            </div> -->
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label for="namaklub">Nama Klub</label>
-                              <input name="club-name" type="text" class="form-control" placeholder="Enter name">
+                              <input name="name" type="text" class="form-control" placeholder="Enter name">
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                               <label for="lisensi">Lisensi</label>
-                              <input name="license" type="text" class="form-control" placeholder="Enter license">
+                              <input name="licenses" type="text" class="form-control" placeholder="Enter license">
                             </div>
                           </div>
                           <div class="col-sm-12">
@@ -397,7 +427,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- text input -->
                             <div class="form-group">
                               <label for="notelfonklub">No Telfon</label>
-                              <input name="phone-number" type="number" class="form-control" placeholder="Enter phone number">
+                              <input name="phone_number" type="number" class="form-control" placeholder="Enter phone number">
                             </div>
                           </div>
                           <div class="col-sm-12">
@@ -409,10 +439,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="fileToUpload">Upload Gambar</label>
+                              <label for="fileToUpload">Upload Logo Klub</label>
                               <div class="custom-file">
-                                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                <input type="file" name="club_logo" class="form-control" id="club_logo" required>
+                                <label class="custom-file-label" for="club_logo">Choose file</label>
                                 <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                               </div>
                             </div>
@@ -421,17 +451,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group row">
                               <div class="col-sm-4">
                                 <label for="manager-name">Nama Manajer</label>
-                                <input name="manager-name" type="text" class="form-control" placeholder="Enter manager name">
+                                <input name="manager_name" type="text" class="form-control" placeholder="Enter manager name">
                               </div>
                               <div class="col-sm-4">
                                 <label for="manager-telp">No Telfon Manajer</label>
-                                <input name="manager-phone" type="number" class="form-control" placeholder="Enter manager phone number">
+                                <input name="manager_phone_number" type="number" class="form-control" placeholder="Enter manager phone number">
                               </div>
                               <div class="col-sm-4">
                                 <label for="fileToUpload">Upload Foto Manajer</label>
                                 <div class="custom-file">
-                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                  <input type="file" name="manager_photo" class="form-control" id="manager_photo" required>
+                                  <label class="custom-file-label" for="manager_photo">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
                               </div>
@@ -441,34 +471,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="form-group row">
                               <div class="col-sm-6">
                                 <label for="pelatihkepala">Nama Pelatih</label>
-                                <input name="coach" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name">
+                                <input name="coach_name" type="text" class="form-control" id="pelatihkepala" placeholder="Enter coach name" required>
                               </div>
                               <div class="col-sm-6">
                                 <label for="fileToUpload">Upload Foto Pelatih</label>
                                 <div class="custom-file">
-                                  <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                                  <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                                  <input type="file" name="coach_photo" class="form-control" id="coach_photo" required>
+                                  <label class="custom-file-label" for="coach_photo">Choose file</label>
                                   <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <div class="input-group">
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
-                                  <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
-                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <!-- /.card-body -->
+                      <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
                     </form>
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
                   </div>
                 </div>
                 <?php }
@@ -540,6 +561,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $sql = 'SELECT * FROM `managers` WHERE `id` = ' . $TEAM_MANAGER_ID ?? '';
                         $result = $conn->query($sql);
                         $rowmanager = $result->fetch_assoc();
+                        $image_path = str_replace('..', '', $row['photo']);
+                        $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
 
                         $sql = 'SELECT * FROM `coaches` WHERE `id` = ' . $TEAM_COACH_ID ?? '';
                         $result = $conn->query($sql);
@@ -881,6 +904,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Swal2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- Select2 -->
+  <script src="/server/plugins/select2/js/select2.full.min.js"></script>
+
   <!-- Page specific script -->
 
   <!-- bs-custom-file-input -->
@@ -912,9 +938,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
   </script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {});
+    function findGetParameter(parameterName) {
+      var result = null,
+        tmp = [];
+      var items = location.search.substr(1).split("&");
+      for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+      }
+      return result;
+    }
+
+    if (status = findGetParameter('status')) {
+      if (status == 'stored')
+        Swal.fire(
+          'Berhasil!',
+          'Berhasil menambahkan tim!',
+          'success'
+        )
+      else if (status == 'updated')
+        Swal.fire(
+          'Berhasil!',
+          'Berhasil mengubah tim!',
+          'success'
+        )
+    }
+
+    function editTeam(id) {
+      $.ajax({
+        type: "POST",
+        url: "/api/team.php",
+        data: {
+          'tipe': 'edit',
+          'id': id
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+          var data = res.data
+
+          $("input[name=id]").val(data.id);
+          $("select[name='league_tournament[]']").val(data.league_tournament).change();
+          $("input[name=name]").val(data.name);
+          $("input[name=licenses]").val(data.licenses);
+          $("input[name=email]").val(data.email);
+          $("input[name=phone_number]").val(data.telp);
+          $("textarea[name=address]").val(data.address);
+          $("input[name=manager_name]").val(data.manager_name);
+          $("input[name=manager_phone_number]").val(data.manager_phone_number);
+          $("input[name=coach_name]").val(data.coach_name);
+
+          $("#club_logo_preview").attr('src', data.photo)
+          $("#manager_photo_preview").attr('src', data.manager_photo)
+          $("#coach_photo_preview").attr('src', data.coach_photo)
+        }
+      });
+    }
 
     function deleteTeam(id) {
       Swal.fire({

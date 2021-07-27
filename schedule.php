@@ -67,6 +67,15 @@
           <h2>Jadwal Pertandingan</h2>
         </div>
 
+        <div class="card" style="width: 18rem;" data-aos="fade-up">
+          <a href="#">
+            <img class="card-img-top" src="/assets/img/logo_ssb.png" style="padding: 20px;">
+            <div class="card-body">
+              <p class="card-text" align="center"><strong>Liga Internal</strong></p>
+            </div>
+          </a>
+        </div>
+
         <div class="row middle faq-header d-flex" data-aos="fade-up">
           <div class="col-lg-12">
             <p>Kamis,12 April 2021</p>

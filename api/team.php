@@ -40,6 +40,223 @@ function checkRegistrationNumber()
         return json_encode(['status' => false, 'msg' => "Team sudah didaftarkan dan sedang/sudah diverifikasi"]);
 }
 
+function edit()
+{
+    include '../connection.php';
+
+    $sql = 'SELECT * FROM `teams` WHERE id = ' . $_POST['id'];
+    $result = $conn->query($sql);
+
+    $row = $result->fetch_assoc();
+    $team_id = $row['id'];
+
+    // Ambil data tim yang berhubungan dengan liga
+    $sql = 'SELECT * FROM `team_has_leagues` WHERE `team_id` = ' . $team_id;
+    $team_has_leagues_result = $conn->query($sql);
+
+    // Tambah hasil ke variabel $row
+    foreach ($team_has_leagues_result->fetch_all() as $key => $val)
+        $row['league_tournament'][] = 'liga_' . $val[1];
+
+
+    // Ambil data tim yang berhubungan dengan turnamen
+    $sql = 'SELECT * FROM `team_has_tournaments` WHERE `team_id` = ' . $team_id;
+    $team_has_tournaments_result = $conn->query($sql);
+
+    // Tampilkan nama manajer
+    $sql = 'SELECT * FROM `managers` WHERE `id` = ' . $row['manager_id'];
+    $manager_result = $conn->query($sql);
+    $manager_name_column = $manager_result->fetch_assoc();
+    $row['manager_name'] = $manager_name_column['name'];
+    $row['manager_photo'] = $manager_name_column['image_path'];
+    $row['manager_phone_number'] = $manager_name_column['phone_number'];
+
+    $sql = 'SELECT * FROM `coaches` WHERE `id` = ' . $row['coach_id'];
+    $coach_result = $conn->query($sql);
+    $coach_name_column = $coach_result->fetch_assoc();
+    $row['coach_name'] = $coach_name_column['name'];
+    $row['coach_photo'] = $coach_name_column['image_path'];
+
+    // Tambah hasil ke variabel $row
+    foreach ($team_has_tournaments_result->fetch_all() as $key => $val)
+        $row['league_tournament'][] = 'turnamen_' . $val[1];
+
+    if ($result)
+        return json_encode(['status' => true, 'msg' => 'Berhasil', 'data' => $row]);
+    else
+        return json_encode(['status' => false, 'msg' => 'Gagal']);
+}
+
+function update()
+{
+    include '../connection.php';
+
+    $target_dir = "../server/uploads/";
+    // Buat nama file unik 
+    $date = DateTime::createFromFormat('U.u', microtime(TRUE));
+    $filename = md5($date->format('Y-m-d H:i:s:u'));
+
+    // Cek jika kolom file tidak diupload
+    if ($_POST["club_logo"] ?? '' == 'undefined' || ($_POST["manager_photo"] ?? '') == 'undefined' || ($_POST["coach_photo"]  ?? '') == 'undefined')
+        return json_encode([
+            'status' => false,
+            'msg' => 'Gagal, file belum dipilih untuk diunggah!'
+        ]);
+
+    // Cek jika buat tim dari server side
+    $is_create_from_admin = false;
+    if ($_POST['league_tournament'] ?? '' != '') {
+        $_POST['team_type'] = 'league_tournament';
+
+        $is_create_from_admin = true;
+    }
+
+    $uploadOk = 1;
+
+    $club_logo = $target_dir . 'team/' . basename($filename . '_' . $_FILES["club_logo"]["name"]);
+    $clubImageFileType = strtolower(pathinfo($club_logo, PATHINFO_EXTENSION));
+
+    $manager_photo = $target_dir . 'manager/' . basename($filename . '_' . $_FILES["manager_photo"]["name"]);
+    $managerImageFileType = strtolower(pathinfo($manager_photo, PATHINFO_EXTENSION));
+
+    $coach_photo = $target_dir . 'coach/' . basename($filename . '_' . $_FILES["coach_photo"]["name"]);
+    $coachImageFileType = strtolower(pathinfo($coach_photo, PATHINFO_EXTENSION));
+
+    // Check file size
+    if ($_FILES["club_logo"]["size"] > 1000000 || $_FILES["manager_photo"]["size"] > 1000000 || $_FILES["coach_photo"]["size"] > 1000000) {
+        // $message['file_size'] = "Sorry, your file is too large.";
+        header("Location:/server/team.php?page=edit&id=" . $_POST['id'] . "&errorMsg=file_size");
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if ($clubImageFileType != "jpg" && $clubImageFileType != "png" && $clubImageFileType != "jpeg") {
+        // $message['file_format'] = "Sorry, only JPG, JPEG & PNG files are allowed.";
+        header("Location:/server/team.php?page=edit&id=" . $_POST['id'] . "&errorMsg=file_format");
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if ($managerImageFileType != "jpg" && $managerImageFileType != "png" && $managerImageFileType != "jpeg") {
+        // $message['file_format'] = "Sorry, only JPG, JPEG & PNG files are allowed.";
+        header("Location:/server/team.php?page=edit&id=" . $_POST['id'] . "&errorMsg=file_format");
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if ($coachImageFileType != "jpg" && $coachImageFileType != "png" && $coachImageFileType != "jpeg") {
+        // $message['file_format'] = "Sorry, only JPG, JPEG & PNG files are allowed.";
+        header("Location:/server/team.php?page=edit&id=" . $_POST['id'] . "&errorMsg=file_format");
+        $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        return json_encode([
+            'status' => false,
+            'msg' => 'Sorry, your file was not uploaded.'
+        ]);        // echo "Sorry, your file was not uploaded.";
+        // return header("Location:/server/gallery.php?page=edit&id=" . $_POST['id'] . '&errorMsg=');
+    } else {
+        if (move_uploaded_file($_FILES["club_logo"]["tmp_name"], $club_logo)) {
+            move_uploaded_file($_FILES["manager_photo"]["tmp_name"], $manager_photo);
+            move_uploaded_file($_FILES["coach_photo"]["tmp_name"], $coach_photo);
+
+            $sql = 'INSERT INTO `managers` (`name`, `image_path`, `phone_number`, `created_at`, `updated_at`) VALUES (' .
+                '"' . $_POST['manager_name'] . '",' .
+                '"' . $manager_photo . '",' .
+                '"' . $_POST['manager_phone_number'] . '",' .
+                'NOW(), NOW());';
+            $result = $conn->query($sql);
+            $manager_id = $conn->insert_id;
+
+            $sql = 'INSERT INTO `coaches` (`name`, `image_path`, `created_at`, `updated_at`) VALUES (' .
+                '"' . $_POST['coach_name'] . '",' .
+                '"' . $coach_photo . '",' .
+                'NOW(), NOW());';
+            $result = $conn->query($sql);
+
+            $coach_id = $conn->insert_id;
+
+            $reg_number = generate_registration_number();
+            $sql = 'INSERT INTO `teams` (`name`, `address`, `manager_id`, `coach_id`, `licenses`, `email`, `telp`, `photo`, `registration_number`, `type`, `created_at`, `updated_at`) VALUES (' .
+                '"' . $_POST['name'] . '",' .
+                '"' . $_POST['address'] . '",' .
+                '"' . $manager_id . '",' .
+                '"' . $coach_id . '",' .
+                '"' . $_POST['licenses'] . '",' .
+                '"' . $_POST['email'] . '",' .
+                '"' . $_POST['phone_number'] . '",' .
+                '"' . $club_logo . '",' .
+                '"' . $reg_number . '",' .
+                '"' . $_POST['team_type'] . '",' .
+                'NOW(), NOW());';
+
+            $result = $conn->query($sql);
+            $team_id = $conn->insert_id;
+
+            // Jika team berhasil dibuat
+            if ($result) {
+                if ($_POST['team_type'] == 'turnamen') {
+                    // Insert into team_has_league
+                    $sql = 'INSERT INTO `team_has_tournaments` (`team_id`, `tournament_id`) VALUES (' .
+                        '"' . $team_id . '",' .
+                        '"' . $_POST['tournament_id'] . '")';
+                    $conn->query($sql); // Execute sql
+
+                    if ($is_create_from_admin)
+                        return header("Location:/server/team.php?status=stored");
+                    else
+                        return json_encode([
+                            'status' => true,
+                            'msg' => 'Nama tim: xxx berhasil dibuat!',
+                            'noreg' => $reg_number,
+                        ]);
+                } else if ($_POST['team_type'] == 'liga') {
+                    // Insert into team_has_league
+                    $sql = 'INSERT INTO `team_has_leagues` (`team_id`, `league_id`) VALUES (' .
+                        '"' . $team_id . '",' .
+                        '"' . $_POST['tournament_id'] . '")';
+                    $conn->query($sql); // Execute sql
+
+                    if ($is_create_from_admin)
+                        return header("Location:/server/team.php?status=stored");
+                    else
+                        return json_encode([
+                            'status' => true,
+                            'msg' => 'Nama tim: xxx berhasil dibuat!',
+                            'noreg' => $reg_number,
+                        ]);
+                } else if ($_POST['team_type'] == 'league_tournament') {
+                    foreach ($_POST['league_tournament'] as $key => $value) {
+                        $value_arr = explode('_', $value);
+
+                        $table_name_to_store = $value_arr[0] == 'liga' ? 'team_has_leagues' : 'team_has_tournaments';
+                        $row_name_to_store = $value_arr[0] == 'liga' ? 'league_id' : 'tournament_id';
+
+                        $sql = 'INSERT INTO `' . $table_name_to_store . '` (`team_id`, ' . $row_name_to_store . ') VALUES (' .
+                            '"' . $team_id . '",' .
+                            '"' . $value_arr[1] . '")';
+                        $conn->query($sql); // Execute sql
+                    }
+
+                    return header("Location:/server/team.php?status=stored");
+                }
+            } else {
+                return json_encode([
+                    'status' => false,
+                    'msg' => 'Text gagal input'
+                ]);
+            }
+        } else {
+            return json_encode([
+                'status' => false,
+                'msg' => 'Sorry, your file was not uploaded.'
+            ]);
+        }
+    }
+}
+
 function store()
 {
     include '../connection.php';
@@ -55,6 +272,14 @@ function store()
             'status' => false,
             'msg' => 'Gagal, file belum dipilih untuk diunggah!'
         ]);
+
+    // Cek jika buat tim dari server side
+    $is_create_from_admin = false;
+    if ($_POST['league_tournament'] ?? '' != '') {
+        $_POST['team_type'] = 'league_tournament';
+
+        $is_create_from_admin = true;
+    }
 
     $uploadOk = 1;
 
@@ -138,33 +363,54 @@ function store()
                 'NOW(), NOW());';
 
             $result = $conn->query($sql);
+            $team_id = $conn->insert_id;
 
             // Jika team berhasil dibuat
             if ($result) {
                 if ($_POST['team_type'] == 'turnamen') {
                     // Insert into team_has_league
                     $sql = 'INSERT INTO `team_has_tournaments` (`team_id`, `tournament_id`) VALUES (' .
-                        '"' . $conn->insert_id . '",' .
+                        '"' . $team_id . '",' .
                         '"' . $_POST['tournament_id'] . '")';
                     $conn->query($sql); // Execute sql
 
-                    return json_encode([
-                        'status' => true,
-                        'msg' => 'Nama tim: xxx berhasil dibuat!',
-                        'noreg' => $reg_number,
-                    ]);
+                    if ($is_create_from_admin)
+                        return header("Location:/server/team.php?status=stored");
+                    else
+                        return json_encode([
+                            'status' => true,
+                            'msg' => 'Nama tim: xxx berhasil dibuat!',
+                            'noreg' => $reg_number,
+                        ]);
                 } else if ($_POST['team_type'] == 'liga') {
                     // Insert into team_has_league
                     $sql = 'INSERT INTO `team_has_leagues` (`team_id`, `league_id`) VALUES (' .
-                        '"' . $conn->insert_id . '",' .
+                        '"' . $team_id . '",' .
                         '"' . $_POST['tournament_id'] . '")';
                     $conn->query($sql); // Execute sql
 
-                    return json_encode([
-                        'status' => true,
-                        'msg' => 'Nama tim: xxx berhasil dibuat!',
-                        'noreg' => $reg_number,
-                    ]);
+                    if ($is_create_from_admin)
+                        return header("Location:/server/team.php?status=stored");
+                    else
+                        return json_encode([
+                            'status' => true,
+                            'msg' => 'Nama tim: xxx berhasil dibuat!',
+                            'noreg' => $reg_number,
+                        ]);
+                } else if ($_POST['team_type'] == 'league_tournament') {
+                    foreach ($_POST['league_tournament'] as $key => $value) {
+                        $value_arr = explode('_', $value);
+
+                        $table_name_to_store = $value_arr[0] == 'liga' ? 'team_has_leagues' : 'team_has_tournaments';
+                        $row_name_to_store = $value_arr[0] == 'liga' ? 'league_id' : 'tournament_id';
+
+                        $sql = 'INSERT INTO `' . $table_name_to_store . '` (`team_id`, ' . $row_name_to_store . ') VALUES (' .
+                            '"' . $team_id . '",' .
+                            '"' . $value_arr[1] . '")';
+                        $conn->query($sql); // Execute sql
+                    }
+
+                    return header("Location:/server/team.php?status=stored");
                 }
             } else {
                 return json_encode([
@@ -286,6 +532,10 @@ if (isset($_POST['tipe'])) {
         echo checkRegistrationNumber();
     else if ($_POST['tipe'] == 'store')
         echo store();
+    else if ($_POST['tipe'] == 'edit')
+        echo edit();
+    else if ($_POST['tipe'] == 'update')
+        echo update();
     else if ($_POST['tipe'] == 'submitTeam')
         echo submitTeam();
     else if ($_POST['tipe'] == 'deleteTeam')
