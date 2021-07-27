@@ -1,0 +1,5 @@
+# Abaikan upload gambar ke repository
+*.jpg
+*.jpeg
+*.png
+*.gif
