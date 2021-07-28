@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <input type="hidden" name="tipe" value="update">
                         <input type="hidden" name="id" value="">
                         <div class="card-body">
-                        <?php if ($error_msg = $_GET['errorMsg'] ?? false)
+                          <?php if ($error_msg = $_GET['errorMsg'] ?? false)
                             if ($error_msg == 'already_exist')
                               echo '
                             <div class="alert alert-danger alert-dismissible">
@@ -311,7 +311,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
                 <?php }
-            } else if (!empty($_GET['page']) == 'manage') {
+            } else if (($_GET['page'] ?? '') == 'manage') {
               $id = $_GET['id'] ?? '';
 
               // Jika id tidak di isi 

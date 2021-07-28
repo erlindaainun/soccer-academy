@@ -452,7 +452,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
                 <?php }
-            } else if (!empty($_GET['page']) == 'manage') {
+            } else if (($_GET['page'] ?? '') == 'manage') {
               $id = $_GET['id'] ?? '';
 
               // Jika id tidak di isi 
@@ -620,7 +620,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>';
                 }
               }
-            } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
+            } else if ($_GET['page'] ?? '' == 'view' && isset($_GET['id'])) {
 
               if (!empty($id = $_GET['id'])) {
                 $sql = 'SELECT * FROM `tournaments` WHERE `id` = ' . $id;
