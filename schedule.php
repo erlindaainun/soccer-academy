@@ -67,73 +67,99 @@
           <h2>Jadwal Pertandingan</h2>
         </div>
 
-        <div class="card" style="width: 18rem;" data-aos="fade-up">
-          <a href="#">
-            <img class="card-img-top" src="/assets/img/logo_ssb.png" style="padding: 20px;">
-            <div class="card-body">
-              <p class="card-text" align="center"><strong>Liga Internal</strong></p>
+        <!-- Check jika tidak ada id schedule -->
+        <?php
+        $id = $_GET['id'] ?? '';
+
+        if ($id === '') {
+        ?>
+          <div class="row">
+            <?php
+            // Ambil semua liga
+            $sql = 'SELECT * FROM `leagues`';
+            $result = $conn->query($sql);
+
+            foreach ($result->fetch_all() as $key => $league) {
+            ?>
+              <div class="col-3 pb-4">
+                <div class="card" data-aos="fade-up">
+                  <a href="?id=<?php echo $league[0] ?>">
+                    <img class="card-img-top" src="<?php echo $league[4] ?>" style="padding: 20px;">
+                    <div class="card-body">
+                      <p class="card-text" align="center"><strong><?php echo $league[1] ?></strong></p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            <?php
+            }
+            ?>
+          </div>
+          <?php
+        } else { // Jika id ada
+          // Ambil data liga
+          $sql = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
+          $result = $conn->query($sql);
+          $row = $result->fetch_assoc();
+
+          // TODO rapikan ini
+          echo '<div class="row" data-aos="fade-up" align="center">';
+          echo '<h4>' . $row['name'] . '</h4>';
+          echo '<h4>' . $row['date'] . '</h4>';
+          echo '<h4>' . $row['location'] . '</h4>';
+          echo '</div>';
+
+          // Tampilkan jadwal dengan template
+          $sql = 'SELECT * FROM `schedules` WHERE `location` IS NOT NULL AND `league_id` = ' . $id;
+          $result_schedule = $conn->query($sql);
+          $rows = $result_schedule->fetch_all();
+
+          // Jika belum ada jadwal
+          if ($rows == [])
+            echo '<span data-aos="fade-up">Belum ada jadwal sama sekali.</span>';
+          else
+            foreach ($rows as $key => $schedule) {
+              $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
+              $result = $conn->query($sql);
+              $teams = $result->fetch_all();
+
+              $hari = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+              $date_format = new DateTime($schedule[5]);
+              $date =     $schedule[5] ? $hari[$date_format->format('N')] . ', ' . $date_format->format('d M Y') : '';
+              $location = $schedule[7] ?? '';
+          ?>
+            <div class="row middle faq-header d-flex" data-aos="fade-up">
+              <div class="col-lg-12">
+                <p><?php echo $date ?></p>
+              </div>
             </div>
-          </a>
-        </div>
-
-        <div class="row middle faq-header d-flex" data-aos="fade-up">
-          <div class="col-lg-12">
-            <p>Kamis,12 April 2021</p>
-          </div>
-        </div>
-        <div class="row middle faq-item d-flex" data-aos="fade-up">
-          <div class="col-lg-3">
-            <a>Liga Sepak Bola Kota Batam</a>
-          </div>
-          <div class="col-lg-1">
-            <p>Indonesia</p>
-          </div>
-          <div class="col-lg-1">
-            <img src="assets/img/indonesia.png" width="50px">
-          </div>
-          <div class="col-lg-2">
-            <h3>0 - 5</h3>
-          </div>
-          <div class="col-lg-1">
-            <img src="assets/img/indonesia.png" width="50px">
-          </div>
-          <div class="col-lg-1">
-            <p>Indonesia</p>
-          </div>
-          <div class="col-lg-3">
-            <h5><img src="assets/img/stadium.png"> Temenggung Abdul Jamal</h5>
-          </div>
-        </div><!-- End F.A.Q Item-->
-
-        <div class="row middle faq-header d-flex" data-aos="fade-up">
-          <div class="col-lg-12">
-            <p>Kamis,12 April 2021</p>
-          </div>
-        </div>
-        <div class="row middle faq-item d-flex" data-aos="fade-up">
-          <div class="col-lg-3">
-            <a>Liga Sepak Bola Kota Batam</a>
-          </div>
-          <div class="col-lg-1">
-            <p>Indonesia</p>
-          </div>
-          <div class="col-lg-1">
-            <img src="assets/img/indonesia.png" width="50px">
-          </div>
-          <div class="col-lg-2">
-            <h3>0 - 5</h3>
-          </div>
-          <div class="col-lg-1">
-            <img src="assets/img/indonesia.png" width="50px">
-          </div>
-          <div class="col-lg-1">
-            <p>Indonesia</p>
-          </div>
-          <div class="col-lg-3">
-            <h5><img src="assets/img/stadium.png"> Temenggung Abdul Jamal</h5>
-          </div>
-        </div><!-- End F.A.Q Item-->
-
+            <div class="row middle faq-item d-flex" data-aos="fade-up">
+              <div class="col-lg-3">
+                <a><?php echo $row['name']; ?></a>
+              </div>
+              <div class="col-lg-1">
+                <p><?php echo $teams[0][1]; ?></p>
+              </div>
+              <div class="col-lg-1">
+                <img src="assets/img/indonesia.png" width="50px">
+              </div>
+              <div class="col-lg-2">
+                <h3><?php echo (($schedule[2] ?? 0) . ' - ' . ($schedule[3] ?? 0)); ?></h3>
+              </div>
+              <div class="col-lg-1">
+                <img src="assets/img/indonesia.png" width="50px">
+              </div>
+              <div class="col-lg-1">
+                <p><?php echo $teams[1][1]; ?></p>
+              </div>
+              <div class="col-lg-3">
+                <h5><img src="assets/img/stadium.png"> <?php echo $location ?></h5>
+              </div>
+            </div>
+        <?php
+            }
+        }
+        ?>
     </section>
 
   </main><!-- End #main -->
