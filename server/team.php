@@ -666,6 +666,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                   <img src="<?php echo $src ?>" alt="user-avatar" class="img-fluid rounded-circle" style="width: 250px; height: 250px; display:flex">
                                                 </div>
                                               </div>
+                                              <a class="text-danger" href="javascript:void(0)" onclick="deletePlayer(<?php echo $row['id']; ?>)"><i class=" fa fa-trash text-danger"></i> Hapus pemain ini</a>
+
                                             </div>
                                           </div>
                                         </div>
@@ -1123,6 +1125,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
           )
         }
       });
+    }
+
+    function deletePlayer(player_id) {
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Anda tidak akan dapat mengembalikan ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "/api/player.php",
+            data: {
+              'tipe': 'callFuncDelete',
+              'id': player_id
+            },
+            success: function(response) {
+              location.reload();
+            },
+            fail: function(response) {
+              Swal.fire(
+                'Error!',
+                'Terjadi kesalahan, silahkan coba kembali.',
+                'fail'
+              )
+            }
+          });
+        }
+      })
     }
   </script>
 </body>
