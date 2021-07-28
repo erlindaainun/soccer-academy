@@ -493,7 +493,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
                 <?php }
-            } else if (!empty($_GET['page']) == 'view' && isset($_GET['id'])) {
+            } else if (!empty($_GET['page']) == 'view' || !empty($_GET['page']) == 'add-player' && isset($_GET['id'])) {
 
               if (!empty($id = $_GET['id'])) {
                 $sql = 'SELECT * FROM `teams` WHERE `id` = ' . $id;
@@ -608,70 +608,86 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           //   echo $key . '  ' . $value;
                           // }
                         ?>
-                          <div class="row">
-                            <?php if ($result->num_rows == 0) echo "Belum ada pemain" ?>
-                            <div class="col-5 col-sm-3">
-                              <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                                <?php
-                                $i = 0;
-                                while ($row = $result->fetch_assoc()) {
-                                  $name = str_replace(' ', '-', strtolower($row['full_name']));
-                                ?>
-                                  <a class="nav-link <?php if ($i == 0) echo 'active';
-                                                      $i++; ?>" id="vert-tabs-<?php echo $name ?>-tab" data-toggle="pill" href="#vert-tabs-<?php echo $name ?>" role="tab" aria-controls="vert-tabs-home" aria-selected="true"><?php echo $row['id'] . '. ' . $row['full_name'] ?></a>
-                                <?php } ?>
-                              </div>
-                            </div>
-                            <div class="col-7 col-sm-9">
-                              <div class="tab-content" id="vert-tabs-tabContent">
-                                <?php
-                                $result = $conn->query($sql);
-                                $i = 0;
-                                while ($row = $result->fetch_assoc()) {
-                                  $name = str_replace(' ', '-', strtolower($row['full_name']));
+                          <?php
+                          if ($result->num_rows == 0) {
+                            echo "Belum ada pemain";
+                          ?>
 
-                                  $image_path = str_replace('..', '', $row['image_path']);
-                                  $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
-                                ?>
-                                  <div class="tab-pane text-left fade <?php if ($i == 0) echo 'active show';
-                                                                      $i++; ?>" id="vert-tabs-<?php echo $name ?>" role="tabpanel" aria-labelledby="vert-tabs-<?php echo $name ?>-tab">
-                                    <!-- Detail player -->
-                                    <div class="row">
-                                      <div class="col-12 col-sm-6 col-md-12 d-flex align-items-stretch flex-column">
-                                        <div class="card bg-light d-flex flex-fill">
-                                          <div class="card-header text-muted border-bottom-0">
-                                            <?php echo $row['position'] ?> - <?php echo $row['back_name'] ?> - <?php echo $row['back_number'] ?>
-                                          </div>
-                                          <div class="card-body pt-0">
-                                            <div class="row">
-                                              <div class="col-8">
-                                                <h2 class="lead"><b><?php echo $row['full_name'] ?></b></h2>
-                                                <p class="text-muted text-sm"><b>No. Identitas: </b> <?php echo $row['identity_number'] ?> </p>
-                                                <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span> TTL: <?php echo $row['birth_place'] . ', ' . $row['birth_date'] ?></li>
-                                                  <li class="small"><span class="fa-li"><i class="fas fa-star-and-crescent"></i></span> Agama: <?php echo $row['religion'] ?></li>
-                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Alamat: <?php echo $row['address'] ?></li>
-                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-ruler"></i></span> Tinggi Badan: <?php echo $row['height'] ?> cm</li>
-                                                  <li class="small"><span class="fa-li"><i class="fas fa-lg fa-weight"></i></span> Berat Badan: <?php echo $row['weight'] ?> kg</li>
-                                                </ul>
-                                              </div>
-                                              <div class="col-4 text-center">
-                                                <img src="<?php echo $src ?>" alt="user-avatar" class="img-fluid rounded-circle" style="width: 250px; height: 250px; display:flex">
+                          <?php
+                          } else {
+                          ?>
+                            <div class="row">
+                              <div class="col-5 col-sm-3">
+                                <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                                  <?php
+                                  $i = 0;
+                                  while ($row = $result->fetch_assoc()) {
+                                    $name = str_replace(' ', '-', strtolower($row['full_name']));
+                                  ?>
+                                    <a class="nav-link <?php if ($i == 0) echo 'active';
+                                                        $i++; ?>" id="vert-tabs-<?php echo $name ?>-tab" data-toggle="pill" href="#vert-tabs-<?php echo $name ?>" role="tab" aria-controls="vert-tabs-home" aria-selected="true"><?php echo $row['id'] . '. ' . $row['full_name'] ?></a>
+                                  <?php } ?>
+                                </div>
+                              </div>
+                              <div class="col-7 col-sm-9">
+                                <div class="tab-content" id="vert-tabs-tabContent">
+                                  <?php
+                                  $result = $conn->query($sql);
+                                  $i = 0;
+                                  while ($row = $result->fetch_assoc()) {
+                                    $name = str_replace(' ', '-', strtolower($row['full_name']));
+
+                                    $image_path = str_replace('..', '', $row['image_path']);
+                                    $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
+                                  ?>
+                                    <div class="tab-pane text-left fade <?php if ($i == 0) echo 'active show';
+                                                                        $i++; ?>" id="vert-tabs-<?php echo $name ?>" role="tabpanel" aria-labelledby="vert-tabs-<?php echo $name ?>-tab">
+                                      <!-- Detail player -->
+                                      <div class="row">
+                                        <div class="col-12 col-sm-6 col-md-12 d-flex align-items-stretch flex-column">
+                                          <div class="card bg-light d-flex flex-fill">
+                                            <div class="card-header text-muted border-bottom-0">
+                                              <?php echo $row['position'] ?> - <?php echo $row['back_name'] ?> - <?php echo $row['back_number'] ?>
+                                            </div>
+                                            <div class="card-body pt-0">
+                                              <div class="row">
+                                                <div class="col-8">
+                                                  <h2 class="lead"><b><?php echo $row['full_name'] ?></b></h2>
+                                                  <p class="text-muted text-sm"><b>No. Identitas: </b> <?php echo $row['identity_number'] ?> </p>
+                                                  <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span> TTL: <?php echo $row['birth_place'] . ', ' . $row['birth_date'] ?></li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-star-and-crescent"></i></span> Agama: <?php echo $row['religion'] ?></li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Alamat: <?php echo $row['address'] ?></li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-ruler"></i></span> Tinggi Badan: <?php echo $row['height'] ?> cm</li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-weight"></i></span> Berat Badan: <?php echo $row['weight'] ?> kg</li>
+                                                  </ul>
+                                                </div>
+                                                <div class="col-4 text-center">
+                                                  <img src="<?php echo $src ?>" alt="user-avatar" class="img-fluid rounded-circle" style="width: 250px; height: 250px; display:flex">
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                              <?php }
-                              } ?>
+                                </div>
+                              <?php
+                                  }
+                              ?>
                               </div>
                             </div>
-                          </div>
+                        <?php
+                          }
+                        } ?>
                       </div>
                       <!-- /.card -->
                     </div>
+                    <?php if ($_GET['page'] == 'add-player') { ?>
+                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                        <i class="fa fa-plus"></i>&nbsp; Tambah Pemain
+                      </button>
+                    <?php } ?>
                   </div>
               <?php } else {
                   echo '<div class="error-page">
@@ -767,84 +783,86 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="kartu">No.Kartu Identitas</label>
-              <input name="identity-number" type="number" class="form-control" id="kartu" placeholder="Enter identity number">
-            </div>
-            <div class="form-group">
-              <label for="namapemain">Nama</label>
-              <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="Enter name">
-            </div>
-            <div class="form-group">
-              <label for="tempatlahir">Tempat Lahir</label>
-              <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="Enter birth place">
-            </div>
-            <div class="form-group">
-              <label for="tanggallahir">Tanggal Lahir</label>
-              <input name="birth-date" type="date" class="form-control" id="tanggallahir" placeholder="Enter birth date">
-            </div>
-            <div class="form-group">
-              <label for="alamatpemain">Alamat</label>
-              <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder="Enter address"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="agamapemain">Agama</label>
-              <select name="religion" class="custom-select">
-                <option selected disabled value="">Choose..</option>
-                <option value="Islam">Islam</option>
-                <option value="Protestan">Protestan</option>
-                <option value="Katolik">Katolik</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Buddha">Buddha</option>
-                <option value="Khonghucu">Khonghucu</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="agamapemain">Jenis Kelamin</label>
-              <select name="gender" class="custom-select">
-                <option selected disabled value="">Choose..</option>
-                <option value="1">Laki-Laki</option>
-                <option value="2">Perempuan</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="tinggibadanpemain">Tinggi Badan</label>
-              <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="Enter height">
-            </div>
-            <div class="form-group">
-              <label for="beratbadanpemain">Berat Badan</label>
-              <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="Enter weight">
-            </div>
-            <div class="form-group">
-              <label for="posisipemain">Posisi Bermain</label>
-              <input name="position" type="text" class="form-control" id="posisipemain" placeholder="Enter weight">
-            </div>
-            <div class="form-group">
-              <label for="nopemain">Nomor Punggung</label>
-              <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="Enter back number">
-            </div>
-            <div class="form-group">
-              <label for="namapunggungpemain">Nama Punggung</label>
-              <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="Enter back name">
-            </div>
-            <div class="form-group">
-              <label for="fileToUpload">Upload Foto</label>
-              <div class="custom-file">
-                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                <label class="custom-file-label" for="fileToUpload">Choose file</label>
-                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+          <form id="testtt">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="kartu">No.Kartu Identitas</label>
+                <input name=identity-number type="number" class="form-control" id="kartu" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="namapemain">Nama</label>
+                <input name="full-name" type="text" class="form-control" id="namapemain" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="tempatlahir">Tempat Lahir</label>
+                <input name="birth-place" type="text" class="form-control" id="tempatlahir" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="tanggallahir">Tanggal Lahir</label>
+                <input name="birth-date" type="date" class="form-control" id="tanggallahi" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="alamatpemain">Alamat</label>
+                <textarea name="address" type="text" rows="2" class="form-control" id="alamatpemain" placeholder=""></textarea>
+              </div>
+              <div class="form-group">
+                <label for="agamapemain">Agama</label>
+                <select name="religion" class="custom-select">
+                  <option selected disabled value="">Choose...</option>
+                  <option value="Islam">Islam</option>
+                  <option value="Protestan">Protestan</option>
+                  <option value="Katolik">Katolik</option>
+                  <option value="Hindu">Hindu</option>
+                  <option value="Buddha">Buddha</option>
+                  <option value="Khonghucu">Khonghucu</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="agamapemain">Jenis Kelamin</label>
+                <select name="gender" class="custom-select">
+                  <option selected disabled value="">Choose...</option>
+                  <option value="1">Laki-Laki</option>
+                  <option value="2">Perempuan</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="tinggibadanpemain">Tinggi Badan</label>
+                <input name="height" type="number" class="form-control" id="tinggibadanpemain" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="beratbadanpemain">Berat Badan</label>
+                <input name="weight" type="number" class="form-control" id="beratbadanpemain" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="posisipemain">Posisi Bermain</label>
+                <input name="position" type="text" class="form-control" id="posisipemain" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="nopemain">Nomor Punggung</label>
+                <input name="back-number" type="number" class="form-control" id="nopemain" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="namapunggungpemain">Nama Punggung</label>
+                <input name="back-name" type="text" class="form-control" id="namapunggungpemain" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="player_photo">Upload Foto</label>
+                <div class="custom-file">
+                  <input name="player_photo" type="file" class="custom-file-input" id="player_photo">
+                  <label class="custom-file-label" for="player_photo">Choose file</label>
+                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png. Uk: 4x6 cm</small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="card-identity">Upload Kartu Identitas</label>
+                <div class="custom-file">
+                  <input name="card-identity" type="file" class="custom-file-input" id="card-identity">
+                  <label class="custom-file-label" for="card-identity">Choose file</label>
+                  <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="fileToUpload">Upload Kartu Identitas</label>
-              <div class="custom-file">
-                <input type="file" name="fileToUpload" class="custom-file-input" id="fileToUpload">
-                <label class="custom-file-label" for="fileToUpload">Choose file</label>
-                <small>Max. file size: 1 MB. Allowed: jpg, jpeg, png.</small>
-              </div>
-            </div>
-          </div>
+          </form>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
             <button onclick="submitPemain()" type="button" class="btn btn-primary">Tambah</button>
@@ -930,7 +948,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           "targets": 5,
           "data": 5,
           "render": function(data, type, full, meta) {
-            return '<a class="btn btn-primary btn-sm" href="/server/team.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
+            return '<a class="btn btn-success btn-sm" href="/server/team.php?page=add-player&id=' + data + '"><i class="fas fa-plus"></i> Tambah Pemain</a> ' +
+              '<a class="btn btn-primary btn-sm" href="/server/team.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
               '<a class="btn btn-info btn-sm" href="/server/team.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
               '<a class="btn btn-danger btn-sm" onclick="deleteTeam(' + data + ')" href="javascript:void(0)"><i class="fas fa-trash"></i> Hapus</a> ';
 
@@ -1044,6 +1063,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
           });
         }
       })
+    }
+
+    function submitPemain() {
+      var team_id = findGetParameter('id');
+      var identity_number = $('input[name=identity-number]').val();
+      var full_name = $('input[name=full-name]').val();
+      var birth_place = $('input[name=birth-place]').val();
+      var birth_date = $('input[name=birth-date]').val();
+      var address = $('textarea#alamatpemain').val();
+      var religion = $('select[name=religion]').val();
+      var gender = $('select[name=gender]').val();
+      var height = $('input[name=height]').val();
+      var weight = $('input[name=weight]').val();
+      var position = $('input[name=position]').val();
+      var back_number = $('input[name=back-number]').val();
+      var back_name = $('input[name=back-name]').val();
+      var photo = $('#player_photo')[0].files[0];
+      var card_identity = $('#card-identity')[0].files[0];
+
+      if (photo == undefined || card_identity == undefined) {
+        Swal.fire('Gagal!', 'Sorry, there was an error uploading your file.', 'error')
+        return false;
+      }
+
+      var formData = new FormData();
+      formData.append('tipe', 'callFuncStore');
+      formData.append('team_id', team_id);
+      formData.append('full_name', full_name);
+      formData.append('birth_date', birth_date);
+      formData.append('birth_place', birth_place);
+      formData.append('address', address);
+      formData.append('identity_number', identity_number);
+      formData.append('height', height);
+      formData.append('weight', weight);
+      formData.append('position', position);
+      formData.append('back_number', back_number);
+      formData.append('back_name', back_name);
+      formData.append('religion', religion);
+      formData.append('gender_id', gender);
+      formData.append('player_photo', photo);
+      formData.append('card-identity', card_identity);
+
+      // Submit all variable to database using ajax
+      $.ajax({
+        type: "POST",
+        url: "/api/player.php",
+        data: formData,
+        processData: false, // tell jQuery not to process the data
+        contentType: false, // tell jQuery not to set contentType
+        success: function(response) {
+          location.reload();
+        },
+        fail: function(response) {
+          Swal.fire(
+            'Terjadi Kesalahan!',
+            'Terjadi kesalahan, silahkan coba kembali.',
+            'fail'
+          )
+        }
+      });
     }
   </script>
 </body>

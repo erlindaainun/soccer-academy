@@ -98,10 +98,12 @@ function storePlayer()
             move_uploaded_file($_FILES["card-identity"]["tmp_name"], $card_identity);
             // echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
 
-            $sql = 'SELECT * FROM `teams` WHERE `registration_number` = "' . $_POST['registration_number'] . '"';
-            $team_id = $conn->query($sql)->fetch_assoc()['id'];
-
-            $test = "test/file.png";
+            if ($_POST['registration_number'] ?? '' != '' ? true : false) {
+                $sql = 'SELECT * FROM `teams` WHERE `registration_number` = "' . $_POST['registration_number'] . '"';
+                $team_id = $conn->query($sql)->fetch_assoc()['id'];
+            } else {
+                $team_id = $_POST['team_id'] ?? '';
+            }
 
             $sql = 'INSERT INTO `players` (`full_name`, `birth_date`, `birth_place`, `address`, `identity_number`, `height`, `weight`, `position`, `back_number`, `back_name`, `image_path`, `files`, `religion`, `team_id`, `gender_id`, `created_at`, `updated_at`) VALUES (' .
                 '"' . $_POST['full_name'] . '",' .
