@@ -654,12 +654,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <dt class="col-sm-4">Status</dt>
                           <dd class="col-sm-8"><?php echo $row['status'] ?? '-' ?></dd>
                         </dl>
+                        <hr>
+                        <dl class="row">
+                          <!-- Extras -->
+                          <?php
+                          $extras = json_decode($row['extras']);
+                          $round_one = $extras->round_one ?? '';
+                          $third_place_winner = $extras->third_place_winner ?? '';
+                          ?>
+                          <dt class="col-sm-4">Ronde Pertama</dt>
+                          <dd class="col-sm-8"><?php echo $round_one ?></dd>
+                          <dt class="col-sm-4">Pencarian Juara 3</dt>
+                          <dd class="col-sm-8"><?php echo $third_place_winner ?></dd>
+                        </dl>
                       </div>
                       <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                   </div>
-              <?php } else {
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="fas fa-text-width"></i>
+                          Turnamen Bracket
+                        </h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="bracketGenerated"></div>
+
+                        <div class="row">
+                          <div id="dataOutput" class=""></div>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+              <?php
+                  echo '<script>document.addEventListener("DOMContentLoaded", function() {viewLeague(' . $id . ')})</script>';
+                } else {
                   echo '<div class="error-page">
                 <h2 class="headline text-warning"> 404</h2>
         
@@ -918,7 +952,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     $(function() {
 
-      if (findGetParameter('page') == 'manage') {
+      if (findGetParameter('page') == 'manage' || findGetParameter('page') == 'view') {
 
         var saveData2 = {};
 
@@ -985,15 +1019,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // For Bracket
             if (teams.length > 0) {
               var container = $('.bracketGenerated')
-              container.bracket({
-                teamWidth: 350, // Lebar bracket tim
-                matchMargin: 50,
-                skipConsolationRound: third_place_winner_status,
-                init: saveData2,
-                save: saveFn,
-                userData: "http://myapi",
-                disableToolbar: true,
-              })
+              if (findGetParameter('page') == 'view')
+                container.bracket({
+                  teamWidth: 350, // Lebar bracket tim
+                  matchMargin: 50,
+                  skipConsolationRound: third_place_winner_status,
+                  init: saveData2,
+                  onMatchClick: void(0),
+                  onMatchHover: void(0),
+                  userData: "http://myapi",
+                })
+              else
+                container.bracket({
+                  teamWidth: 350, // Lebar bracket tim
+                  matchMargin: 50,
+                  disableTeamEdit: true,
+                  skipConsolationRound: third_place_winner_status,
+                  init: saveData2,
+                  save: saveFn,
+                  userData: "http://myapi",
+                  disableToolbar: true,
+                })
 
               var data = container.bracket('data')
             }
@@ -1160,6 +1206,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
       })
     }
 
+    function viewLeague(id) {
+      $.ajax({
+        type: "POST",
+        url: "/api/tournament.php",
+        data: {
+          'tipe': 'manage',
+          'id': id
+        },
+        success: function(response) {
+          var res = JSON.parse(response)
+          var data = res.data
+          if (data) {
+            var extras = JSON.parse(data);
+            var teams = extras.teams;
+          }
+          $("select[name=round_one] option[value='" + extras.round_one + "']").attr("selected", "selected");
+          $("select[name=third_place_winner ] option[value='" + extras.third_place_winner + "']").attr("selected", "selected");
+        }
+      });
+    }
+
     function manageLeague(id) {
       $.ajax({
         type: "POST",
@@ -1175,138 +1242,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             var extras = JSON.parse(data);
             var teams = extras.teams;
 
-            if (teams.length > 0) {
-              for (i = 0; i < teams.length; i++)
-                exampleTeams[i] = teams[i][1];
-              // getBracket(teams.length);
-            }
           }
           $("select[name=round_one] option[value='" + extras.round_one + "']").attr("selected", "selected");
           $("select[name=third_place_winner ] option[value='" + extras.third_place_winner + "']").attr("selected", "selected");
         }
-      });
-    }
-
-    // Check if form manage submit button clicked
-    // TODO
-
-    var knownBrackets = [2, 4, 8, 16, 32], // brackets with "perfect" proportions (full fields, no byes)
-
-      // exampleTeams = _.shuffle(["New Jersey Devils", "New York Islanders", "New York Rangers", "Philadelphia Flyers", "Pittsburgh Penguins", "Boston Bruins", "Buffalo Sabres", "Montreal Canadiens", "Ottawa Senators", "Toronto Maple Leafs", "Carolina Hurricanes", "Florida Panthers", "Tampa Bay Lightning", "Washington Capitals", "Winnipeg Jets", "Chicago Blackhawks", "Columbus Blue Jackets", "Detroit Red Wings", "Nashville Predators", "St. Louis Blues", "Calgary Flames", "Colorado Avalanche", "Edmonton Oilers", "Minnesota Wild", "Vancouver Canucks", "Anaheim Ducks", "Dallas Stars", "Los Angeles Kings", "Phoenix Coyotes", "San Jose Sharks", "Montreal Wanderers", "Quebec Nordiques", "Hartford Whalers"]), // because a bracket needs some teams!
-      exampleTeams = [];
-
-    bracketCount = 0;
-
-    /*
-     * Build our bracket "model"
-     */
-    function getBracket(base) {
-
-      var closest = _.find(knownBrackets, function(k) {
-          return k >= base;
-        }),
-        byes = closest - base;
-
-      if (byes > 0) base = closest;
-
-      var brackets = [],
-        round = 1,
-        baseT = base / 2,
-        baseC = base / 2,
-        teamMark = 0,
-        nextInc = base / 2;
-
-      for (i = 1; i <= (base - 1); i++) {
-        var baseR = i / baseT,
-          isBye = false;
-
-        if (byes > 0 && (i % 2 != 0 || byes >= (baseT - i))) {
-          isBye = true;
-          byes--;
-        }
-
-        var last = _.map(_.filter(brackets, function(b) {
-          return b.nextGame == i;
-        }), function(b) {
-          return {
-            game: b.bracketNo,
-            teams: b.teamnames
-          };
-        });
-
-        brackets.push({
-          lastGames: round == 1 ? null : [last[0].game, last[1].game],
-          nextGame: nextInc + i > base - 1 ? null : nextInc + i,
-          teamnames: round == 1 ? [exampleTeams[teamMark], exampleTeams[teamMark + 1]] : [last[0].teams[_.random(1)], last[1].teams[_.random(1)]],
-          bracketNo: i,
-          roundNo: round,
-          bye: isBye
-        });
-        teamMark += 2;
-        if (i % 2 != 0) nextInc--;
-        while (baseR >= 1) {
-          round++;
-          baseC /= 2;
-          baseT = baseT + baseC;
-          baseR = i / baseT;
-        }
-      }
-
-      renderBrackets(brackets);
-    }
-
-    /*
-     * Inject our brackets
-     */
-    function renderBrackets(struct) {
-      var groupCount = _.uniq(_.map(struct, function(s) {
-        return s.roundNo;
-      })).length;
-
-      var group = $('<div class="group' + (groupCount + 1) + '" id="b' + bracketCount + '"></div>'),
-        grouped = _.groupBy(struct, function(s) {
-          return s.roundNo;
-        });
-
-      for (g = 1; g <= groupCount; g++) {
-        var round = $('<div class="r' + g + '"></div>');
-        _.each(grouped[g], function(gg) {
-          if (gg.bye)
-            round.append('<div></div>');
-          else
-            round.append(
-              '<div>' +
-              '<div class="bracketbox">' +
-              '<span class="info">' +
-              '<a href="javascript:void(0)"' +
-              'data-toggle="modal"' +
-              'data-target="#modal-default">' +
-              '<i class="fa fa-edit"></i>' +
-              '</a>' + gg.bracketNo +
-              '</span>' +
-              '<span class="teama">' + gg.teamnames[0] + '</span>' +
-              '<span class="teamb">' + gg.teamnames[1] + '</span>' +
-              '</div>' +
-              '</div>'
-            );
-        });
-        group.append(round);
-      }
-      group.append(
-        '<div class="r' + (groupCount + 1) + '">' +
-        '<div class="final">' +
-        '<div class="bracketbox">' +
-        '<span class="teamc">' +
-        _.last(struct).teamnames[_.random(1)] +
-        '</span>' +
-        '</div>' +
-        '</div>' +
-        '</div>');
-      $('#brackets').append(group);
-
-      bracketCount++;
-      $('html,body').animate({
-        scrollTop: $("#b" + (bracketCount - 1)).offset().top
       });
     }
   </script>

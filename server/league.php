@@ -605,7 +605,134 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <!-- /.card -->
                   </div>
-              <?php } else {
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="fas fa-text-width"></i>
+                          Klasemen
+                        </h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="row">
+                          <table id="standings" class="table table-striped" data-aos="fade-up">
+                            <thead>
+                              <tr>
+                                <th style="width: 3%">#</th>
+                                <th style="width: 40%">Tim</th>
+                                <th style="width: 5%" title="Main">M</th>
+                                <th style="width: 5%" title="Menang">M</th>
+                                <th style="width: 5%" title="Seri">S</th>
+                                <th style="width: 5%" title="Kalah">K</th>
+                                <th style="width: 5%" title="Gol Maker">GM</th>
+                                <th style="width: 5%" title="Gol Away">GA</th>
+                                <th style="width: 5%" title="Selisih Gol">SG</th>
+                                <th style="width: 5%" title="Poin">Poin</th>
+                                <th style="width: 17%">5 Pertandingan Terakhir</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $sql = 'SELECT * FROM `leagues` WHERE `id`=' . $_GET['id'];
+                              $result = $conn->query($sql);
+                              $row = $result->fetch_assoc();
+
+                              $teams = json_decode($row['extras'])->teams;
+
+                              // $sql_teams                                 
+                              ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="fas fa-text-width"></i>
+                          Jadwal
+                        </h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <?php
+                        $sql = 'SELECT * FROM `schedules` WHERE `league_id`="' . $_GET['id'] . '"';
+                        $result = $conn->query($sql);
+
+                        if ($row = $result->fetch_all()) {
+                          $game_count = 1;
+                          foreach ($row as $key => $schedule) {
+                            $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
+                            $result = $conn->query($sql);
+                            $teams = $result->fetch_all();
+
+                            $hari = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+                            $date_format = new DateTime($schedule[5]);
+                            $time_format = new DateTime($schedule[6]);
+
+                            $date =     $schedule[5] ? $hari[$date_format->format('N')] . ', ' . $date_format->format('d-m-Y') : '';
+                            $time =     $schedule[6] ? $time_format->format('G:i') : '';
+                            $location = $schedule[7] ?? '';
+                        ?>
+                            <div class="card">
+                              <div class="card-header">
+                                <h5><?php echo $date . ' - ' . $time . ' - ' . $location; ?></h5>
+                              </div>
+                              <div class="card-body" style="padding-bottom: 5px;">
+                                <a href="#"><b> <?php echo '(' . $schedule[2] . ') ' . $teams[0][1]; ?></b></a><br>
+                                <?php
+                                $extras = $schedule[9];
+                                if ($extras != null) {
+                                  $goal_scorer_team1 = json_decode($extras)->goal_scorer_team1;
+
+                                  foreach ($goal_scorer_team1 as $key => $player_id) {
+                                    $sql = 'SELECT `full_name` FROM `players` WHERE `id` = ' . $player_id;
+                                    // echo '<script>alert("' . $sql . '");</script>';
+                                    $result = $conn->query($sql);
+                                    $row = $result->fetch_assoc();
+
+                                    echo $row['full_name'] . '<br>';
+                                  }
+                                }
+                                ?>
+                                <a href="#"><b> <?php echo '(' . $schedule[3] . ') ' . $teams[1][1]; ?></b></a><br>
+                                <?php
+                                $extras = $schedule[9];
+                                if ($extras != null) {
+                                  $goal_scorer_team2 = json_decode($extras)->goal_scorer_team2;
+
+                                  foreach ($goal_scorer_team2 as $key => $player_id) {
+                                    $sql = 'SELECT `full_name` FROM `players` WHERE `id` = ' . $player_id;
+                                    // echo '<script>alert("' . $sql . '");</script>';
+                                    $result = $conn->query($sql);
+                                    $row = $result->fetch_assoc();
+
+                                    echo $row['full_name'] . '<br>';
+                                  }
+                                }
+                                ?>
+                                <ul class="list-inline">
+                                  <li id="game-id-<?php echo $schedule[0] ?>" class="list-inline-item"><b>Game <?php echo $game_count; ?></b></li>
+                                </ul>
+                              </div>
+                            </div>
+
+                        <?php
+                            $game_count++;
+                          }
+                        } else {
+                          echo ('Belum ada jadwal');
+                        }
+                        ?>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+              <?php
+                  echo '<script>document.addEventListener("DOMContentLoaded", function() {manageLeague(' . $id . ')})</script>';
+                } else {
                   echo '<div class="error-page">
                 <h2 class="headline text-warning"> 404</h2>
         
