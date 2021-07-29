@@ -217,7 +217,7 @@
                 // Checking from team_id1 side
                 if (standings[j][1] == team[0]) {
 
-                  if (score_team1 != null || score_team2 != null) {
+                  if (standings[j][2] != null || standings[j][3] != null) {
                     match_count = match_count + 1;
 
                     // Jika skore tim 1 sama dengan tim 2, tambah jumlah seri tim 1
@@ -252,7 +252,7 @@
 
                 // Checking from team_id2 side
                 if (standings[j][4] == team[0]) {
-                  if (score_team1 != null || score_team2 != null) {
+                  if (standings[j][2] != null || standings[j][3] != null) {
                     match_count = match_count + 1;
 
                     // Jika skore tim 2 sama dengan tim 1, tambah jumlah seri tim 2

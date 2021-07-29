@@ -30,6 +30,10 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/server/plugins/fontawesome-free/css/all.min.css">
+
+
   <!-- =======================================================
   * Template Name: Vesperr - v4.2.0
   * Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
@@ -95,18 +99,91 @@
             }
             ?>
           </div>
+
+        <?php
+        } else if (($_GET['id'] ?? '') != null && ($_GET['schedule'] ?? '') != null) {
+
+          $sql = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
+          $result = $conn->query($sql);
+          $row = $result->fetch_assoc();
+          // TODO rapikan ini
+          echo '<div class="row" data-aos="fade-up" align="center">';
+          echo '<h4>' . $row['name'] . '</h4>';
+          echo '<h4><img src="assets/img/stadium.png">  ' . $row['location'] . '</h4>';
+          echo '</div>';
+
+          // Tampilkan jadwal dengan template
+          $sql = 'SELECT * FROM `schedules` WHERE `location` IS NOT NULL AND `id` = ' . $_GET['schedule'];
+          $result_schedule = $conn->query($sql);
+          $rows = $result_schedule->fetch_assoc();
+
+          $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $rows['team_id1'] . ', ' . $rows['team_id2'] . ')';
+          $result = $conn->query($sql);
+          $teams = $result->fetch_all();
+
+          $hari = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+          $date_format = new DateTime($rows['date']);
+          $date =     $rows['date'] ? $hari[$date_format->format('N')] . ', ' . $date_format->format('d M Y') : '';
+          $location = $rows['location'] ?? '';
+        ?>
+          <div class="row middle faq-item d-flex" data-aos="fade-up">
+            <div class="col-lg-3">
+              <img src="<?php echo $teams[0][8]; ?>" width="100px">
+              <h2><?php echo $teams[0][1]; ?></h2>
+            </div>
+            <div class="col-lg-2" style="padding-top: 50px">
+              <?php
+              $extras = $rows['extras'];
+              if ($extras != null) {
+                $goal_scorer_team1 = json_decode($extras)->goal_scorer_team1;
+                foreach ($goal_scorer_team1 as $key => $player_id) {
+                  $sql = 'SELECT `full_name` FROM `players` WHERE `id` = ' . $player_id;
+                  // echo '<script>alert("' . $sql . '");</script>';
+                  $result = $conn->query($sql);
+                  $row = $result->fetch_assoc();
+
+                  echo '<small class="float-end">' . $row['full_name'] . '  <i class="fas fa-futbol"></i></small><br>';
+                }
+              }
+              ?>
+            </div>
+            <div class="col-lg-2" style="padding-top: 50px">
+              <h3><?php echo (($rows['score_team_id1'] ?? 0) . ' - ' . ($rows['score_team_id2'] ?? 0)); ?></h3>
+            </div>
+            <div class="col-lg-2" style="padding-top: 50px">
+              <?php
+              $extras = $rows['extras'];
+              if ($extras != null) {
+                $goal_scorer_team2 = json_decode($extras)->goal_scorer_team2;
+                foreach ($goal_scorer_team2 as $key => $player_id) {
+                  $sql = 'SELECT `full_name` FROM `players` WHERE `id` = ' . $player_id;
+                  // echo '<script>alert("' . $sql . '");</script>';
+                  $result = $conn->query($sql);
+                  $row = $result->fetch_assoc();
+
+                  echo '<small class="float-start"><i class="fas fa-futbol"></i>  ' . $row['full_name'] . '</small><br>';
+                }
+              }
+              ?>
+            </div>
+            <div class="col-lg-3">
+              <img src="<?php echo $teams[1][8]; ?>" width="100px">
+              <h2><?php echo $teams[1][1]; ?></h2>
+            </div>
+          </div>
           <?php
         } else { // Jika id ada
           // Ambil data liga
           $sql = 'SELECT * FROM `leagues` WHERE `id` = ' . $id;
           $result = $conn->query($sql);
           $row = $result->fetch_assoc();
+          $date = date_create($row['date']);
 
           // TODO rapikan ini
           echo '<div class="row" data-aos="fade-up" align="center">';
           echo '<h4>' . $row['name'] . '</h4>';
-          echo '<h4>' . $row['date'] . '</h4>';
-          echo '<h4>' . $row['location'] . '</h4>';
+          echo '<h4>' . date_format($date, "d-m-Y") . '</h4>';
+          echo '<h4><img src="assets/img/stadium.png">  ' . $row['location'] . '</h4>';
           echo '</div>';
 
           // Tampilkan jadwal dengan template
@@ -116,7 +193,7 @@
 
           // Jika belum ada jadwal
           if ($rows == [])
-            echo '<span data-aos="fade-up">Belum ada jadwal sama sekali.</span>';
+            echo '<div data-aos="fade-up">Belum ada jadwal sama sekali.</div>';
           else
             foreach ($rows as $key => $schedule) {
               $sql = 'SELECT * FROM `teams` WHERE `id` IN (' . $schedule[1] . ', ' . $schedule[4] . ')';
@@ -141,13 +218,15 @@
                 <p><?php echo $teams[0][1]; ?></p>
               </div>
               <div class="col-lg-1">
-                <img src="assets/img/indonesia.png" width="50px">
+                <img src="<?php echo $teams[0][8]; ?>" width="50px">
               </div>
               <div class="col-lg-2">
-                <h3><?php echo (($schedule[2] ?? 0) . ' - ' . ($schedule[3] ?? 0)); ?></h3>
+                <a href="?id=<?php echo $schedule[8] ?>&schedule=<?php echo $schedule[0] ?>">
+                  <h3><?php echo (($schedule[2] ?? 0) . ' - ' . ($schedule[3] ?? 0)); ?></h3>
+                </a>
               </div>
               <div class="col-lg-1">
-                <img src="assets/img/indonesia.png" width="50px">
+                <img src="<?php echo $teams[1][8]; ?>" width="50px">
               </div>
               <div class="col-lg-1">
                 <p><?php echo $teams[1][1]; ?></p>

@@ -4,7 +4,7 @@ function index()
 {
     include '../connection.php';
 
-    $sql = 'SELECT `name`, `date`, `description`, `images`, `id` FROM `news`';
+    $sql = 'SELECT `name`, `date`, `images`, `id` FROM `news`';
     $result = $conn->query($sql);
 
     $data = $result->fetch_all();

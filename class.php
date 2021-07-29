@@ -91,7 +91,7 @@
             <div class="col-lg-3 col-md-6 portfolio-item filter-<?php echo $row['class_type'] ?>" style="position: absolute; left: 0px; top: 0px;">
               <div class="member aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
                 <div class="member-img">
-                  <img src="<?php echo $src ?>" class="img-fluid" alt="">
+                  <img src="<?php echo $src ?>" class="card-img-top" alt="" style="height:300px;padding: 20px;">
                 </div>
                 <div class="member-info">
                   <h4><?php echo $row['name'] ?></h4>

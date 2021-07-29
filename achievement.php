@@ -76,7 +76,7 @@
                         $image_path = str_replace('..', '', $row['image_path']);
                         $src = 'http://' . $_SERVER['HTTP_HOST'] . $image_path;
                     ?>
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-4 col-md-6 pb-4">
                             <div class="card">
                                 <!-- <i class="ri-trophy-line ri-10x text-center"></i> -->
                                 <img src="<?php echo $src ?>" class="" alt="...">

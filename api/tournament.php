@@ -371,7 +371,8 @@ function setResultsToLeagueExtrasColumn()
     return json_encode($results);
 }
 
-function show(){
+function show()
+{
     include '../connection.php';
 
     $sql = 'SELECT * FROM `tournaments` WHERE `id`="' . $_POST['id'] . '"';

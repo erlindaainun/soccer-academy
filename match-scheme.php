@@ -253,7 +253,7 @@
           echo '</div><br>';
 
         ?>
-          <div class="row">
+          <div class="row" data-aos="fade-up">
             <div class="bracketGenerated"></div>
           </div>
         <?php

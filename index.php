@@ -106,15 +106,19 @@
               <div class="card">
                 <img src="<?php echo $src ?>" class="card-img-top" alt="">
                 <div class="card-body">
-                  <h5 class="card-title"><a href=""><?php echo $row['name'] ?></a></h5>
+                  <h5 class="card-title"><a href="news-detail.php?id=<?php echo $row['id']; ?>"><?php echo $row['name'] ?></a></h5>
                   <div class="meta">
                     <ul>
-                      <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">Admin</a></li>
-                      <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="23-01-2020"><?php echo $row['date'] ?></time></a></li>
+                      <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="news-detail.php?id=<?php echo $row['id']; ?>">Admin</a></li>
+                      <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="news-detail.php?id=<?php echo $row['id']; ?>">
+                          <?php
+                          $date = date_create($row['date']);
+                          echo date_format($date, "d-m-Y") ?>
+                        </a>
+                      </li>
                     </ul>
                   </div>
-                  <p class="card-text"><?php echo $row['description'] ?></p>
-                  <div class="read-more"><a href="news-detail.php?id=<?php echo $row['id']; ?>"> Read More</a></div>
+                  <div class="read-more"><a href="news-detail.php?id=<?php echo $row['id']; ?>"> Baca Selengkapnya</a></div>
                 </div>
               </div>
             </div>

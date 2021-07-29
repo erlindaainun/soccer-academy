@@ -327,7 +327,6 @@ function store()
                 '"' . $coach_photo . '",' .
                 'NOW(), NOW());';
             $result = $conn->query($sql);
-
             $coach_id = $conn->insert_id;
 
             $reg_number = generate_registration_number();

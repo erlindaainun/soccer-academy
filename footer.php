@@ -16,8 +16,8 @@
             </div>
             <div class="col-lg-6 text-right">
                 <div class="social-media">
-                    <a href="#"><i class="ri-facebook-line ri-2x"></i></a>
-                    <a href="#"><i class="ri-instagram-line ri-2x"></i></a>
+                    <a href="https://www.facebook.com/SSB-TUNAS-JAYA-109111627212387/"><i class="ri-facebook-line ri-2x"></i></a>
+                    <a href="https://www.instagram.com/tunas.jaya.1422/"><i class="ri-instagram-line ri-2x"></i></a>
                 </div>
             </div>
         </div>

@@ -396,7 +396,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tr>
                     <th>Judul</th>
                     <th>Tanggal</th>
-                    <th>Deskripsi</th>
                     <th>Gambar</th>
                     <th>Aksi</th>
                   </tr>
@@ -407,7 +406,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tr>
                     <th>Judul</th>
                     <th>Tanggal</th>
-                    <th>Deskripsi</th>
                     <th>Gambar</th>
                     <th>Aksi</th>
                   </tr>
@@ -486,8 +484,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
         "ajax": '/api/news.php',
         "columnDefs": [{
-          "targets": 4,
-          "data": 4,
+          "targets": 3,
+          "data": 3,
           "render": function(data, type, full, meta) {
             return '<a class="btn btn-primary btn-sm" href="/server/news.php?page=view&id=' + data + '"><i class="fas fa-eye"></i> Lihat</a> ' +
               '<a class="btn btn-info btn-sm" href="/server/news.php?page=edit&id=' + data + '"><i class="fas fa-pencil-alt"></i> Ubah</a> ' +
@@ -495,8 +493,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           }
         }, {
-          "targets": 3,
-          "data": 3,
+          "targets": 2,
+          "data": 2,
           "render": function(data, type, full, meta) {
             var data = data.replace('..', '', data);
             var src = window.location.host + data;

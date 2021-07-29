@@ -1241,7 +1241,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
           if (data) {
             var extras = JSON.parse(data);
             var teams = extras.teams;
-
           }
           $("select[name=round_one] option[value='" + extras.round_one + "']").attr("selected", "selected");
           $("select[name=third_place_winner ] option[value='" + extras.third_place_winner + "']").attr("selected", "selected");

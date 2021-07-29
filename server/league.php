@@ -1552,8 +1552,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 // Checking from team_id1 side
                 if (standings[j][1] == team[0]) {
-
-                  if (score_team1 != null || score_team2 != null) {
+                  if (standings[j][2] != null || standings[j][3] != null) {
                     match_count = match_count + 1;
 
                     // Jika skore tim 1 sama dengan tim 2, tambah jumlah seri tim 1
@@ -1588,7 +1587,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 // Checking from team_id2 side
                 if (standings[j][4] == team[0]) {
-                  if (score_team1 != null || score_team2 != null) {
+                  if (standings[j][2] != null || standings[j][3] != null) {
                     match_count = match_count + 1;
 
                     // Jika skore tim 2 sama dengan tim 1, tambah jumlah seri tim 2
@@ -1650,13 +1649,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 '<td>' + (goal_maker - goal_away) + '</td>' +
                 '<td>' + ((match_win * 3) + match_draw) + '</td>' +
                 '<td>' + last_five_match_result.join("") + '</td>' +
-                // '<td>' +
-                // '<i class="fas fa-check-circle text-success"></i>' +
-                // '<i class="fas fa-minus-circle text-secondary"></i>' +
-                // '<i class="fas fa-times-circle text-danger"></i>' +
-                // '<i class="far fa-circle"></i>' +
-                // '<i class="far fa-circle"></i>' +
-                // '</td>' +
                 '</tr>'
               )
             }

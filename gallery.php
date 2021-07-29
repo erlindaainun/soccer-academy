@@ -67,7 +67,7 @@
           <h2>Galeri</h2>
         </div>
 
-        <div class="row portfolio-container" data-aos="fade-up">
+        <div id="no-filter-gallery" class="row portfolio-container" data-aos="fade-up">
           <?php
           $sql = 'SELECT * FROM `galleries`';
           $result = $conn->query($sql);
