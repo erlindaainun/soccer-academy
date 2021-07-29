@@ -37,7 +37,7 @@
 
         <form action="action-login.php" method="post">
           <div class="input-group mb-3">
-            <input name="username" type="text" class="form-control <?php !empty($_SESSION['error']) ? print 'is-invalid' : ''; ?>" placeholder="Username" value="admin">
+            <input name="username" type="text" class="form-control <?php !empty($_SESSION['error']) ? print 'is-invalid' : ''; ?>" placeholder="Username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -51,7 +51,7 @@
             ?>
           </div>
           <div class="input-group mb-3">
-            <input name="password" type="password" class="form-control" placeholder="Password" value="password">
+            <input name="password" type="password" class="form-control" placeholder="Password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
