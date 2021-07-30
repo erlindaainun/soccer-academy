@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Dasbor</a></li>
                 <li class="breadcrumb-item active">Tim</li>
               </ol>
             </div><!-- /.col -->
@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // jika result ada maka tampilkan form dengan value yang ada didatabase
                 if ($num_rows > 0 && $id != "") { ?>
 
-                  <div class="col-sm-8">
+                  <div class="col-lg-8 col-md-12 col-sm-12">
                     <div class="card">
                       <div class="card-header">
                         <h3 class="card-title">Edit Data Tim</h3>
@@ -304,7 +304,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>';
               } else {
                 ?>
-                <div class="col-sm-8">
+                <div class="col-lg-8 col-md-12 col-sm-12">
                   <div class="card">
                     <div class="card-header">
                       <h3 class="card-title">Tambah Data Tim</h3>
@@ -589,7 +589,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- /.card -->
                   </div>
                   <!--  Pemain -->
-                  <div class="col-9">
+                  <div class="col-lg-9 col-md-3">
                     <div class="card card-primary card-outline">
                       <div class="card-header">
                         <h3 class="card-title">

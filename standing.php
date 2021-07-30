@@ -83,7 +83,7 @@
 
             foreach ($result->fetch_all() as $key => $league) {
             ?>
-              <div class="col-3 pb-4">
+              <div class="col-lg-3 col-sm-6 pb-4">
                 <div class="card" data-aos="fade-up">
                   <a href="?id=<?php echo $league[0] ?>">
                     <img class="card-img-top" src="<?php echo $league[4] ?>" style="padding: 20px;">
@@ -111,7 +111,7 @@
           echo '<h4>' . $row['location'] . '</h4>';
           echo '</div><br>';
         ?>
-          <div class="row">
+          <div class="row table-responsive">
             <table id="standings" class="table table-striped" data-aos="fade-up">
               <thead>
                 <tr>
@@ -130,7 +130,7 @@
               </thead>
               <tbody>
                 <?php
-                $sql = 'SELECT * FROM `leagues` WHERE `id`=' . $id;
+                $sql = 'SELECT * FROM `leagues` WHERE `id`=' . $_GET['id'];
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc();
 

@@ -207,7 +207,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Dasbor</a></li>
                 <li class="breadcrumb-item active">Turnamen</li>
               </ol>
             </div><!-- /.col -->
@@ -240,7 +240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 // jika result ada maka tampilkan form dengan value yang ada didatabase
                 if ($num_rows > 0 && $id != "") { ?>
-                  <div class="col-8">
+                  <div class="col-lg-8 col-md-12 col-sm-12">
                     <div class="card">
                       <div class="card-header">
                         <h3 class="card-title">Ubah Turnamen</h3>
@@ -360,7 +360,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>';
               } else {
                 ?>
-                <div class="col-8">
+                <div class="col-lg-8 col-md-12 col-sm-12">
                   <div class="card">
                     <div class="card-header">
                       <h3 class="card-title">Tambah Turnamen</h3>

@@ -85,7 +85,7 @@
 
             foreach ($result->fetch_all() as $key => $league) {
             ?>
-              <div class="col-3 pb-4">
+              <div class="col-lg-3 col-sm-6 pb-4">
                 <div class="card" data-aos="fade-up">
                   <a href="?id=<?php echo $league[0] ?>">
                     <img class="card-img-top" src="<?php echo $league[4] ?>" style="padding: 20px;">
