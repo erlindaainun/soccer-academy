@@ -78,7 +78,7 @@
                     ?>
                         <div class="col-lg-3 col-md-6 pb-4">
                             <div class="card">
-                                <img src="<?php echo $src ?>" class="card-img-top" alt="...">
+                                <img src="<?php echo $src ?>" class="card-img-top" style="height:300px;padding: 20px;">
                                 <div class="card-body manager">
                                     <h5 class="card-title"><strong><?php echo $row['name'] ?></strong></h5>
                                     <p class="card-text"><?php echo $row['position'] ?></p>

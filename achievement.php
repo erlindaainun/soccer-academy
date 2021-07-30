@@ -79,7 +79,7 @@
                         <div class="col-lg-4 col-md-6 pb-4">
                             <div class="card">
                                 <!-- <i class="ri-trophy-line ri-10x text-center"></i> -->
-                                <img src="<?php echo $src ?>" class="" alt="...">
+                                <img src="<?php echo $src ?>" class="card-img-top" style="height:200px;padding: 20px;">
                                 <div class="card-body manager">
                                     <h5 class="card-title"><strong><?php echo $row['name'] ?></strong></h5>
                                     <p class="card-text"><?php echo $row['description'] ?></p>
