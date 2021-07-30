@@ -82,7 +82,7 @@
                 <div class="portfolio-info">
                   <h4><?php echo $row['name'] ?></h4>
                   <div class="portfolio-links">
-                    <a href="<?php echo $src ?>" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                    <a href="<?php echo $src ?>" data-gallery="portfolioGallery" class="portfolio-lightbox" title="<?php echo $row['name'] ?>"><i class="bx bx-plus"></i></a>
                   </div>
                 </div>
               </div>
