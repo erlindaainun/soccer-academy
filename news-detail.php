@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Visi Misi | SSB Tunas Jaya Duriangkang Official Website</title>
+    <title>Berita | SSB Tunas Jaya Duriangkang Official Website</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
